@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
-import { ChevronDown, Briefcase, FileText, Sparkles, Menu, X } from "lucide-react";
+import { ChevronDown, Briefcase, FileText, Menu, X, Calculator, RefreshCw, CalendarClock } from "lucide-react";
 
 export default function Navbar() {
   const [isToolsOpen, setIsToolsOpen] = useState(false);
@@ -32,11 +32,25 @@ export default function Navbar() {
       active: true,
     },
     {
-      name: "Proposal Builder",
-      description: "Pitch to clients beautifully (Coming Soon)",
-      href: "#",
-      icon: Sparkles,
-      active: false,
+      name: "Rate Calculator",
+      description: "Determine your ideal hourly rate & project pricing",
+      href: "/tools/rate-calculator",
+      icon: Calculator,
+      active: true,
+    },
+    {
+      name: "Currency Converter",
+      description: "Convert international currencies with live rates",
+      href: "/tools/currency-converter",
+      icon: RefreshCw,
+      active: true,
+    },
+    {
+      name: "Late Payment Fee Calculator",
+      description: "Calculate overdue invoices and late interest fees",
+      href: "/tools/late-payment-fee-calculator",
+      icon: CalendarClock,
+      active: true,
     },
   ];
 

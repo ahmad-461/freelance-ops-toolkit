@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { FileText, ArrowRight, Shield, Zap, Sparkles, Code, CheckCircle, FileSignature, HelpCircle } from "lucide-react";
+import { FileText, ArrowRight, Shield, Zap, Sparkles, Code, CheckCircle, FileSignature, HelpCircle, Calculator, RefreshCw, CalendarClock } from "lucide-react";
 
 export default function Home() {
   const activeTools = [
@@ -10,6 +10,27 @@ export default function Home() {
       href: "/tools/invoice-generator",
       icon: FileText,
       badge: "v1.0 - Live",
+    },
+    {
+      title: "Rate Calculator",
+      description: "Determine your ideal hourly rate based on desired income, expenses, and billable hours, and convert it to project-based pricing.",
+      href: "/tools/rate-calculator",
+      icon: Calculator,
+      badge: "v2.0 - Live",
+    },
+    {
+      title: "Currency Converter",
+      description: "Convert international project fees and currency values using live exchange rates with caching support.",
+      href: "/tools/currency-converter",
+      icon: RefreshCw,
+      badge: "v2.0 - Live",
+    },
+    {
+      title: "Late Payment Fee Calculator",
+      description: "Calculate exact days overdue, months overdue, prorated monthly late fees, and new total invoice balance owed.",
+      href: "/tools/late-payment-fee-calculator",
+      icon: CalendarClock,
+      badge: "v2.0 - Live",
     },
   ];
 
@@ -152,6 +173,7 @@ export default function Home() {
                 </div>
               );
             })}
+
 
             {/* Coming Soon Tools */}
             {comingSoonTools.map((tool) => {
