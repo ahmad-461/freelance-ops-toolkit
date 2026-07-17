@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
-import { ChevronDown, Briefcase, FileText, Menu, X, Calculator, RefreshCw, CalendarClock, Sparkles, FileSignature, Shield } from "lucide-react";
+import { ChevronDown, Briefcase, FileText, Menu, X, Calculator, RefreshCw, CalendarClock, Sparkles, FileSignature, Shield, ClipboardList } from "lucide-react";
 
 export default function Navbar() {
   const [isToolsOpen, setIsToolsOpen] = useState(false);
@@ -78,6 +78,20 @@ export default function Navbar() {
       description: "Set up ongoing monthly retainer agreements",
       href: "/tools/retainer-generator",
       icon: CalendarClock,
+      active: true,
+    },
+    {
+      name: "Client Intake Form Builder",
+      description: "Create customizable intake questionnaires for onboarding",
+      href: "/tools/client-intake-form",
+      icon: ClipboardList,
+      active: true,
+    },
+    {
+      name: "Portfolio Case Study Builder",
+      description: "Draft beautiful case studies highlighting your projects",
+      href: "/tools/case-study-builder",
+      icon: Briefcase,
       active: true,
     },
   ];
