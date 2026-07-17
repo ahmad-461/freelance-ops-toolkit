@@ -94,6 +94,20 @@ export default function Navbar() {
       icon: Briefcase,
       active: true,
     },
+    {
+      name: "Payment Reminder Generator",
+      description: "Draft perfect payment reminders in different tones",
+      href: "/tools/payment-reminder-generator",
+      icon: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>,
+      active: true,
+    },
+    {
+      name: "Meeting Recap Generator",
+      description: "Instantly draft meeting recap emails with clear action items",
+      href: "/tools/meeting-recap-generator",
+      icon: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><rect width="12" height="18" x="10" y="3" rx="2"/></svg>,
+      active: true,
+    },
   ];
 
   return (
