@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { FileText, ArrowRight, Shield, Zap, Sparkles, CheckCircle, FileSignature, HelpCircle, Calculator, RefreshCw, CalendarClock } from "lucide-react";
+import { FileText, ArrowRight, Shield, Zap, Sparkles, CheckCircle, FileSignature, HelpCircle, Calculator, RefreshCw, CalendarClock, ClipboardList, Briefcase } from "lucide-react";
 
 export default function Home() {
   const activeTools = [
@@ -59,6 +59,20 @@ export default function Home() {
       href: "/tools/retainer-generator",
       icon: CalendarClock,
       badge: "v3.0 - Live",
+    },
+    {
+      title: "Client Intake Form Builder",
+      description: "Draft tailored client intake questionnaires with editable questions, custom category structure, dynamic inline validation, copy-to-clipboard, and clean PDF export.",
+      href: "/tools/client-intake-form",
+      icon: ClipboardList,
+      badge: "v4.0 - Live",
+    },
+    {
+      title: "Portfolio Case Study Builder",
+      description: "Generate structured, professional case studies complete with client details, metrics/results, testimonials, and client-side image uploads.",
+      href: "/tools/case-study-builder",
+      icon: Briefcase,
+      badge: "v4.0 - Live",
     },
   ];
 
