@@ -1,0 +1,17 @@
+
+> freelance-ops-toolkit@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.1.11 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.2:3000
+
+ ✓ Starting...
+ ✓ Ready in 1265ms
+ ○ Compiling / ...
+ ✓ Compiled / in 5.2s
+ GET / 200 in 5915ms
+ ○ Compiling /tools/proposal-generator ...
+ ✓ Compiled /tools/proposal-generator in 3.3s
+ GET /tools/proposal-generator 200 in 4034ms
+ GET /tools/proposal-generator 200 in 159ms

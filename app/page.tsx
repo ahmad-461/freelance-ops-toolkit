@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { FileText, ArrowRight, Shield, Zap, Sparkles, Code, CheckCircle, FileSignature, HelpCircle, Calculator, RefreshCw, CalendarClock } from "lucide-react";
+import { FileText, ArrowRight, Shield, Zap, Sparkles, CheckCircle, FileSignature, HelpCircle, Calculator, RefreshCw, CalendarClock } from "lucide-react";
 
 export default function Home() {
   const activeTools = [
@@ -32,24 +32,38 @@ export default function Home() {
       icon: CalendarClock,
       badge: "v2.0 - Live",
     },
+    {
+      title: "Proposal Generator",
+      description: "Create professional proposals and quotes with breakdown of deliverables, timeline, and investment.",
+      href: "/tools/proposal-generator",
+      icon: Sparkles,
+      badge: "v3.0 - Live",
+    },
+    {
+      title: "Contract Template Builder",
+      description: "Draft legally binding, standard contracts and agreements for freelance projects.",
+      href: "/tools/contract-generator",
+      icon: FileSignature,
+      badge: "v3.0 - Live",
+    },
+    {
+      title: "NDA Generator",
+      description: "Create custom Non-Disclosure Agreements to protect your intellectual property and business info.",
+      href: "/tools/nda-generator",
+      icon: Shield,
+      badge: "v3.0 - Live",
+    },
+    {
+      title: "Retainer Agreement Generator",
+      description: "Set up ongoing monthly retainer agreements to guarantee monthly income and reserve your bandwidth.",
+      href: "/tools/retainer-generator",
+      icon: CalendarClock,
+      badge: "v3.0 - Live",
+    },
   ];
 
-  const comingSoonTools = [
-    {
-      title: "Proposal Builder",
-      description: "Pitch projects and services with modern, high-conversion proposal templates.",
-      icon: Sparkles,
-    },
-    {
-      title: "Contract Maker",
-      description: "Draft legally binding, standard contracts and agreements for freelance projects.",
-      icon: FileSignature,
-    },
-    {
-      title: "Scope of Work (SOW) Writer",
-      description: "Clearly define project deliverables, timelines, and milestones with ease.",
-      icon: Code,
-    },
+  const comingSoonTools: Array<{ title: string; description: string; icon: React.ComponentType<{ className?: string }> }> = [
+    // Future placeholders can be placed here as needed
   ];
 
   const features = [

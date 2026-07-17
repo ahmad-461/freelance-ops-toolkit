@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
-import { ChevronDown, Briefcase, FileText, Menu, X, Calculator, RefreshCw, CalendarClock } from "lucide-react";
+import { ChevronDown, Briefcase, FileText, Menu, X, Calculator, RefreshCw, CalendarClock, Sparkles, FileSignature, Shield } from "lucide-react";
 
 export default function Navbar() {
   const [isToolsOpen, setIsToolsOpen] = useState(false);
@@ -49,6 +49,34 @@ export default function Navbar() {
       name: "Late Payment Fee Calculator",
       description: "Calculate overdue invoices and late interest fees",
       href: "/tools/late-payment-fee-calculator",
+      icon: CalendarClock,
+      active: true,
+    },
+    {
+      name: "Proposal Generator",
+      description: "Create professional proposals and quotes",
+      href: "/tools/proposal-generator",
+      icon: Sparkles,
+      active: true,
+    },
+    {
+      name: "Contract Template Builder",
+      description: "Draft standard agreements and contracts",
+      href: "/tools/contract-generator",
+      icon: FileSignature,
+      active: true,
+    },
+    {
+      name: "NDA Generator",
+      description: "Create custom Non-Disclosure Agreements",
+      href: "/tools/nda-generator",
+      icon: Shield,
+      active: true,
+    },
+    {
+      name: "Retainer Agreement Generator",
+      description: "Set up ongoing monthly retainer agreements",
+      href: "/tools/retainer-generator",
       icon: CalendarClock,
       active: true,
     },
