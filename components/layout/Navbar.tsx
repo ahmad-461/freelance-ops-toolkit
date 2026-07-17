@@ -3,12 +3,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
-import { ChevronDown, Briefcase, FileText, Menu, X, Calculator, RefreshCw, CalendarClock, Sparkles, FileSignature, Shield, ClipboardList } from "lucide-react";
+import { ChevronDown, Briefcase, FileText, Menu, X, Calculator, RefreshCw, CalendarClock, Sparkles, FileSignature, Shield, ClipboardList, LogIn, LogOut, Clock, Layers } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+import { User as SupabaseUser } from "@supabase/supabase-js";
 
 export default function Navbar() {
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -22,6 +25,27 @@ export default function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Listen to Auth State Changes
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    window.location.reload();
+  };
 
   const tools = [
     {
@@ -106,6 +130,20 @@ export default function Navbar() {
       description: "Instantly draft meeting recap emails with clear action items",
       href: "/tools/meeting-recap-generator",
       icon: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><rect width="12" height="18" x="10" y="3" rx="2"/></svg>,
+      active: true,
+    },
+    {
+      name: "Time Tracker",
+      description: "Log hours, track sessions & convert to invoices",
+      href: "/tools/time-tracker",
+      icon: Clock,
+      active: true,
+    },
+    {
+      name: "Project Scope Estimator",
+      description: "Calculate hour ranges & timelines per project",
+      href: "/tools/scope-estimator",
+      icon: Layers,
       active: true,
     },
   ];
@@ -195,6 +233,28 @@ export default function Navbar() {
           {/* Right Action Items */}
           <div className="hidden md:flex items-center gap-4">
             <ThemeToggle />
+            {user ? (
+              <div className="flex items-center gap-3 pl-2 border-l border-gray-200 dark:border-gray-800">
+                <span className="text-xs font-medium text-gray-500 dark:text-gray-400 max-w-[150px] truncate" title={user.email}>
+                  {user.email}
+                </span>
+                <button
+                  onClick={handleSignOut}
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/30 px-2.5 py-1.5 rounded-lg transition-colors"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 shadow-sm transition-all"
+              >
+                <LogIn className="w-3.5 h-3.5" />
+                Sign In
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -214,6 +274,39 @@ export default function Navbar() {
       {/* Mobile Menu dropdown */}
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-3 space-y-3">
+          <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-900 pb-3">
+            {user ? (
+              <div className="flex flex-col gap-1">
+                <span className="text-xs text-gray-400 dark:text-gray-500">Logged in as</span>
+                <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 max-w-[200px] truncate">
+                  {user.email}
+                </span>
+              </div>
+            ) : (
+              <span className="text-xs font-medium text-gray-500">Guest User</span>
+            )}
+            {user ? (
+              <button
+                onClick={() => {
+                  handleSignOut();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="inline-flex items-center gap-1 text-xs font-semibold text-red-600 px-2.5 py-1.5 rounded bg-red-50 dark:bg-red-950/30"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                Sign Out
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="inline-flex items-center gap-1 text-xs font-bold bg-blue-600 text-white px-3 py-1.5 rounded-lg"
+              >
+                <LogIn className="w-3.5 h-3.5" />
+                Sign In
+              </Link>
+            )}
+          </div>
           <Link
             href="/"
             onClick={() => setIsMobileMenuOpen(false)}
