@@ -3,9 +3,39 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
-import { ChevronDown, Briefcase, FileText, Menu, X, Calculator, RefreshCw, CalendarClock, Sparkles, FileSignature, Shield, ClipboardList, LogIn, LogOut, Clock, Layers } from "lucide-react";
+import {
+  ChevronDown,
+  Briefcase,
+  FileText,
+  Menu,
+  X,
+  Calculator,
+  RefreshCw,
+  CalendarClock,
+  Sparkles,
+  FileSignature,
+  Shield,
+  ClipboardList,
+  LogIn,
+  LogOut,
+  Clock,
+  Layers,
+  TrendingUp,
+} from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { User as SupabaseUser } from "@supabase/supabase-js";
+
+interface ToolItem {
+  name: string;
+  description: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+interface ToolCategory {
+  categoryName: string;
+  items: ToolItem[];
+}
 
 export default function Navbar() {
   const [isToolsOpen, setIsToolsOpen] = useState(false);
@@ -47,104 +77,162 @@ export default function Navbar() {
     window.location.reload();
   };
 
-  const tools = [
+  // Reorganized categories and tools as requested
+  const categorizedTools: ToolCategory[] = [
     {
-      name: "Invoice Generator",
-      description: "Create professional business invoices",
-      href: "/tools/invoice-generator",
-      icon: FileText,
-      active: true,
+      categoryName: "Billing & Financial",
+      items: [
+        {
+          name: "Invoice Generator",
+          description: "Create professional business invoices",
+          href: "/tools/invoice-generator",
+          icon: FileText,
+        },
+        {
+          name: "Rate Calculator",
+          description: "Determine your ideal hourly rate",
+          href: "/tools/rate-calculator",
+          icon: Calculator,
+        },
+        {
+          name: "Currency Converter",
+          description: "Convert international project fees",
+          href: "/tools/currency-converter",
+          icon: RefreshCw,
+        },
+        {
+          name: "Late Payment Fee Calculator",
+          description: "Calculate late interest and overdue fees",
+          href: "/tools/late-payment-fee-calculator",
+          icon: CalendarClock,
+        },
+      ],
     },
     {
-      name: "Rate Calculator",
-      description: "Determine your ideal hourly rate & project pricing",
-      href: "/tools/rate-calculator",
-      icon: Calculator,
-      active: true,
+      categoryName: "Agreements & Legal",
+      items: [
+        {
+          name: "Proposal Generator",
+          description: "Create professional quotes & proposals",
+          href: "/tools/proposal-generator",
+          icon: Sparkles,
+        },
+        {
+          name: "Contract Template Builder",
+          description: "Draft standard client contracts",
+          href: "/tools/contract-generator",
+          icon: FileSignature,
+        },
+        {
+          name: "NDA Generator",
+          description: "Create custom Non-Disclosure agreements",
+          href: "/tools/nda-generator",
+          icon: Shield,
+        },
+        {
+          name: "Retainer Agreement Generator",
+          description: "Draft ongoing monthly retainer terms",
+          href: "/tools/retainer-generator",
+          icon: CalendarClock,
+        },
+      ],
     },
     {
-      name: "Currency Converter",
-      description: "Convert international currencies with live rates",
-      href: "/tools/currency-converter",
-      icon: RefreshCw,
-      active: true,
+      categoryName: "Client & Portfolio",
+      items: [
+        {
+          name: "Client Intake Form Builder",
+          description: "Onboard clients with custom questions",
+          href: "/tools/client-intake-form",
+          icon: ClipboardList,
+        },
+        {
+          name: "Portfolio Case Study Builder",
+          description: "Generate structured, metrics-driven stories",
+          href: "/tools/case-study-builder",
+          icon: Briefcase,
+        },
+      ],
     },
     {
-      name: "Late Payment Fee Calculator",
-      description: "Calculate overdue invoices and late interest fees",
-      href: "/tools/late-payment-fee-calculator",
-      icon: CalendarClock,
-      active: true,
+      categoryName: "AI Communication",
+      items: [
+        {
+          name: "Payment Reminder Generator",
+          description: "Perfect professional emails for past-due clients",
+          href: "/tools/payment-reminder-generator",
+          icon: () => (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="w-4 h-4"
+            >
+              <rect width="20" height="16" x="2" y="4" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
+          ),
+        },
+        {
+          name: "Meeting Recap Generator",
+          description: "Draft professional recap emails with action items",
+          href: "/tools/meeting-recap-generator",
+          icon: () => (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="w-4 h-4"
+            >
+              <path d="M2 6h4" />
+              <path d="M2 10h4" />
+              <path d="M2 14h4" />
+              <path d="M2 18h4" />
+              <rect width="12" height="18" x="10" y="3" rx="2" />
+            </svg>
+          ),
+        },
+      ],
     },
     {
-      name: "Proposal Generator",
-      description: "Create professional proposals and quotes",
-      href: "/tools/proposal-generator",
-      icon: Sparkles,
-      active: true,
+      categoryName: "Planning & Tracking",
+      items: [
+        {
+          name: "Time Tracker",
+          description: "Log hours, track sessions & export to invoices",
+          href: "/tools/time-tracker",
+          icon: Clock,
+        },
+        {
+          name: "Project Scope Estimator",
+          description: "Calculate complexity and timeline targets",
+          href: "/tools/scope-estimator",
+          icon: Layers,
+        },
+      ],
     },
     {
-      name: "Contract Template Builder",
-      description: "Draft standard agreements and contracts",
-      href: "/tools/contract-generator",
-      icon: FileSignature,
-      active: true,
-    },
-    {
-      name: "NDA Generator",
-      description: "Create custom Non-Disclosure Agreements",
-      href: "/tools/nda-generator",
-      icon: Shield,
-      active: true,
-    },
-    {
-      name: "Retainer Agreement Generator",
-      description: "Set up ongoing monthly retainer agreements",
-      href: "/tools/retainer-generator",
-      icon: CalendarClock,
-      active: true,
-    },
-    {
-      name: "Client Intake Form Builder",
-      description: "Create customizable intake questionnaires for onboarding",
-      href: "/tools/client-intake-form",
-      icon: ClipboardList,
-      active: true,
-    },
-    {
-      name: "Portfolio Case Study Builder",
-      description: "Draft beautiful case studies highlighting your projects",
-      href: "/tools/case-study-builder",
-      icon: Briefcase,
-      active: true,
-    },
-    {
-      name: "Payment Reminder Generator",
-      description: "Draft perfect payment reminders in different tones",
-      href: "/tools/payment-reminder-generator",
-      icon: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>,
-      active: true,
-    },
-    {
-      name: "Meeting Recap Generator",
-      description: "Instantly draft meeting recap emails with clear action items",
-      href: "/tools/meeting-recap-generator",
-      icon: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><rect width="12" height="18" x="10" y="3" rx="2"/></svg>,
-      active: true,
-    },
-    {
-      name: "Time Tracker",
-      description: "Log hours, track sessions & convert to invoices",
-      href: "/tools/time-tracker",
-      icon: Clock,
-      active: true,
-    },
-    {
-      name: "Project Scope Estimator",
-      description: "Calculate hour ranges & timelines per project",
-      href: "/tools/scope-estimator",
-      icon: Layers,
-      active: true,
+      categoryName: "Reference",
+      items: [
+        {
+          name: "Rate Benchmark Tool",
+          description: "Compare regional freelance market rates",
+          href: "/tools/rate-benchmark",
+          icon: TrendingUp,
+        },
+      ],
     },
   ];
 
@@ -152,10 +240,12 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-
           {/* Logo & Brand */}
           <div className="flex items-center gap-2">
-            <Link href="/" className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold text-xl hover:opacity-90 transition-opacity">
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold text-xl hover:opacity-90 transition-opacity"
+            >
               <Briefcase className="w-6 h-6" />
               <span className="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
                 Freelance Ops
@@ -179,52 +269,45 @@ export default function Navbar() {
                 className="flex items-center gap-1 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors focus:outline-none"
               >
                 Tools
-                <ChevronDown className={`w-4 h-4 transition-transform ${isToolsOpen ? "rotate-180" : ""}`} />
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform ${isToolsOpen ? "rotate-180" : ""}`}
+                />
               </button>
 
               {isToolsOpen && (
-                <div className="absolute right-0 mt-2 w-80 rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-2 shadow-lg ring-1 ring-black/5 focus:outline-none">
-                  <div className="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                    Available Tools
-                  </div>
-                  <div className="space-y-1">
-                    {tools.map((tool) => {
-                      const Icon = tool.icon;
-                      if (tool.active) {
-                        return (
-                          <Link
-                            key={tool.name}
-                            href={tool.href}
-                            onClick={() => setIsToolsOpen(false)}
-                            className="flex items-start gap-3 rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-gray-800/60 transition-colors"
-                          >
-                            <div className="p-1.5 rounded-md bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400">
-                              <Icon className="w-4 h-4" />
-                            </div>
-                            <div>
-                              <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{tool.name}</div>
-                              <div className="text-xs text-gray-500 dark:text-gray-400">{tool.description}</div>
-                            </div>
-                          </Link>
-                        );
-                      } else {
-                        return (
-                          <div
-                            key={tool.name}
-                            className="flex items-start gap-3 rounded-lg p-3 opacity-60 cursor-not-allowed"
-                          >
-                            <div className="p-1.5 rounded-md bg-gray-50 dark:bg-gray-800 text-gray-400">
-                              <Icon className="w-4 h-4" />
-                            </div>
-                            <div>
-                              <div className="text-sm font-medium text-gray-500 dark:text-gray-400">{tool.name}</div>
-                              <div className="text-xs text-gray-400 dark:text-gray-500">{tool.description}</div>
-                            </div>
-                          </div>
-                        );
-                      }
-                    })}
-                  </div>
+                <div className="absolute right-0 mt-2 w-[480px] rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-4 shadow-xl ring-1 ring-black/5 focus:outline-none grid grid-cols-2 gap-4 max-h-[85vh] overflow-y-auto">
+                  {categorizedTools.map((cat) => (
+                    <div key={cat.categoryName} className="space-y-1">
+                      <div className="px-2 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-800 pb-1 mb-2">
+                        {cat.categoryName}
+                      </div>
+                      <div className="space-y-1">
+                        {cat.items.map((tool) => {
+                          const Icon = tool.icon;
+                          return (
+                            <Link
+                              key={tool.name}
+                              href={tool.href}
+                              onClick={() => setIsToolsOpen(false)}
+                              className="flex items-start gap-2.5 rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-800/60 transition-colors"
+                            >
+                              <div className="p-1 rounded-md bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5">
+                                <Icon className="w-3.5 h-3.5" />
+                              </div>
+                              <div className="min-w-0">
+                                <div className="text-xs font-semibold text-gray-900 dark:text-gray-100 truncate">
+                                  {tool.name}
+                                </div>
+                                <div className="text-[10px] text-gray-500 dark:text-gray-400 line-clamp-1">
+                                  {tool.description}
+                                </div>
+                              </div>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
@@ -235,7 +318,10 @@ export default function Navbar() {
             <ThemeToggle />
             {user ? (
               <div className="flex items-center gap-3 pl-2 border-l border-gray-200 dark:border-gray-800">
-                <span className="text-xs font-medium text-gray-500 dark:text-gray-400 max-w-[150px] truncate" title={user.email}>
+                <span
+                  className="text-xs font-medium text-gray-500 dark:text-gray-400 max-w-[150px] truncate"
+                  title={user.email}
+                >
                   {user.email}
                 </span>
                 <button
@@ -267,13 +353,12 @@ export default function Navbar() {
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
-
         </div>
       </div>
 
       {/* Mobile Menu dropdown */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-3 space-y-3">
+        <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-3 space-y-4 max-h-[85vh] overflow-y-auto">
           <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-900 pb-3">
             {user ? (
               <div className="flex flex-col gap-1">
@@ -310,44 +395,38 @@ export default function Navbar() {
           <Link
             href="/"
             onClick={() => setIsMobileMenuOpen(false)}
-            className="block text-base font-medium text-gray-700 dark:text-gray-200 hover:text-blue-600 py-1"
+            className="block text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-blue-600 py-1 border-b border-gray-100 dark:border-gray-900 pb-2"
           >
             Home
           </Link>
-          <div className="space-y-2">
-            <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-1">
-              Tools
-            </div>
-            {tools.map((tool) => {
-              const Icon = tool.icon;
-              if (tool.active) {
-                return (
-                  <Link
-                    key={tool.name}
-                    href={tool.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
-                  >
-                    <Icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                    <div>
-                      <div className="text-sm font-medium text-gray-800 dark:text-gray-100">{tool.name}</div>
-                    </div>
-                  </Link>
-                );
-              } else {
-                return (
-                  <div
-                    key={tool.name}
-                    className="flex items-center gap-3 rounded-lg p-2 opacity-50 cursor-not-allowed"
-                  >
-                    <Icon className="w-5 h-5 text-gray-400" />
-                    <div>
-                      <div className="text-sm font-medium text-gray-500 dark:text-gray-400">{tool.name} (Soon)</div>
-                    </div>
-                  </div>
-                );
-              }
-            })}
+          <div className="space-y-4">
+            {categorizedTools.map((cat) => (
+              <div key={cat.categoryName} className="space-y-2">
+                <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider px-1">
+                  {cat.categoryName}
+                </div>
+                <div className="space-y-1">
+                  {cat.items.map((tool) => {
+                    const Icon = tool.icon;
+                    return (
+                      <Link
+                        key={tool.name}
+                        href={tool.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
+                      >
+                        <Icon className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+                        <div className="min-w-0">
+                          <div className="text-sm font-medium text-gray-800 dark:text-gray-100 truncate">
+                            {tool.name}
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}

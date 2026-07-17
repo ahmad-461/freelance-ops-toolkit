@@ -6,35 +6,46 @@ Live site: [add your deployed Vercel URL here]
 
 ## About
 
-Freelance Ops Toolkit is being built in 7 phases, with each phase adding a set of related tools to the same live site. The goal is a single, cohesive toolkit — not a random bundle of unrelated utilities — so every tool here is specifically for freelancer/client workflows.
+Freelance Ops Toolkit is built as a cohesive, single toolkit for freelance/client workflows. All 15 professional, highly useful tools across 7 roadmap phases are fully implemented and live.
 
 ## Tools
 
-### Available now
+### Available Now (All 15 Tools)
+
+#### Billing & Financial
 - **Invoice Generator** — Create professional, branded invoices with line items, tax, and one-click PDF export.
 - **Rate Calculator** — Convert your desired income into a suggested hourly and project-based rate.
 - **Currency Converter** — Convert amounts between currencies using live exchange rates, for international clients.
 - **Late Payment Fee Calculator** — Calculate late fees and updated totals for overdue invoices.
 
-### Coming soon
-- Proposal / Quote Generator
-- Contract Template Builder
-- NDA Generator
-- Retainer Agreement Generator
-- Client Intake Form Builder
-- Portfolio Case Study Builder
-- AI-assisted Payment Reminder & Meeting Recap generators
-- Time Tracker, Project Scope Estimator, Scope Creep Tracker (account-based)
-- Client Feedback Form, Testimonial Request Generator, Project Handoff Checklist
-- Freelance Tax Estimator, Freelance Rate Benchmark Tool
+#### Agreements & Legal
+- **Proposal Generator** — Create professional proposals and quotes with breakdown of deliverables, timeline, and investment.
+- **Contract Template Builder** — Draft standard agreements and contracts for freelance projects.
+- **NDA Generator** — Create custom Non-Disclosure Agreements to protect your business.
+- **Retainer Agreement Generator** — Set up ongoing monthly retainer agreements.
+
+#### Client Assets & Onboarding
+- **Client Intake Form Builder** — Onboard clients with customizable, interactive questionnaires.
+- **Portfolio Case Study Builder** — Generate beautiful, structured case studies to showcase your results.
+
+#### AI Communication
+- **Payment Reminder Generator** — Draft perfect payment reminders using customizable, AI-assisted tones.
+- **Meeting Recap Generator** — Instantly convert meeting bullet points into polished recap emails.
+
+#### Planning & Tracking
+- **Time Tracker** — Log hours, track sessions, and easily convert hours directly to invoices.
+- **Project Scope Estimator** — Calculate hour ranges and project timelines by deliverable complexity.
+
+#### Reference
+- **Freelance Rate Benchmark Tool** — Compare global freelance hourly rate ranges across experience levels, categories, and regional markets.
 
 ## Tech Stack
 
 - **Framework:** Next.js 15 (App Router), React, TypeScript
-- **Styling:** Tailwind CSS v3
+- **Styling:** Tailwind CSS v3 (using safe hex/RGB values only to preserve PDF exports)
 - **PDF Export:** jsPDF + html2canvas (shared utility, reused across all document-producing tools)
-- **AI features (upcoming):** Google Gemini API via serverless functions
-- **Persistence (upcoming):** Supabase (auth + database), introduced starting Phase 6
+- **AI features:** Google Gemini API via serverless functions
+- **Persistence:** Supabase (auth + database)
 - **Hosting:** Vercel
 
 ## Design Principles
@@ -49,3 +60,4 @@ Freelance Ops Toolkit is being built in 7 phases, with each phase adding a set o
 ```bash
 npm install
 npm run dev
+```
