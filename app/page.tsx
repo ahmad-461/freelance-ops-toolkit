@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { FileText, ArrowRight, Shield, Zap, Sparkles, CheckCircle, FileSignature, HelpCircle, Calculator, RefreshCw, CalendarClock, ClipboardList, Briefcase } from "lucide-react";
+import { FileText, ArrowRight, Shield, Zap, Sparkles, CheckCircle, FileSignature, HelpCircle, Calculator, RefreshCw, CalendarClock, ClipboardList, Briefcase, Clock, Layers } from "lucide-react";
 
 export default function Home() {
   const activeTools = [
@@ -87,6 +87,20 @@ export default function Home() {
       href: "/tools/meeting-recap-generator",
       icon: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><rect width="12" height="18" x="10" y="3" rx="2"/></svg>,
       badge: "v5.0 - Live",
+    },
+    {
+      title: "Time Tracker",
+      description: "Log hours, track live sessions, and instantly prefill your invoices. Cloud sync allows you to manage entries anywhere. (Free account required to save)",
+      href: "/tools/time-tracker",
+      icon: Clock,
+      badge: "v6.0 - Live",
+    },
+    {
+      title: "Project Scope Estimator",
+      description: "Estimate hour ranges and project timelines by deliverable complexity. Perform one-off calculations or save results. (Free account required to save)",
+      href: "/tools/scope-estimator",
+      icon: Layers,
+      badge: "v6.0 - Live",
     },
   ];
 

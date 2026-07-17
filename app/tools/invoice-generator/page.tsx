@@ -28,6 +28,9 @@ const CURRENCIES = [
   { code: "EUR", symbol: "€", label: "EUR (€)" },
   { code: "GBP", symbol: "£", label: "GBP (£)" },
   { code: "PKR", symbol: "Rs.", label: "PKR (Rs.)" },
+  { code: "AUD", symbol: "A$", label: "AUD (A$)" },
+  { code: "CAD", symbol: "C$", label: "CAD (C$)" },
+  { code: "INR", symbol: "₹", label: "INR (₹)" },
 ];
 
 export default function InvoiceGenerator() {
@@ -50,6 +53,32 @@ export default function InvoiceGenerator() {
   const [lineItems, setLineItems] = useState<LineItem[]>([
     { id: "1", description: "Initial consultation & scope definition", quantity: 1, rate: 150 }
   ]);
+
+  // Prefill from Session Storage (for Time Tracker integration)
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stored = sessionStorage.getItem("prefilled_invoice_data");
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (parsed.clientName) setClientName(parsed.clientName);
+          if (parsed.lineItems && parsed.lineItems.length > 0) {
+            const formattedItems = parsed.lineItems.map((item: { description: string; quantity: number; rate: number }, idx: number) => ({
+              id: `prefilled-${Date.now()}-${idx}`,
+              description: item.description,
+              quantity: item.quantity,
+              rate: item.rate
+            }));
+            setLineItems(formattedItems);
+          }
+          // Clear it after using it once so it doesn't persist on page reload or if they navigate away & back
+          sessionStorage.removeItem("prefilled_invoice_data");
+        } catch (e) {
+          console.error("Failed to parse prefilled invoice data", e);
+        }
+      }
+    }
+  }, []);
 
   // Touch Tracking State
   const [touched, setTouched] = useState<Record<string, boolean>>({});
