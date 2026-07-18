@@ -4,6 +4,17 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Briefcase, ChevronDown, ChevronUp } from "lucide-react";
 
+interface FooterLink {
+  label: string;
+  href: string;
+}
+
+interface FooterColumn {
+  title: string;
+  key: "product" | "resources" | "company";
+  links: FooterLink[];
+}
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -20,6 +31,38 @@ export default function Footer() {
       [section]: !prev[section],
     }));
   };
+
+  const footerColumns: FooterColumn[] = [
+    {
+      title: "Product",
+      key: "product",
+      links: [
+        { label: "Invoice Generator", href: "/tools/invoice-generator" },
+        { label: "Proposal Generator", href: "/tools/proposal-generator" },
+        { label: "Time Tracker", href: "/tools/time-tracker" },
+        { label: "Rate Benchmark Tool", href: "/tools/rate-benchmark" },
+        { label: "View All Tools", href: "/#tools-section" },
+      ],
+    },
+    {
+      title: "Resources",
+      key: "resources",
+      links: [
+        { label: "Frequently Asked Questions", href: "/about#faq" },
+        { label: "Disclaimers & Notices", href: "/disclaimers" },
+      ],
+    },
+    {
+      title: "Company",
+      key: "company",
+      links: [
+        { label: "About", href: "/about" },
+        { label: "Contact", href: "/contact" },
+        { label: "Privacy Policy", href: "/privacy" },
+        { label: "Terms of Service", href: "/terms" },
+      ],
+    },
+  ];
 
   return (
     <footer className="relative bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-400">
@@ -44,153 +87,54 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Column 2 - Product */}
-          <div className="border-t border-gray-100 dark:border-gray-900/50 pt-5 md:pt-0 md:border-t-0">
-            {/* Desktop Heading */}
-            <h3 className="hidden md:block font-bold text-gray-900 dark:text-gray-100 uppercase tracking-widest text-xs mb-4">
-              Product
-            </h3>
-            {/* Mobile Header (Accordion Trigger) */}
-            <button
-              onClick={() => toggleSection("product")}
-              className="flex md:hidden items-center justify-between w-full font-bold text-gray-900 dark:text-gray-100 uppercase tracking-widest text-xs py-2"
-            >
-              <span>Product</span>
-              {expandedSections.product ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
+          {/* Columns 2, 3, 4 - Dynamic mapping */}
+          {footerColumns.map((col) => {
+            const isExpanded = expandedSections[col.key];
+            return (
+              <div
+                key={col.key}
+                className="border-t border-gray-100 dark:border-gray-900/50 pt-5 md:pt-0 md:border-t-0"
+              >
+                {/* Desktop Heading */}
+                <h3 className="hidden md:block font-bold text-gray-900 dark:text-gray-100 uppercase tracking-widest text-xs mb-4">
+                  {col.title}
+                </h3>
+                {/* Mobile Header (Accordion Trigger) */}
+                <button
+                  onClick={() => toggleSection(col.key)}
+                  className="flex md:hidden items-center justify-between w-full font-bold text-gray-900 dark:text-gray-100 uppercase tracking-widest text-xs py-2"
+                >
+                  <span>{col.title}</span>
+                  {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                </button>
 
-            {/* Links List */}
-            <ul className={`mt-3 md:mt-0 space-y-2.5 text-sm ${expandedSections.product ? "block" : "hidden md:block"}`}>
-              <li>
-                <Link
-                  href="/tools/invoice-generator"
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-150 block py-1"
+                {/* Links List */}
+                <ul
+                  className={`mt-3 md:mt-0 space-y-2.5 text-sm ${
+                    isExpanded ? "block" : "hidden md:block"
+                  }`}
                 >
-                  Invoice Generator
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/tools/proposal-generator"
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-150 block py-1"
-                >
-                  Proposal Generator
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/tools/time-tracker"
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-150 block py-1"
-                >
-                  Time Tracker
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/tools/rate-benchmark"
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-150 block py-1"
-                >
-                  Rate Benchmark Tool
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#tools-section"
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-150 block py-1 font-medium text-gray-700 dark:text-gray-300"
-                >
-                  View All Tools
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 3 - Resources */}
-          <div className="border-t border-gray-100 dark:border-gray-900/50 pt-5 md:pt-0 md:border-t-0">
-            {/* Desktop Heading */}
-            <h3 className="hidden md:block font-bold text-gray-900 dark:text-gray-100 uppercase tracking-widest text-xs mb-4">
-              Resources
-            </h3>
-            {/* Mobile Header (Accordion Trigger) */}
-            <button
-              onClick={() => toggleSection("resources")}
-              className="flex md:hidden items-center justify-between w-full font-bold text-gray-900 dark:text-gray-100 uppercase tracking-widest text-xs py-2"
-            >
-              <span>Resources</span>
-              {expandedSections.resources ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
-
-            {/* Links List */}
-            <ul className={`mt-3 md:mt-0 space-y-2.5 text-sm ${expandedSections.resources ? "block" : "hidden md:block"}`}>
-              <li>
-                <Link
-                  href="/about#faq"
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-150 block py-1"
-                >
-                  Frequently Asked Questions
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/disclaimers"
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-150 block py-1"
-                >
-                  Disclaimers & Notices
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 4 - Company */}
-          <div className="border-t border-gray-100 dark:border-gray-900/50 pt-5 md:pt-0 md:border-t-0">
-            {/* Desktop Heading */}
-            <h3 className="hidden md:block font-bold text-gray-900 dark:text-gray-100 uppercase tracking-widest text-xs mb-4">
-              Company
-            </h3>
-            {/* Mobile Header (Accordion Trigger) */}
-            <button
-              onClick={() => toggleSection("company")}
-              className="flex md:hidden items-center justify-between w-full font-bold text-gray-900 dark:text-gray-100 uppercase tracking-widest text-xs py-2"
-            >
-              <span>Company</span>
-              {expandedSections.company ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
-
-            {/* Links List */}
-            <ul className={`mt-3 md:mt-0 space-y-2.5 text-sm ${expandedSections.company ? "block" : "hidden md:block"}`}>
-              <li>
-                <Link
-                  href="/about"
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-150 block py-1"
-                >
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-150 block py-1"
-                >
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/privacy"
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-150 block py-1"
-                >
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/terms"
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-150 block py-1"
-                >
-                  Terms of Service
-                </Link>
-              </li>
-            </ul>
-          </div>
+                  {col.links.map((link) => {
+                    const isViewAll = link.label === "View All Tools";
+                    return (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          className={`hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-150 block py-1 ${
+                            isViewAll
+                              ? "font-medium text-gray-700 dark:text-gray-300"
+                              : ""
+                          }`}
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          })}
 
         </div>
 
