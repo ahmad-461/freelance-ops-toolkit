@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { Notebook, Copy, CheckCircle, AlertCircle, RefreshCw, Send } from "lucide-react";
+import { ToolHero } from "@/components/layout/ToolHero";
+import { MeetingRecapVisual } from "@/components/layout/ToolHeroVisuals";
+import { Copy, CheckCircle, AlertCircle, RefreshCw, Send } from "lucide-react";
 
 export default function MeetingRecapGenerator() {
   // Fields
@@ -101,22 +103,15 @@ Instructions for the response format:
   };
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen py-10 transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen pb-16 transition-colors duration-200">
+      <ToolHero
+        title="Meeting Recap Generator"
+        description="Convert chaotic meeting bullet points and messy scribbles into structured, professional summary emails complete with action items using smart AI guidance."
+        actionLabel="Draft Recap ↓"
+        visual={<MeetingRecapVisual />}
+      />
 
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm mb-1">
-            <Notebook className="w-4 h-4" />
-            <span>AI Operations</span>
-          </div>
-          <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">
-            Meeting Recap Email Generator
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Convert raw bullet points, quick notes, and messy scribbles into structured summary emails with clear action items using Google Gemini AI.
-          </p>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Disclaimer Banner */}
         <div className="bg-blue-50/60 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/30 rounded-xl p-4 mb-8 flex gap-3 items-start text-blue-800 dark:text-blue-300">
@@ -127,7 +122,7 @@ Instructions for the response format:
         </div>
 
         {/* Split Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div id="tool-form" className="scroll-mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
           {/* Left Panel: Inputs (7 Cols) */}
           <div className="lg:col-span-7 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/80 dark:border-gray-800/80 p-6 shadow-sm space-y-6">

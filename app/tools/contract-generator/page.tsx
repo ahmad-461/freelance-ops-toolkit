@@ -2,8 +2,9 @@
 
 import React, { useState, useRef } from "react";
 import { exportToPdf } from "@/lib/pdf-export";
+import { ToolHero } from "@/components/layout/ToolHero";
+import { ContractVisual } from "@/components/layout/ToolHeroVisuals";
 import {
-  FileSignature,
   Plus,
   Trash2,
   Download,
@@ -148,28 +149,25 @@ export default function ContractGenerator() {
   };
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen py-10 transition-colors duration-200">
+    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen pb-16 transition-colors duration-200">
+      <ToolHero
+        title="Contract Template Builder"
+        description="Draft standard, professional service agreements and contracts custom-tailored to US/UK governing jurisdictions."
+        actionLabel="Draft Contract ↓"
+        visual={<ContractVisual />}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* Tool Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        {/* Form top action bar */}
+        <div id="tool-form" className="scroll-mt-12 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 border-b border-slate-200/60 dark:border-slate-800/60 pb-6">
           <div>
-            <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm mb-1">
-              <FileSignature className="w-4 h-4" />
-              <span>Operational Tools</span>
-            </div>
-            <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">
-              Contract Template Builder
-            </h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-              Draft professional service contracts based on jurisdiction.
-            </p>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Contract Configurator</h2>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 font-medium">Fine-tune liability, payment schedules, and jurisdiction settings.</p>
           </div>
-
           <button
             onClick={handleDownload}
             disabled={isExporting}
-            className={`inline-flex items-center justify-center gap-2 rounded-xl font-bold py-3.5 px-6 shadow-md transition-all ${
+            className={`inline-flex items-center justify-center gap-2 rounded-xl font-bold py-3 px-5 text-sm shadow-md transition-all ${
               isFormValid
                 ? "bg-blue-600 hover:bg-blue-700 text-white hover:scale-[1.01] cursor-pointer"
                 : "bg-gray-200 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed"
@@ -177,12 +175,12 @@ export default function ContractGenerator() {
           >
             {isExporting ? (
               <>
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 Generating...
               </>
             ) : (
               <>
-                <Download className="w-5 h-5" />
+                <Download className="w-4 h-4" />
                 Download PDF
               </>
             )}

@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { User as SupabaseUser } from "@supabase/supabase-js";
+import { ToolHero } from "@/components/layout/ToolHero";
+import { ScopeEstimatorVisual } from "@/components/layout/ToolHeroVisuals";
 import {
   Save,
   Trash2,
@@ -248,25 +250,18 @@ export default function ScopeEstimator() {
   }
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen py-10 transition-colors duration-200">
+    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen pb-16 transition-colors duration-200">
+      <ToolHero
+        title="Project Scope Estimator"
+        description="Estimate precise hour ranges and client-ready project timelines mapped directly to deliverable complexity rules. No account required to estimate."
+        actionLabel="Estimate Scope ↓"
+        visual={<ScopeEstimatorVisual />}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm mb-1">
-            <Layers className="w-4 h-4" />
-            <span>Operational Tools</span>
-          </div>
-          <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">
-            Project Scope Estimator
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Build reliable timeline and hour range estimates based on project complexity. No account required to estimate!
-          </p>
-        </div>
-
         {/* Outer Split layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div id="tool-form" className="scroll-mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
           {/* Left panel: Estimator interactive builder (7 columns) */}
           <div className="lg:col-span-7 space-y-6">

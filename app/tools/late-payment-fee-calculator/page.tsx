@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { ToolHero } from "@/components/layout/ToolHero";
+import { LatePaymentFeeVisual } from "@/components/layout/ToolHeroVisuals";
 import { CalendarClock, DollarSign, Calendar, Percent, HelpCircle, AlertCircle } from "lucide-react";
 
 export default function LatePaymentFeeCalculator() {
@@ -79,25 +81,17 @@ export default function LatePaymentFeeCalculator() {
   const newTotalOwed = parsedAmount + calculatedLateFee;
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen py-10 transition-colors duration-200">
+    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen pb-16 transition-colors duration-200">
+      <ToolHero
+        title="Late Payment Fee Calculator"
+        description="Calculate accurate prorated interest rates, total days past due, and updated outstanding invoice balances on overdue client invoices."
+        actionLabel="Calculate Fees ↓"
+        visual={<LatePaymentFeeVisual />}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* Tool Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm mb-1">
-            <CalendarClock className="w-4 h-4" />
-            <span>Operational Tools</span>
-          </div>
-          <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">
-            Late Payment Fee Calculator
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Calculate accurate prorated interest rates, total days past due, and updated outstanding invoice totals.
-          </p>
-        </div>
-
         {/* Layout Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div id="tool-form" className="scroll-mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
           {/* Form Fields (7 Cols) */}
           <div className="lg:col-span-7 space-y-6">
