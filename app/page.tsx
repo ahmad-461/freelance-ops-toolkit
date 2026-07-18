@@ -24,8 +24,72 @@ import {
   Search,
   X,
 } from "lucide-react";
+import FeaturedToolsRow from "@/components/layout/FeaturedToolsRow";
+import { toolsRegistry, ToolItem } from "@/lib/tools-registry";
+
+// Curated 5 tools fallback list
+const POPULAR_TOOL_SLUGS = [
+  "invoice-generator",
+  "proposal-generator",
+  "contract-generator",
+  "rate-calculator",
+  "time-tracker",
+];
 
 export default function Home() {
+  const [visitedTools, setVisitedTools] = useState<ToolItem[]>([]);
+  const [visitedTimestamps, setVisitedTimestamps] = useState<Record<string, number>>({});
+  const [isRecentState, setIsRecentState] = useState(false);
+
+  // Load visited tools and timestamps on mount or storage update
+  const loadVisitedTools = () => {
+    if (typeof window === "undefined") return;
+    try {
+      const stored = localStorage.getItem("visited_tools");
+      if (stored) {
+        const visits: { slug: string; timestamp: number }[] = JSON.parse(stored);
+        if (visits && visits.length > 0) {
+          // Map stored slugs back to complete toolsRegistry items
+          const mappedTools: ToolItem[] = [];
+          const timestampsMap: Record<string, number> = {};
+
+          visits.forEach((item) => {
+            const tool = toolsRegistry.find((t) => t.slug === item.slug);
+            if (tool) {
+              mappedTools.push(tool);
+              timestampsMap[item.slug] = item.timestamp;
+            }
+          });
+
+          setVisitedTools(mappedTools);
+          setVisitedTimestamps(timestampsMap);
+          setIsRecentState(true);
+          return;
+        }
+      }
+
+      // Fallback: load hardcoded popular tools
+      const popularMapped = POPULAR_TOOL_SLUGS.map(slug => toolsRegistry.find(t => t.slug === slug)).filter(Boolean) as ToolItem[];
+      setVisitedTools(popularMapped);
+      setVisitedTimestamps({});
+      setIsRecentState(false);
+    } catch (e) {
+      console.error("Failed to parse visited tools history", e);
+    }
+  };
+
+  useEffect(() => {
+    loadVisitedTools();
+
+    // Listen to our custom storage updated event or window storage events
+    window.addEventListener("storage_visited_tools_updated", loadVisitedTools);
+    window.addEventListener("storage", loadVisitedTools);
+
+    return () => {
+      window.removeEventListener("storage_visited_tools_updated", loadVisitedTools);
+      window.removeEventListener("storage", loadVisitedTools);
+    };
+  }, []);
   const categorizedTools = [
     {
       categoryName: "Billing & Financial",
@@ -572,6 +636,27 @@ export default function Home() {
           </p>
         </div>
       </section>
+
+      {/* SECTION 2.5: Popular / Recently Used Tools Row + View All Button */}
+      <div className="relative">
+        <FeaturedToolsRow
+          title={isRecentState ? "Continue Where You Left Off" : "Popular Tools"}
+          tools={visitedTools}
+          isRecentState={isRecentState}
+          timestamps={visitedTimestamps}
+        />
+
+        {/* View All Tools Primary CTA Button */}
+        <div className="flex justify-center bg-slate-50/50 dark:bg-[#07080d]/60 border-b border-slate-200/50 dark:border-slate-900/60 pb-12">
+          <a
+            href="#tools-section"
+            className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 text-white font-bold px-8 py-4 shadow-lg shadow-blue-500/20 transition-all hover:scale-[1.01]"
+          >
+            View All 15 Tools
+            <ArrowRight className="w-5 h-5" />
+          </a>
+        </div>
+      </div>
 
       {/* SECTION 3: The Categorized 15-Tool Directory Grid */}
       <section id="tools-section" className="py-16 sm:py-24 scroll-mt-20">
