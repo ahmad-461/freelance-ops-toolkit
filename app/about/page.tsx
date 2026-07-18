@@ -80,6 +80,13 @@ export default function AboutPage() {
             </p>
 
             <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
+              How it&apos;s built
+            </h2>
+            <p>
+              Freelance Ops Toolkit is built using modern web technology (including Next.js and Tailwind CSS), designed to operate with speed, security, and responsiveness. By running the majority of our tools entirely inside your browser, we eliminate unnecessary server round-trips and keep your data private. For features that need to remember your data over time, like the Time Tracker, we use Supabase&mdash;a secure, modern database platform&mdash;to keep that information synced to your account.
+            </p>
+
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
               A Note From the Builder
             </h2>
             <p>
