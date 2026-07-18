@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
+import { usePathname } from "next/navigation";
 import {
   ChevronDown,
   Briefcase,
@@ -21,6 +22,7 @@ import {
   Clock,
   Layers,
   TrendingUp,
+  Search,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { User as SupabaseUser } from "@supabase/supabase-js";
@@ -42,6 +44,42 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [user, setUser] = useState<SupabaseUser | null>(null);
+  const pathname = usePathname();
+
+  // Handle auto tracking of visited tools
+  useEffect(() => {
+    if (!pathname || !pathname.startsWith("/tools/")) return;
+
+    // Derive slug from pathname, e.g., "/tools/invoice-generator" -> "invoice-generator"
+    const slug = pathname.replace("/tools/", "");
+    if (!slug) return;
+
+    try {
+      const stored = localStorage.getItem("visited_tools");
+      let visits: { slug: string; timestamp: number }[] = [];
+      if (stored) {
+        visits = JSON.parse(stored);
+      }
+
+      // Filter out existing and prepend new visit
+      visits = visits.filter((item) => item.slug !== slug);
+      visits.unshift({ slug, timestamp: Date.now() });
+
+      // Cap at most recent 5 items
+      visits = visits.slice(0, 5);
+
+      localStorage.setItem("visited_tools", JSON.stringify(visits));
+      // Dispatch a storage event so components on the same page can re-render immediately if needed
+      window.dispatchEvent(new Event("storage_visited_tools_updated"));
+    } catch (e) {
+      console.error("Failed to update tool visits history in localStorage", e);
+    }
+  }, [pathname]);
+
+  // Open Command Palette custom event dispatcher
+  const openCommandPalette = () => {
+    window.dispatchEvent(new CustomEvent("open-command-palette"));
+  };
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -315,6 +353,18 @@ export default function Navbar() {
 
           {/* Right Action Items */}
           <div className="hidden md:flex items-center gap-4">
+            {/* Desktop CMD+K Search Shortcut button */}
+            <button
+              onClick={openCommandPalette}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50/50 hover:bg-gray-100 dark:bg-gray-900/50 dark:hover:bg-gray-900 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 text-xs font-mono transition-all"
+              title="Search utilities (Cmd+K)"
+            >
+              <Search className="w-3.5 h-3.5" />
+              <span>Search...</span>
+              <kbd className="inline-flex items-center gap-0.5 rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 px-1.5 text-[9px] font-sans font-medium text-gray-400 dark:text-gray-500 shadow-sm">
+                <span>⌘</span><span>K</span>
+              </kbd>
+            </button>
             <ThemeToggle />
             {user ? (
               <div className="flex items-center gap-3 pl-2 border-l border-gray-200 dark:border-gray-800">
@@ -344,8 +394,16 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Toggle */}
-          <div className="flex items-center gap-4 md:hidden">
+          <div className="flex items-center gap-2 md:hidden">
             <ThemeToggle />
+            {/* Mobile quick search icon button placed next to hamburger menu toggle */}
+            <button
+              onClick={openCommandPalette}
+              className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-850 transition-colors"
+              aria-label="Search utilities"
+            >
+              <Search className="w-5 h-5" />
+            </button>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-850"
