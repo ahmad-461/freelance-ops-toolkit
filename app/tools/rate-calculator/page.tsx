@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import { ToolHero } from "@/components/layout/ToolHero";
+import { RateCalculatorVisual } from "@/components/layout/ToolHeroVisuals";
 import { Calculator, DollarSign, Clock, Calendar, HelpCircle, Sparkles } from "lucide-react";
 
 export default function RateCalculator() {
@@ -49,25 +51,17 @@ export default function RateCalculator() {
   };
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen py-10 transition-colors duration-200">
+    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen pb-16 transition-colors duration-200">
+      <ToolHero
+        title="Rate Calculator"
+        description="Determine your ideal suggested freelance hourly rate and project-based pricing target based on desired annual goals, Schedule overheads, and predictable expenses."
+        actionLabel="Calculate Rate ↓"
+        visual={<RateCalculatorVisual />}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* Tool Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm mb-1">
-            <Calculator className="w-4 h-4" />
-            <span>Operational Tools</span>
-          </div>
-          <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">
-            Rate Calculator
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Find your ideal freelance hourly rate based on desired income, overhead, and billable schedule.
-          </p>
-        </div>
-
         {/* Layout Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div id="tool-form" className="scroll-mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
           {/* Inputs Section (7 Cols) */}
           <div className="lg:col-span-7 space-y-6">

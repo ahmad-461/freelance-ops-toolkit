@@ -2,8 +2,9 @@
 
 import React, { useState, useRef } from "react";
 import { exportToPdf } from "@/lib/pdf-export";
+import { ToolHero } from "@/components/layout/ToolHero";
+import { ClientIntakeVisual } from "@/components/layout/ToolHeroVisuals";
 import {
-  ClipboardList,
   Plus,
   Trash2,
   Download,
@@ -326,24 +327,21 @@ export default function ClientIntakeFormBuilder() {
   };
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen py-10 transition-colors duration-200">
+    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen pb-16 transition-colors duration-200">
+      <ToolHero
+        title="Client Intake Form Builder"
+        description="Draft custom client onboarding questionnaires with editable questions, clean structured categories, and dual PDF or plain text export utilities."
+        actionLabel="Build Form ↓"
+        visual={<ClientIntakeVisual />}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* Tool Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        {/* Form top action bar */}
+        <div id="tool-form" className="scroll-mt-12 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 border-b border-slate-200/60 dark:border-slate-800/60 pb-6">
           <div>
-            <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm mb-1">
-              <ClipboardList className="w-4 h-4" />
-              <span>Client Assets</span>
-            </div>
-            <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">
-              Client Intake Form Builder
-            </h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-              Design professional onboarding questionnaires. Edit questions, structure categories, and export via PDF or plain text.
-            </p>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Questionnaire Configurator</h2>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 font-medium">Select categories and edit questions below.</p>
           </div>
-
           <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={handleCopyText}

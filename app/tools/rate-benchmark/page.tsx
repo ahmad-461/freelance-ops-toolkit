@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import { ToolHero } from "@/components/layout/ToolHero";
+import { RateBenchmarkVisual } from "@/components/layout/ToolHeroVisuals";
 import { Info, HelpCircle, Briefcase, GraduationCap, Globe2, AlertCircle } from "lucide-react";
 import {
   SKILL_CATEGORIES,
@@ -43,24 +45,18 @@ export default function RateBenchmarkPage() {
   }, [range, absoluteRange]);
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen py-12 transition-colors duration-200">
+    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen pb-16 transition-colors duration-200">
+      <ToolHero
+        title="Rate Benchmark Tool"
+        description="Confidently price your services by comparing regional, skill-based, and experience-mapped global freelance market rates."
+        actionLabel="Explore Benchmarks ↓"
+        visual={<RateBenchmarkVisual />}
+      />
+
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
 
-        {/* Breadcrumb / Title */}
-        <div className="mb-8">
-          <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2">
-            Reference Tool
-          </p>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-            Freelance Rate Benchmark Tool
-          </h1>
-          <p className="mt-2 text-gray-500 dark:text-gray-400">
-            Compare regional and skill-based freelance market rate ranges to confidently price your services.
-          </p>
-        </div>
-
         {/* Permanent Note */}
-        <div className="mb-8 p-4 rounded-xl border border-amber-200/60 dark:border-amber-900/30 bg-amber-50/50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-300 flex gap-3 items-start">
+        <div id="tool-form" className="scroll-mt-12 mb-8 p-4 rounded-xl border border-amber-200/60 dark:border-amber-900/30 bg-amber-50/50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-300 flex gap-3 items-start">
           <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
           <p className="text-xs sm:text-sm leading-relaxed">
             <strong>Notice:</strong> These figures are general estimates for guidance purposes, last reviewed <span className="font-semibold underline">July 2026</span>, and are not a substitute for your own market research.

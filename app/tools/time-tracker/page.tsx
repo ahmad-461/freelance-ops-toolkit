@@ -4,6 +4,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { User as SupabaseUser } from "@supabase/supabase-js";
+import { ToolHero } from "@/components/layout/ToolHero";
+import { TimeTrackerVisual } from "@/components/layout/ToolHeroVisuals";
 import {
   Clock,
   Plus,
@@ -276,12 +278,19 @@ export default function TimeTracker() {
   // Gated UI (Prompt to Sign In)
   if (!user) {
     return (
-      <div className="bg-gray-50 dark:bg-gray-950 min-h-screen py-16 px-4 transition-colors duration-200">
-        <div className="max-w-xl mx-auto text-center space-y-6 bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-200/80 dark:border-gray-800/80 shadow-lg">
+      <div className="bg-gray-50 dark:bg-gray-950 min-h-screen pb-16 transition-colors duration-200">
+        <ToolHero
+          title="Time Tracker"
+          description="Log hours, run live tracking sessions, and instantly prefill your professional client invoices. Managed seamlessly in the cloud."
+          actionLabel="Log In to Start ↓"
+          visual={<TimeTrackerVisual />}
+        />
+
+        <div id="tool-form" className="scroll-mt-12 max-w-xl mx-auto text-center space-y-6 bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-200/80 dark:border-gray-800/80 shadow-lg mt-8">
           <div className="inline-flex items-center justify-center p-4 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 mb-2">
             <Clock className="w-12 h-12" />
           </div>
-          <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">Time Tracker</h1>
+          <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white">Access Time Tracker</h2>
           <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-md mx-auto">
             Log, track, and manage your billable hours per client. You can convert your logged hours directly into beautiful PDF invoices in a single click!
           </p>
@@ -305,24 +314,17 @@ export default function TimeTracker() {
   }
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen py-10 transition-colors duration-200">
+    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen pb-16 transition-colors duration-200">
+      <ToolHero
+        title="Time Tracker"
+        description="Log hours, run live tracking sessions, and instantly prefill your professional client invoices. Managed seamlessly in the cloud."
+        actionLabel="Track Time ↓"
+        visual={<TimeTrackerVisual />}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm mb-1">
-            <Clock className="w-4 h-4" />
-            <span>Operational Tools (Cloud Persistence)</span>
-          </div>
-          <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">
-            Time Tracker → Invoice Converter
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Keep track of all your projects, run live sessions, and export seamlessly into professional invoices.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div id="tool-form" className="scroll-mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
           {/* Left panel: Log Time Inputs (5 columns) */}
           <div className="lg:col-span-5 space-y-6">

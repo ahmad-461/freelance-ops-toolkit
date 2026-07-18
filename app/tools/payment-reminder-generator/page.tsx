@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail, Copy, CheckCircle, AlertCircle, RefreshCw, Send } from "lucide-react";
+import { ToolHero } from "@/components/layout/ToolHero";
+import { PaymentReminderVisual } from "@/components/layout/ToolHeroVisuals";
+import { Copy, CheckCircle, AlertCircle, RefreshCw, Send } from "lucide-react";
 
 const CURRENCIES = [
   { code: "USD", symbol: "$" },
@@ -126,22 +128,15 @@ Ensure the generated text strictly provides:
   };
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen py-10 transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen pb-16 transition-colors duration-200">
+      <ToolHero
+        title="Payment Reminder Generator"
+        description="Draft perfectly tuned, polite, firm, or final-notice email reminders for past-due client invoices using smart, local AI guidelines."
+        actionLabel="Compose Reminder ↓"
+        visual={<PaymentReminderVisual />}
+      />
 
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm mb-1">
-            <Mail className="w-4 h-4" />
-            <span>AI Operations</span>
-          </div>
-          <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">
-            Payment Reminder Email Generator
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Generate professional, custom-tuned payment reminder emails using Google Gemini AI. Just fill in the details and choose your tone.
-          </p>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Note Banner */}
         <div className="bg-blue-50/60 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/30 rounded-xl p-4 mb-8 flex gap-3 items-start text-blue-800 dark:text-blue-300">
@@ -152,7 +147,7 @@ Ensure the generated text strictly provides:
         </div>
 
         {/* Split Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div id="tool-form" className="scroll-mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
           {/* Left: Input Form (7 Cols) */}
           <div className="lg:col-span-7 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/80 dark:border-gray-800/80 p-6 shadow-sm space-y-6">

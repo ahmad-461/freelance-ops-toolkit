@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { ToolHero } from "@/components/layout/ToolHero";
+import { CurrencyConverterVisual } from "@/components/layout/ToolHeroVisuals";
 import { RefreshCw, Coins, ArrowLeftRight, TrendingUp } from "lucide-react";
 
 const SUPPORTED_CURRENCIES = [
@@ -96,25 +98,17 @@ export default function CurrencyConverter() {
   };
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen py-10 transition-colors duration-200">
+    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen pb-16 transition-colors duration-200">
+      <ToolHero
+        title="Currency Converter"
+        description="Convert international project fees and calculate global contract pricing targets using live, proxied, and cached exchange rate integrations."
+        actionLabel="Convert Currencies ↓"
+        visual={<CurrencyConverterVisual />}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* Tool Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm mb-1">
-            <Coins className="w-4 h-4" />
-            <span>Operational Tools</span>
-          </div>
-          <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">
-            Currency Converter
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Convert international client fees using live, cached currency exchange rates.
-          </p>
-        </div>
-
         {/* Layout Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div id="tool-form" className="scroll-mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
           {/* Form & Switch (7 Cols) */}
           <div className="lg:col-span-7 space-y-6">
