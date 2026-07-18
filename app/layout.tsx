@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CommandPalette from "@/components/layout/CommandPalette";
+import AIAssistant from "@/components/layout/AIAssistant";
 
 export const metadata: Metadata = {
   title: "Freelance Ops Toolkit",
@@ -25,6 +26,7 @@ export default function RootLayout({
           </main>
           <Footer />
           <CommandPalette />
+          <AIAssistant />
         </ThemeProvider>
       </body>
     </html>
