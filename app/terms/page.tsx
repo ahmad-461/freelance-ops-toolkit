@@ -1,0 +1,84 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { FileText, ArrowLeft } from "lucide-react";
+
+export default function TermsPage() {
+  const [currentYear, setCurrentYear] = useState<number | string>("");
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
+
+  return (
+    <div className="bg-gray-50 dark:bg-gray-950 min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
+      <div className="max-w-3xl mx-auto bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-6 sm:p-10 shadow-sm">
+
+        {/* Back Link */}
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors mb-8"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Home
+        </Link>
+
+        {/* Header */}
+        <div className="flex items-center gap-3 border-b border-gray-100 dark:border-gray-850 pb-6 mb-8">
+          <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+            <FileText className="w-6 h-6" />
+          </div>
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">
+              Terms of Service
+            </h1>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+              Last Updated: January {currentYear || "..."}
+            </p>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="space-y-6 text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed font-sans">
+          <p>
+            By using Freelance Ops Toolkit, you agree to comply with and be bound by the following Terms of Service. Please read them carefully.
+          </p>
+
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
+            1. &ldquo;As-Is&rdquo; Service
+          </h2>
+          <p>
+            Freelance Ops Toolkit is provided entirely free of charge as an open operational toolkit. The tools, calculations, and templates are provided on an &ldquo;as-is&rdquo; and &ldquo;as-available&rdquo; basis without warranties of any kind, either express or implied. We do not guarantee uninterrupted uptime, error-free operations, or absolute availability of any tool.
+          </p>
+
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
+            2. No Professional, Legal, or Financial Advice
+          </h2>
+          <p>
+            The tools on this website are designed for general operational guidance and convenience:
+          </p>
+          <ul className="list-disc pl-5 space-y-3">
+            <li>
+              <strong>Legal Documents (Contracts, NDAs, Retainers, Proposals)</strong>: Any document generated is a generic template for informational purposes only. It does not constitute professional legal advice. No attorney-client relationship is created.
+            </li>
+            <li>
+              <strong>Financial & Tax Tools (Rate Calculator, Late Fee, Currency, Invoice)</strong>: All calculations, rates, or benchmark estimations are for reference only and do not constitute certified accounting, financial planning, or tax advice.
+            </li>
+          </ul>
+          <p>
+            You are solely responsible for verifying the accuracy, appropriateness, and compliance with local laws of any document, calculation, or rate before sharing it with a client or relying on it for your business. We strongly recommend consulting a qualified attorney or certified accountant before executing any generated legal documents or finalizing financial strategies.
+          </p>
+
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
+            3. Limitation of Liability
+          </h2>
+          <p>
+            To the fullest extent permitted by law, Freelance Ops Toolkit, its creator (Ahmad Khan), and contributors shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or inability to use the website, tools, or generated templates, even if advised of the possibility of such damages.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  );
+}

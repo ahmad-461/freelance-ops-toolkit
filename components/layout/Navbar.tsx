@@ -161,7 +161,7 @@ export default function Navbar() {
           name: "Payment Reminder Generator",
           description: "Perfect professional emails for past-due clients",
           href: "/tools/payment-reminder-generator",
-          icon: () => (
+          icon: ({ className }: { className?: string }) => (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -172,7 +172,7 @@ export default function Navbar() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="w-4 h-4"
+              className={className || "w-4 h-4"}
             >
               <rect width="20" height="16" x="2" y="4" rx="2" />
               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
@@ -183,7 +183,7 @@ export default function Navbar() {
           name: "Meeting Recap Generator",
           description: "Draft professional recap emails with action items",
           href: "/tools/meeting-recap-generator",
-          icon: () => (
+          icon: ({ className }: { className?: string }) => (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -194,7 +194,7 @@ export default function Navbar() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="w-4 h-4"
+              className={className || "w-4 h-4"}
             >
               <path d="M2 6h4" />
               <path d="M2 10h4" />
@@ -275,7 +275,7 @@ export default function Navbar() {
               </button>
 
               {isToolsOpen && (
-                <div className="absolute right-0 mt-2 w-[480px] rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-4 shadow-xl ring-1 ring-black/5 focus:outline-none grid grid-cols-2 gap-4 max-h-[85vh] overflow-y-auto">
+                <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-[480px] rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-4 shadow-xl ring-1 ring-black/5 focus:outline-none grid grid-cols-2 gap-4 max-h-[85vh] overflow-y-auto">
                   {categorizedTools.map((cat) => (
                     <div key={cat.categoryName} className="space-y-1">
                       <div className="px-2 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-800 pb-1 mb-2">
