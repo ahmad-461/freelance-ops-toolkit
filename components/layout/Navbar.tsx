@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
+import Logo from "@/components/shared/Logo";
 import { usePathname } from "next/navigation";
 import {
   ChevronDown,
@@ -45,6 +46,36 @@ export default function Navbar() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const pathname = usePathname();
+
+  // Scroll tracking state
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [shouldAnimate, setShouldAnimate] = useState(true);
+
+  useEffect(() => {
+    // Respect prefers-reduced-motion
+    if (typeof window !== "undefined") {
+      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      setShouldAnimate(!mediaQuery.matches);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    // Run once on mount to handle initial state if started scrolled
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   // Handle auto tracking of visited tools
   useEffect(() => {
@@ -274,18 +305,26 @@ export default function Navbar() {
     },
   ];
 
+  // Dynamically compute navbar classes based on scroll state
+  const navbarClasses = isScrolled
+    ? "bg-white/85 dark:bg-gray-950/85 backdrop-blur-md shadow-sm border-b border-gray-200/50 dark:border-gray-800/50 py-3"
+    : "bg-transparent border-b border-transparent py-4";
+
+  const transitionClasses = shouldAnimate ? "transition-all duration-300 ease-in-out" : "";
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md">
+    <header className={`sticky top-0 z-50 w-full ${navbarClasses} ${transitionClasses}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-16 items-center justify-between gap-4">
           {/* Logo & Brand */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center flex-shrink-0">
             <Link
               href="/"
-              className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold text-xl hover:opacity-90 transition-opacity"
+              className="flex items-center gap-2.5 text-blue-600 dark:text-blue-400 font-bold text-xl hover:opacity-90 transition-opacity"
+              aria-label="Freelance Ops Home"
             >
-              <Briefcase className="w-6 h-6" />
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
+              <Logo size={34} className="flex-shrink-0" />
+              <span className="hidden md:inline bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent font-extrabold tracking-tight">
                 Freelance Ops
               </span>
             </Link>
@@ -295,7 +334,7 @@ export default function Navbar() {
           <nav className="hidden md:flex items-center gap-6">
             <Link
               href="/"
-              className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              className="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
               Home
             </Link>
@@ -304,16 +343,18 @@ export default function Navbar() {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsToolsOpen(!isToolsOpen)}
-                className="flex items-center gap-1 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors focus:outline-none"
+                className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors focus:outline-none"
+                aria-expanded={isToolsOpen}
+                aria-haspopup="true"
               >
                 Tools
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform ${isToolsOpen ? "rotate-180" : ""}`}
+                  className={`w-4 h-4 transition-transform duration-200 ${isToolsOpen ? "rotate-180" : ""}`}
                 />
               </button>
 
               {isToolsOpen && (
-                <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-[480px] rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-4 shadow-xl ring-1 ring-black/5 focus:outline-none grid grid-cols-2 gap-4 max-h-[85vh] overflow-y-auto">
+                <div className="absolute left-1/2 -translate-x-1/2 mt-3 w-[480px] rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-4 shadow-xl ring-1 ring-black/5 focus:outline-none grid grid-cols-2 gap-4 max-h-[85vh] overflow-y-auto z-50">
                   {categorizedTools.map((cat) => (
                     <div key={cat.categoryName} className="space-y-1">
                       <div className="px-2 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-800 pb-1 mb-2">
@@ -352,7 +393,7 @@ export default function Navbar() {
           </nav>
 
           {/* Right Action Items */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4 ml-auto">
             {/* Desktop CMD+K Search Shortcut button */}
             <button
               onClick={openCommandPalette}
@@ -369,7 +410,7 @@ export default function Navbar() {
             {user ? (
               <div className="flex items-center gap-3 pl-2 border-l border-gray-200 dark:border-gray-800">
                 <span
-                  className="text-xs font-medium text-gray-500 dark:text-gray-400 max-w-[150px] truncate"
+                  className="text-xs font-semibold text-gray-500 dark:text-gray-400 max-w-[150px] truncate"
                   title={user.email}
                 >
                   {user.email}
@@ -393,8 +434,8 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <div className="flex items-center gap-2 md:hidden">
+          {/* Mobile Menu Toggle / Quick Search */}
+          <div className="flex items-center gap-2 md:hidden ml-auto">
             <ThemeToggle />
             {/* Mobile quick search icon button placed next to hamburger menu toggle */}
             <button
@@ -406,7 +447,9 @@ export default function Navbar() {
             </button>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-850"
+              className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-850 transition-colors"
+              aria-expanded={isMobileMenuOpen}
+              aria-label="Toggle mobile menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
