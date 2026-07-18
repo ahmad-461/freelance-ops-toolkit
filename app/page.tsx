@@ -200,14 +200,14 @@ export default function Home() {
           <p className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-gray-500 dark:text-gray-400">
             A privacy-first, ultra-fast suite of professional client management tools designed to streamline your business workflows. Zero logins, infinite capability.
           </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link
-              href="/tools/invoice-generator"
+          <div id="hero-cta" className="mt-10 flex flex-wrap justify-center gap-4">
+            <a
+              href="#tools-section"
               className="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3.5 shadow-md shadow-blue-500/10 transition-all hover:scale-[1.01]"
             >
-              Get Started with Invoicing
+              Browse All Tools
               <ArrowRight className="w-5 h-5" />
-            </Link>
+            </a>
           </div>
         </div>
 
@@ -243,7 +243,7 @@ export default function Home() {
       </section>
 
       {/* Tools Section */}
-      <section className="py-16 sm:py-24">
+      <section id="tools-section" className="py-16 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center md:text-left mb-16">
             <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">Explore our Suite of 15 Tools</h2>
