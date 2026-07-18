@@ -98,6 +98,24 @@ export default function PrivacyPage() {
               <span className="font-semibold text-gray-900 dark:text-white select-all">YOUR_EMAIL@example.com</span>. Upon verification, we will permanently purge your account and all associated saved data from our database.
             </li>
           </ul>
+
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
+            5. Browser Storage & Cookies
+          </h2>
+          <p>
+            To enhance your experience, we use minimal local browser storage and secure cookies. Specifically:
+          </p>
+          <ul className="list-disc pl-5 space-y-2">
+            <li>
+              <strong>Local Storage:</strong> We use <code>localStorage</code> solely to remember your theme preference (dark or light mode) so the site displays correctly on your next visit.
+            </li>
+            <li>
+              <strong>Auth Cookies:</strong> For signed-in users, standard Supabase session and authentication cookies are stored to keep you securely logged in to your account.
+            </li>
+            <li>
+              <strong>No Tracking:</strong> We do not use any marketing cookies, third-party analytics trackers, or advertising trackers of any kind on this website.
+            </li>
+          </ul>
         </div>
 
       </div>

@@ -177,7 +177,7 @@ export default function Home() {
     },
     {
       title: "No Account Required",
-      description: "Skip the signup and registration. Get straight to work generating assets for your client operations immediately.",
+      description: "Most tools require no signup at all. A free account is only needed for the two tools that save data over time (Time Tracker and Scope Estimator).",
       icon: CheckCircle,
     },
   ];
@@ -318,13 +318,13 @@ export default function Home() {
             <div className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-gray-200/50 dark:border-gray-800/50">
               <h4 className="font-bold text-gray-900 dark:text-white">Are my invoices stored on any server?</h4>
               <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                No. All invoice operations, calculations, state, and PDF compilation are executed 100% on your local machine using React state. Once you refresh or leave the page, the data is completely cleared unless cloud-synced using our Time Tracker operations.
+                No. Your invoice data stays entirely in your browser and is never sent to or stored on our servers. If you navigate away or refresh the page, the data is cleared. (Note: the Time Tracker tool is a separate, optional feature that does save data to your account if you&apos;re signed in &mdash; see our Privacy Policy for details.)
               </p>
             </div>
             <div className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-gray-200/50 dark:border-gray-800/50">
-              <h4 className="font-bold text-gray-900 dark:text-white">Why does the generated PDF look perfectly formatted compared to screenshots?</h4>
+              <h4 className="font-bold text-gray-900 dark:text-white">What file format do my downloaded documents come in?</h4>
               <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                We render the PDF inside an A4 fixed layout (794px width) offset from the viewport, avoiding viewport/device responsive scaling issues. This ensures the output is always professional, perfectly aligned, and consistent.
+                All documents and invoices are exported as high-quality, print-ready PDF files. This ensures your documents look identical and professional across all devices and printers.
               </p>
             </div>
           </div>
