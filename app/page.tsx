@@ -21,6 +21,8 @@ import {
   Zap,
   Play,
   Pause,
+  Search,
+  X,
 } from "lucide-react";
 
 export default function Home() {
@@ -167,6 +169,33 @@ export default function Home() {
       ],
     },
   ];
+
+  // Search state
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Escape") {
+      setSearchQuery("");
+    }
+  };
+
+  // Live real-time search filtering
+  const filteredCategorizedTools = categorizedTools
+    .map((category) => {
+      const matchedTools = category.tools.filter((tool) => {
+        const query = searchQuery.toLowerCase().trim();
+        if (!query) return true;
+        return (
+          tool.title.toLowerCase().includes(query) ||
+          tool.description.toLowerCase().includes(query)
+        );
+      });
+      return {
+        ...category,
+        tools: matchedTools,
+      };
+    })
+    .filter((category) => category.tools.length > 0);
 
   // Hero Mockup Active Tabs
   const [activeTab, setActiveTab] = useState<"invoice" | "proposal" | "contract">("invoice");
@@ -548,7 +577,8 @@ export default function Home() {
       <section id="tools-section" className="py-16 sm:py-24 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          <div className="text-center md:text-left mb-16 border-b border-slate-200/50 dark:border-slate-800/50 pb-8">
+          {/* Section Header */}
+          <div className="text-center md:text-left mb-12 border-b border-slate-200/50 dark:border-slate-800/50 pb-8">
             <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white sm:text-4xl tracking-tight">
               Operational Toolkit
             </h2>
@@ -557,67 +587,111 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="space-y-16">
-            {categorizedTools.map((category) => (
-              <div key={category.categoryName} className="space-y-6">
-
-                {/* Category Header */}
-                <div className="flex items-center gap-3 border-b border-slate-100 dark:border-slate-850 pb-3">
-                  <span className="px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                    {category.badge}
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
-                    {category.categoryName}
-                  </h3>
-                </div>
-
-                {/* Sub Grid of Tools under Category */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-                  {category.tools.map((tool) => {
-                    const Icon = tool.icon;
-                    return (
-                      <div
-                        key={tool.title}
-                        className="group relative rounded-xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-[#0c0d12] p-6 sm:p-8 shadow-sm hover:shadow-md hover:border-blue-500/40 dark:hover:border-blue-500/40 transition-all flex flex-col justify-between"
-                      >
-                        <div>
-                          {/* Top Tag badge inside cards */}
-                          <div className="absolute top-6 right-6 inline-flex items-center rounded bg-slate-50 dark:bg-slate-900 px-2 py-0.5 text-[10px] font-semibold text-slate-500 dark:text-slate-400 border border-slate-100 dark:border-slate-800/40">
-                            {tool.badge}
-                          </div>
-
-                          {/* Icon Accent */}
-                          <div className="p-3 rounded-lg bg-blue-600 text-white w-12 h-12 flex items-center justify-center shadow-md shadow-blue-500/10 group-hover:scale-105 transition-transform duration-200">
-                            <Icon className="w-5 h-5" />
-                          </div>
-
-                          <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-6">
-                            {tool.title}
-                          </h4>
-
-                          {/* text-slate-600 meets AAA/AA on white; text-slate-400 meets AA on dark obsidian */}
-                          <p className="text-slate-600 dark:text-slate-400 mt-3 text-sm leading-relaxed">
-                            {tool.description}
-                          </p>
-                        </div>
-
-                        {/* Open Tool CTA Link footer */}
-                        <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/50">
-                          <Link
-                            href={tool.href}
-                            className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors"
-                          >
-                            Launch Utility
-                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                          </Link>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
+          {/* Search / Filter Input */}
+          <div className="flex justify-center mb-16">
+            <div className="relative w-full max-w-2xl group">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                <Search className="w-5 h-5 text-slate-400 dark:text-slate-500 group-focus-within:text-blue-500 transition-colors" />
+              </span>
+              <input
+                type="text"
+                placeholder="Search tools... (e.g. invoice, contract, rate)"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
+                className="w-full pl-11 pr-12 py-3.5 bg-white dark:bg-[#0c0d12] text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800/80 rounded-2xl shadow-sm hover:border-slate-300 dark:hover:border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base placeholder-slate-400 dark:placeholder-slate-500"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  className="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                  aria-label="Clear search"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              )}
+            </div>
           </div>
+
+          {/* Category Directory & Tool List */}
+          {filteredCategorizedTools.length > 0 ? (
+            <div className="space-y-16">
+              {filteredCategorizedTools.map((category) => (
+                <div key={category.categoryName} className="space-y-6">
+
+                  {/* Category Header */}
+                  <div className="flex items-center gap-3 border-b border-slate-100 dark:border-slate-850 pb-3">
+                    <span className="px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                      {category.badge}
+                    </span>
+                    <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+                      {category.categoryName}
+                    </h3>
+                  </div>
+
+                  {/* Sub Grid of Tools under Category */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                    {category.tools.map((tool) => {
+                      const Icon = tool.icon;
+                      return (
+                        <div
+                          key={tool.title}
+                          className="group relative rounded-xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-[#0c0d12] p-6 sm:p-8 shadow-sm hover:shadow-md hover:border-blue-500/40 dark:hover:border-blue-500/40 transition-all flex flex-col justify-between"
+                        >
+                          <div>
+                            {/* Top Tag badge inside cards */}
+                            <div className="absolute top-6 right-6 inline-flex items-center rounded bg-slate-50 dark:bg-slate-900 px-2 py-0.5 text-[10px] font-semibold text-slate-500 dark:text-slate-400 border border-slate-100 dark:border-slate-800/40">
+                              {tool.badge}
+                            </div>
+
+                            {/* Icon Accent */}
+                            <div className="p-3 rounded-lg bg-blue-600 text-white w-12 h-12 flex items-center justify-center shadow-md shadow-blue-500/10 group-hover:scale-105 transition-transform duration-200">
+                              <Icon className="w-5 h-5" />
+                            </div>
+
+                            <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-6">
+                              {tool.title}
+                            </h4>
+
+                            {/* text-slate-600 meets AAA/AA on white; text-slate-400 meets AA on dark obsidian */}
+                            <p className="text-slate-600 dark:text-slate-400 mt-3 text-sm leading-relaxed">
+                              {tool.description}
+                            </p>
+                          </div>
+
+                          {/* Open Tool CTA Link footer */}
+                          <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/50">
+                            <Link
+                              href={tool.href}
+                              className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors"
+                            >
+                              Launch Utility
+                              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            /* Friendly Empty Search State */
+            <div className="text-center py-16 px-4 bg-white dark:bg-[#0c0d12] border border-slate-200 dark:border-slate-800/80 rounded-2xl max-w-xl mx-auto space-y-4 shadow-sm">
+              <div className="inline-flex items-center justify-center p-3.5 rounded-full bg-slate-50 dark:bg-slate-900 text-slate-400 dark:text-slate-500">
+                <Search className="w-7 h-7" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                No tools found
+              </h3>
+              <p className="text-slate-600 dark:text-slate-400 text-sm max-w-md mx-auto leading-relaxed">
+                No tools found for &ldquo;<span className="font-semibold text-blue-600 dark:text-blue-400">{searchQuery}</span>&rdquo;. Try a different search.
+              </p>
+            </div>
+          )}
+
         </div>
       </section>
 
