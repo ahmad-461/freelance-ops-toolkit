@@ -23,6 +23,8 @@ import {
   Pause,
   Search,
   X,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import FeaturedToolsRow from "@/components/layout/FeaturedToolsRow";
 import { toolsRegistry, ToolItem } from "@/lib/tools-registry";
@@ -90,6 +92,20 @@ export default function Home() {
       window.removeEventListener("storage", loadVisitedTools);
     };
   }, []);
+
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // Search state
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    if (!searchQuery) {
+      setIsExpanded(false);
+    }
+  }, [searchQuery]);
+
+  const popularTools = POPULAR_TOOL_SLUGS.map(slug => toolsRegistry.find(t => t.slug === slug)).filter(Boolean) as ToolItem[];
+
   const categorizedTools = [
     {
       categoryName: "Billing & Financial",
@@ -233,9 +249,6 @@ export default function Home() {
       ],
     },
   ];
-
-  // Search state
-  const [searchQuery, setSearchQuery] = useState("");
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Escape") {
@@ -637,26 +650,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 2.5: Popular / Recently Used Tools Row + View All Button */}
-      <div className="relative">
-        <FeaturedToolsRow
-          title={isRecentState ? "Continue Where You Left Off" : "Popular Tools"}
-          tools={visitedTools}
-          isRecentState={isRecentState}
-          timestamps={visitedTimestamps}
-        />
-
-        {/* View All Tools Primary CTA Button */}
-        <div className="flex justify-center bg-slate-50/50 dark:bg-[#07080d]/60 border-b border-slate-200/50 dark:border-slate-900/60 pb-12">
-          <a
-            href="#tools-section"
-            className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 text-white font-bold px-8 py-4 shadow-lg shadow-blue-500/20 transition-all hover:scale-[1.01]"
-          >
-            View All 15 Tools
-            <ArrowRight className="w-5 h-5" />
-          </a>
+      {/* SECTION 2.5: Popular / Recently Used Tools Row (Only visible if history exists) */}
+      {isRecentState && visitedTools.length > 0 && (
+        <div className="relative">
+          <FeaturedToolsRow
+            title="Continue Where You Left Off"
+            tools={visitedTools}
+            isRecentState={isRecentState}
+            timestamps={visitedTimestamps}
+          />
         </div>
-      </div>
+      )}
 
       {/* SECTION 3: The Categorized 15-Tool Directory Grid */}
       <section id="tools-section" className="py-16 sm:py-24 scroll-mt-20">
@@ -699,25 +703,92 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Category Directory & Tool List */}
-          {filteredCategorizedTools.length > 0 ? (
-            <div className="space-y-16">
-              {filteredCategorizedTools.map((category) => (
-                <div key={category.categoryName} className="space-y-6">
+          {/* Main Directory Area */}
+          {searchQuery ? (
+            /* Search Override View - always categorized matching tools */
+            filteredCategorizedTools.length > 0 ? (
+              <div className="space-y-16 animate-fadeIn">
+                {filteredCategorizedTools.map((category) => (
+                  <div key={category.categoryName} className="space-y-6">
+                    {/* Category Header */}
+                    <div className="flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+                      <span className="px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                        {category.badge}
+                      </span>
+                      <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+                        {category.categoryName}
+                      </h3>
+                    </div>
 
-                  {/* Category Header */}
-                  <div className="flex items-center gap-3 border-b border-slate-100 dark:border-slate-850 pb-3">
-                    <span className="px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                      {category.badge}
-                    </span>
-                    <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
-                      {category.categoryName}
-                    </h3>
+                    {/* Sub Grid of Tools under Category */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                      {category.tools.map((tool) => {
+                        const Icon = tool.icon;
+                        return (
+                          <div
+                            key={tool.title}
+                            className="group relative rounded-xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-[#0c0d12] p-6 sm:p-8 shadow-sm hover:shadow-md hover:border-blue-500/40 dark:hover:border-blue-500/40 transition-all flex flex-col justify-between"
+                          >
+                            <div>
+                              {/* Top Tag badge inside cards */}
+                              <div className="absolute top-6 right-6 inline-flex items-center rounded bg-slate-50 dark:bg-slate-900 px-2 py-0.5 text-[10px] font-semibold text-slate-500 dark:text-slate-400 border border-slate-100 dark:border-slate-800/40">
+                                {tool.badge}
+                              </div>
+
+                              {/* Icon Accent */}
+                              <div className="p-3 rounded-lg bg-blue-600 text-white w-12 h-12 flex items-center justify-center shadow-md shadow-blue-500/10 group-hover:scale-105 transition-transform duration-200">
+                                <Icon className="w-5 h-5" />
+                              </div>
+
+                              <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-6">
+                                {tool.title}
+                              </h4>
+
+                              {/* text-slate-600 meets AAA/AA on white; text-slate-400 meets AA on dark obsidian */}
+                              <p className="text-slate-600 dark:text-slate-400 mt-3 text-sm leading-relaxed">
+                                {tool.description}
+                              </p>
+                            </div>
+
+                            {/* Open Tool CTA Link footer */}
+                            <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/50">
+                              <Link
+                                href={tool.href}
+                                className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors"
+                              >
+                                Launch Utility
+                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                              </Link>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-
-                  {/* Sub Grid of Tools under Category */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-                    {category.tools.map((tool) => {
+                ))}
+              </div>
+            ) : (
+              /* Friendly Empty Search State */
+              <div className="text-center py-16 px-4 bg-white dark:bg-[#0c0d12] border border-slate-200 dark:border-slate-800/80 rounded-2xl max-w-xl mx-auto space-y-4 shadow-sm">
+                <div className="inline-flex items-center justify-center p-3.5 rounded-full bg-slate-50 dark:bg-slate-900 text-slate-400 dark:text-slate-500">
+                  <Search className="w-7 h-7" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                  No tools found
+                </h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm max-w-md mx-auto leading-relaxed">
+                  No tools found for &ldquo;<span className="font-semibold text-blue-600 dark:text-blue-400">{searchQuery}</span>&rdquo;. Try a different search.
+                </p>
+              </div>
+            )
+          ) : (
+            /* Default State View (Collapsed to 5 popular flat grid, or expanded to all 15 categorized) */
+            <div className="space-y-12">
+              {!isExpanded ? (
+                /* Flat Unified Grid of 5 Popular Tools (No Categories) */
+                <div className="space-y-10 animate-fadeIn">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                    {popularTools.map((tool) => {
                       const Icon = tool.icon;
                       return (
                         <div
@@ -725,9 +796,9 @@ export default function Home() {
                           className="group relative rounded-xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-[#0c0d12] p-6 sm:p-8 shadow-sm hover:shadow-md hover:border-blue-500/40 dark:hover:border-blue-500/40 transition-all flex flex-col justify-between"
                         >
                           <div>
-                            {/* Top Tag badge inside cards */}
+                            {/* Top Tag/Category badge inside cards */}
                             <div className="absolute top-6 right-6 inline-flex items-center rounded bg-slate-50 dark:bg-slate-900 px-2 py-0.5 text-[10px] font-semibold text-slate-500 dark:text-slate-400 border border-slate-100 dark:border-slate-800/40">
-                              {tool.badge}
+                              {tool.category}
                             </div>
 
                             {/* Icon Accent */}
@@ -739,7 +810,6 @@ export default function Home() {
                               {tool.title}
                             </h4>
 
-                            {/* text-slate-600 meets AAA/AA on white; text-slate-400 meets AA on dark obsidian */}
                             <p className="text-slate-600 dark:text-slate-400 mt-3 text-sm leading-relaxed">
                               {tool.description}
                             </p>
@@ -759,21 +829,91 @@ export default function Home() {
                       );
                     })}
                   </div>
+
+                  {/* Expand CTA Button */}
+                  <div className="flex justify-center pt-4">
+                    <button
+                      onClick={() => setIsExpanded(true)}
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 text-white font-bold px-8 py-4 shadow-lg shadow-blue-500/20 transition-all hover:scale-[1.01]"
+                    >
+                      View All 15 Tools
+                      <ChevronDown className="w-5 h-5" />
+                    </button>
+                  </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            /* Friendly Empty Search State */
-            <div className="text-center py-16 px-4 bg-white dark:bg-[#0c0d12] border border-slate-200 dark:border-slate-800/80 rounded-2xl max-w-xl mx-auto space-y-4 shadow-sm">
-              <div className="inline-flex items-center justify-center p-3.5 rounded-full bg-slate-50 dark:bg-slate-900 text-slate-400 dark:text-slate-500">
-                <Search className="w-7 h-7" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                No tools found
-              </h3>
-              <p className="text-slate-600 dark:text-slate-400 text-sm max-w-md mx-auto leading-relaxed">
-                No tools found for &ldquo;<span className="font-semibold text-blue-600 dark:text-blue-400">{searchQuery}</span>&rdquo;. Try a different search.
-              </p>
+              ) : (
+                /* Full Categorized Listing (all 6 categories, all 15 tools) */
+                <div className="space-y-16 animate-fadeIn">
+                  {categorizedTools.map((category) => (
+                    <div key={category.categoryName} className="space-y-6">
+                      {/* Category Header */}
+                      <div className="flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+                        <span className="px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                          {category.badge}
+                        </span>
+                        <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+                          {category.categoryName}
+                        </h3>
+                      </div>
+
+                      {/* Sub Grid of Tools under Category */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                        {category.tools.map((tool) => {
+                          const Icon = tool.icon;
+                          return (
+                            <div
+                              key={tool.title}
+                              className="group relative rounded-xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-[#0c0d12] p-6 sm:p-8 shadow-sm hover:shadow-md hover:border-blue-500/40 dark:hover:border-blue-500/40 transition-all flex flex-col justify-between"
+                            >
+                              <div>
+                                {/* Top Tag badge inside cards */}
+                                <div className="absolute top-6 right-6 inline-flex items-center rounded bg-slate-50 dark:bg-slate-900 px-2 py-0.5 text-[10px] font-semibold text-slate-500 dark:text-slate-400 border border-slate-100 dark:border-slate-800/40">
+                                  {tool.badge}
+                                </div>
+
+                                {/* Icon Accent */}
+                                <div className="p-3 rounded-lg bg-blue-600 text-white w-12 h-12 flex items-center justify-center shadow-md shadow-blue-500/10 group-hover:scale-105 transition-transform duration-200">
+                                  <Icon className="w-5 h-5" />
+                                </div>
+
+                                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-6">
+                                  {tool.title}
+                                </h4>
+
+                                <p className="text-slate-600 dark:text-slate-400 mt-3 text-sm leading-relaxed">
+                                  {tool.description}
+                                </p>
+                              </div>
+
+                              {/* Open Tool CTA Link footer */}
+                              <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/50">
+                                <Link
+                                  href={tool.href}
+                                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors"
+                                >
+                                  Launch Utility
+                                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                </Link>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Collapse CTA Button */}
+                  <div className="flex justify-center pt-8 border-t border-slate-200/50 dark:border-slate-800/50">
+                    <button
+                      onClick={() => setIsExpanded(false)}
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-semibold px-8 py-4 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+                    >
+                      Show Less
+                      <ChevronUp className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
