@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import Link from "next/link";
+import LinkComponent from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import Logo from "@/components/shared/Logo";
 import { usePathname } from "next/navigation";
@@ -18,15 +18,11 @@ import {
   FileSignature,
   Shield,
   ClipboardList,
-  LogIn,
-  LogOut,
   Clock,
   Layers,
   TrendingUp,
   Search,
 } from "lucide-react";
-import { supabase } from "@/lib/supabase";
-import { User as SupabaseUser } from "@supabase/supabase-js";
 
 interface ToolItem {
   name: string;
@@ -44,7 +40,6 @@ export default function Navbar() {
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [user, setUser] = useState<SupabaseUser | null>(null);
   const pathname = usePathname();
 
   // Scroll tracking state
@@ -124,27 +119,6 @@ export default function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  // Listen to Auth State Changes
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-    window.location.reload();
-  };
 
   // Reorganized categories and tools as requested
   const categorizedTools: ToolCategory[] = [
@@ -307,10 +281,59 @@ export default function Navbar() {
 
   // Dynamically compute navbar classes based on scroll state
   const navbarClasses = isScrolled
-    ? "bg-white dark:bg-gray-950 shadow-sm border-b border-gray-200/50 dark:border-gray-800/50 py-3"
+    ? "bg-blue-600 border-b border-blue-700/50 shadow-md py-3 text-white"
     : "bg-transparent border-b border-transparent py-4";
 
   const transitionClasses = shouldAnimate ? "transition-all duration-300 ease-in-out" : "";
+
+  // Dynamic class selections for components inside Navbar
+  const logoClasses = isScrolled
+    ? "text-white flex-shrink-0"
+    : "text-blue-600 dark:text-blue-400 flex-shrink-0";
+
+  const brandTextClasses = isScrolled
+    ? "hidden md:inline text-white font-extrabold tracking-tight"
+    : "hidden md:inline bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent font-extrabold tracking-tight";
+
+  const linkClasses = isScrolled
+    ? "text-blue-100 hover:text-white"
+    : "text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400";
+
+  const searchBtnClasses = isScrolled
+    ? "inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-blue-500 bg-blue-700/60 hover:bg-blue-700 text-blue-100 hover:text-white text-xs font-mono transition-all"
+    : "inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50/50 hover:bg-gray-100 dark:bg-gray-900/50 dark:hover:bg-gray-900 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 text-xs font-mono transition-all";
+
+  const kbdClasses = isScrolled
+    ? "inline-flex items-center gap-0.5 rounded border border-blue-400 bg-blue-800 px-1.5 text-[9px] font-sans font-medium text-blue-200 shadow-sm"
+    : "inline-flex items-center gap-0.5 rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 px-1.5 text-[9px] font-sans font-medium text-gray-400 dark:text-gray-500 shadow-sm";
+
+  const themeToggleClasses = isScrolled
+    ? "p-2 rounded-lg bg-blue-700 text-blue-100 hover:bg-blue-800 hover:text-white transition-colors focus:outline-none"
+    : "p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500";
+
+  const mobileToggleClasses = isScrolled
+    ? "p-2 rounded-lg text-blue-100 hover:text-white hover:bg-blue-700 transition-colors"
+    : "p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-850 transition-colors";
+
+  const mobileMenuContainerClasses = isScrolled
+    ? "md:hidden border-t border-blue-700 bg-blue-600 px-4 py-3 space-y-4 max-h-[85vh] overflow-y-auto text-white"
+    : "md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-3 space-y-4 max-h-[85vh] overflow-y-auto";
+
+  const mobileHomeLinkClasses = isScrolled
+    ? "block text-base font-semibold text-blue-100 hover:text-white py-1 border-b border-blue-500 pb-2"
+    : "block text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-blue-600 py-1 border-b border-gray-100 dark:border-gray-900 pb-2";
+
+  const mobileCatClasses = isScrolled
+    ? "text-[10px] font-bold text-blue-200 uppercase tracking-wider px-1"
+    : "text-[10px] font-bold text-gray-400 uppercase tracking-wider px-1";
+
+  const mobileItemClasses = isScrolled
+    ? "flex items-center gap-3 rounded-lg p-2 hover:bg-blue-700 text-blue-100 hover:text-white transition-colors"
+    : "flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors";
+
+  const mobileItemIconClasses = isScrolled
+    ? "w-4 h-4 text-blue-200 flex-shrink-0"
+    : "w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0";
 
   return (
     <header className={`sticky top-0 z-50 w-full ${navbarClasses} ${transitionClasses}`}>
@@ -318,32 +341,32 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Logo & Brand */}
           <div className="flex items-center flex-shrink-0">
-            <Link
+            <LinkComponent
               href="/"
-              className="flex items-center gap-2.5 text-blue-600 dark:text-blue-400 font-bold text-xl hover:opacity-90 transition-opacity"
+              className="flex items-center gap-2.5 font-bold text-xl hover:opacity-90 transition-opacity"
               aria-label="Freelance Ops Home"
             >
-              <Logo size={34} className="flex-shrink-0" />
-              <span className="hidden md:inline bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent font-extrabold tracking-tight">
+              <Logo size={34} className={logoClasses} />
+              <span className={brandTextClasses}>
                 Freelance Ops
               </span>
-            </Link>
+            </LinkComponent>
           </div>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-6">
-            <Link
+            <LinkComponent
               href="/"
-              className="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              className={`text-sm font-semibold transition-colors ${linkClasses}`}
             >
               Home
-            </Link>
+            </LinkComponent>
 
             {/* Tools Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsToolsOpen(!isToolsOpen)}
-                className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors focus:outline-none"
+                className={`flex items-center gap-1.5 text-sm font-semibold transition-colors focus:outline-none ${linkClasses}`}
                 aria-expanded={isToolsOpen}
                 aria-haspopup="true"
               >
@@ -364,7 +387,7 @@ export default function Navbar() {
                         {cat.items.map((tool) => {
                           const Icon = tool.icon;
                           return (
-                            <Link
+                            <LinkComponent
                               key={tool.name}
                               href={tool.href}
                               onClick={() => setIsToolsOpen(false)}
@@ -381,7 +404,7 @@ export default function Navbar() {
                                   {tool.description}
                                 </div>
                               </div>
-                            </Link>
+                            </LinkComponent>
                           );
                         })}
                       </div>
@@ -397,57 +420,32 @@ export default function Navbar() {
             {/* Desktop CMD+K Search Shortcut button */}
             <button
               onClick={openCommandPalette}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50/50 hover:bg-gray-100 dark:bg-gray-900/50 dark:hover:bg-gray-900 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 text-xs font-mono transition-all"
+              className={searchBtnClasses}
               title="Search utilities (Cmd+K)"
             >
               <Search className="w-3.5 h-3.5" />
               <span>Search...</span>
-              <kbd className="inline-flex items-center gap-0.5 rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 px-1.5 text-[9px] font-sans font-medium text-gray-400 dark:text-gray-500 shadow-sm">
+              <kbd className={kbdClasses}>
                 <span>⌘</span><span>K</span>
               </kbd>
             </button>
-            <ThemeToggle />
-            {user ? (
-              <div className="flex items-center gap-3 pl-2 border-l border-gray-200 dark:border-gray-800">
-                <span
-                  className="text-xs font-semibold text-gray-500 dark:text-gray-400 max-w-[150px] truncate"
-                  title={user.email}
-                >
-                  {user.email}
-                </span>
-                <button
-                  onClick={handleSignOut}
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/30 px-2.5 py-1.5 rounded-lg transition-colors"
-                >
-                  <LogOut className="w-3.5 h-3.5" />
-                  Sign Out
-                </button>
-              </div>
-            ) : (
-              <Link
-                href="/login"
-                className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 shadow-sm transition-all"
-              >
-                <LogIn className="w-3.5 h-3.5" />
-                Sign In
-              </Link>
-            )}
+            <ThemeToggle className={themeToggleClasses} />
           </div>
 
           {/* Mobile Menu Toggle / Quick Search */}
           <div className="flex items-center gap-2 md:hidden ml-auto">
-            <ThemeToggle />
+            <ThemeToggle className={themeToggleClasses} />
             {/* Mobile quick search icon button placed next to hamburger menu toggle */}
             <button
               onClick={openCommandPalette}
-              className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-850 transition-colors"
+              className={mobileToggleClasses}
               aria-label="Search utilities"
             >
               <Search className="w-5 h-5" />
             </button>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-850 transition-colors"
+              className={mobileToggleClasses}
               aria-expanded={isMobileMenuOpen}
               aria-label="Toggle mobile menu"
             >
@@ -459,68 +457,37 @@ export default function Navbar() {
 
       {/* Mobile Menu dropdown */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-3 space-y-4 max-h-[85vh] overflow-y-auto">
-          <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-900 pb-3">
-            {user ? (
-              <>
-                <div className="flex flex-col gap-1">
-                  <span className="text-xs text-gray-400 dark:text-gray-500">Logged in as</span>
-                  <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 max-w-[200px] truncate">
-                    {user.email}
-                  </span>
-                </div>
-                <button
-                  onClick={() => {
-                    handleSignOut();
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-red-600 px-2.5 py-1.5 rounded bg-red-50 dark:bg-red-950/30"
-                >
-                  <LogOut className="w-3.5 h-3.5" />
-                  Sign Out
-                </button>
-              </>
-            ) : (
-              <Link
-                href="/login"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="w-full text-center inline-flex items-center justify-center gap-1.5 text-xs font-bold bg-blue-600 text-white px-3 py-2 rounded-lg"
-              >
-                <LogIn className="w-3.5 h-3.5" />
-                Sign In
-              </Link>
-            )}
-          </div>
-          <Link
+        <div className={mobileMenuContainerClasses}>
+          <LinkComponent
             href="/"
             onClick={() => setIsMobileMenuOpen(false)}
-            className="block text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-blue-600 py-1 border-b border-gray-100 dark:border-gray-900 pb-2"
+            className={mobileHomeLinkClasses}
           >
             Home
-          </Link>
+          </LinkComponent>
           <div className="space-y-4">
             {categorizedTools.map((cat) => (
               <div key={cat.categoryName} className="space-y-2">
-                <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider px-1">
+                <div className={mobileCatClasses}>
                   {cat.categoryName}
                 </div>
                 <div className="space-y-1">
                   {cat.items.map((tool) => {
                     const Icon = tool.icon;
                     return (
-                      <Link
+                      <LinkComponent
                         key={tool.name}
                         href={tool.href}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
+                        className={mobileItemClasses}
                       >
-                        <Icon className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+                        <Icon className={mobileItemIconClasses} />
                         <div className="min-w-0">
-                          <div className="text-sm font-medium text-gray-800 dark:text-gray-100 truncate">
+                          <div className="text-sm font-medium truncate">
                             {tool.name}
                           </div>
                         </div>
-                      </Link>
+                      </LinkComponent>
                     );
                   })}
                 </div>
