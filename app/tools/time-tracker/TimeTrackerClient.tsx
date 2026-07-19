@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
-import { User as SupabaseUser } from "@supabase/supabase-js";
 import { ToolHero } from "@/components/layout/ToolHero";
 import { TimeTrackerVisual } from "@/components/layout/ToolHeroVisuals";
 import {
@@ -13,7 +11,6 @@ import {
   Receipt,
   Play,
   Square,
-  Info,
   Calendar,
   DollarSign,
   CheckCircle,
@@ -32,9 +29,7 @@ interface TimeEntry {
 
 export default function TimeTracker() {
   const router = useRouter();
-  const [user, setUser] = useState<SupabaseUser | null>(null);
-  const [loadingUser, setLoadingUser] = useState(true);
-  const [loadingEntries, setLoadingEntries] = useState(false);
+  const [loadingEntries, setLoadingEntries] = useState(true);
   const [entries, setEntries] = useState<TimeEntry[]>([]);
   const [selectedEntries, setSelectedEntries] = useState<Record<string, boolean>>({});
 
@@ -54,45 +49,29 @@ export default function TimeTracker() {
   const [seconds, setSeconds] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Load user
+  // Load entries from sessionStorage on mount
   useEffect(() => {
-    async function checkUser() {
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        setUser(user);
-        if (user) {
-          fetchEntries(user.id);
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoadingUser(false);
+    try {
+      const stored = sessionStorage.getItem("time_tracker_entries");
+      if (stored) {
+        setEntries(JSON.parse(stored));
       }
+    } catch (e) {
+      console.error("Failed to load time entries from sessionStorage", e);
+    } finally {
+      setLoadingEntries(false);
     }
-    checkUser();
 
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
   }, []);
 
-  // Fetch entries
-  const fetchEntries = async (userId: string) => {
-    setLoadingEntries(true);
+  const saveToSessionStorage = (newEntries: TimeEntry[]) => {
     try {
-      const { data, error } = await supabase
-        .from("time_entries")
-        .select("*")
-        .eq("user_id", userId)
-        .order("date", { ascending: false })
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-      setEntries((data as TimeEntry[]) || []);
-    } catch (err: unknown) {
-      console.error("Error fetching entries:", err);
-    } finally {
-      setLoadingEntries(false);
+      sessionStorage.setItem("time_tracker_entries", JSON.stringify(newEntries));
+    } catch (e) {
+      console.error("Failed to save time entries to sessionStorage", e);
     }
   };
 
@@ -120,29 +99,23 @@ export default function TimeTracker() {
     const calculatedHours = Math.max(0.01, parseFloat((seconds / 3600).toFixed(2)));
     const generatedDescription = description.trim() || `Session on ${clientName}`;
 
-    if (!user) return;
-
     try {
-      const { data, error } = await supabase
-        .from("time_entries")
-        .insert({
-          user_id: user.id,
-          client_name: clientName,
-          hourly_rate: hourlyRate,
-          description: generatedDescription,
-          hours: calculatedHours,
-          date: dateInput,
-        })
-        .select();
+      const newEntry: TimeEntry = {
+        id: `time-entry-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+        client_name: clientName,
+        hourly_rate: hourlyRate,
+        description: generatedDescription,
+        hours: calculatedHours,
+        date: dateInput,
+      };
 
-      if (error) throw error;
+      const updatedEntries = [newEntry, ...entries];
+      setEntries(updatedEntries);
+      saveToSessionStorage(updatedEntries);
 
-      if (data) {
-        setEntries(prev => [data[0] as TimeEntry, ...prev]);
-        // Reset timer inputs
-        setSeconds(0);
-        setDescription("");
-      }
+      // Reset timer inputs
+      setSeconds(0);
+      setDescription("");
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : "Failed to save time entry";
       alert(errMsg);
@@ -172,31 +145,25 @@ export default function TimeTracker() {
       return;
     }
 
-    if (!user) return;
-
     setFormError(null);
     try {
-      const { data, error } = await supabase
-        .from("time_entries")
-        .insert({
-          user_id: user.id,
-          client_name: clientName,
-          hourly_rate: hourlyRate,
-          description,
-          hours: Number(hoursInput),
-          date: dateInput,
-        })
-        .select();
+      const newEntry: TimeEntry = {
+        id: `time-entry-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+        client_name: clientName,
+        hourly_rate: hourlyRate,
+        description,
+        hours: Number(hoursInput),
+        date: dateInput,
+      };
 
-      if (error) throw error;
+      const updatedEntries = [newEntry, ...entries];
+      setEntries(updatedEntries);
+      saveToSessionStorage(updatedEntries);
 
-      if (data) {
-        setEntries(prev => [data[0] as TimeEntry, ...prev]);
-        // Reset fields
-        setDescription("");
-        setHoursInput("");
-        setTouched({});
-      }
+      // Reset fields
+      setDescription("");
+      setHoursInput("");
+      setTouched({});
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : "Failed to save time entry";
       alert(errMsg);
@@ -208,13 +175,10 @@ export default function TimeTracker() {
     if (!confirm("Are you sure you want to delete this time entry?")) return;
 
     try {
-      const { error } = await supabase
-        .from("time_entries")
-        .delete()
-        .eq("id", id);
+      const updatedEntries = entries.filter(e => e.id !== id);
+      setEntries(updatedEntries);
+      saveToSessionStorage(updatedEntries);
 
-      if (error) throw error;
-      setEntries(prev => prev.filter(e => e.id !== id));
       setSelectedEntries(prev => {
         const next = { ...prev };
         delete next[id];
@@ -265,60 +229,11 @@ export default function TimeTracker() {
     return `${h}:${m}:${s}`;
   };
 
-  if (loadingUser) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-3">
-          <Clock className="w-10 h-10 text-blue-600 animate-spin" />
-          <p className="text-sm text-gray-500 dark:text-gray-400 font-semibold">Loading Time Tracker...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Gated UI (Prompt to Sign In)
-  if (!user) {
-    return (
-      <div className="bg-gray-50 dark:bg-gray-950 min-h-screen pb-16 transition-colors duration-200">
-        <ToolHero
-          title="Time Tracker"
-          description="Log hours, run live tracking sessions, and instantly prefill your professional client invoices. Managed seamlessly in the cloud."
-          actionLabel="Log In to Start ↓"
-          visual={<TimeTrackerVisual />}
-        />
-
-        <div id="tool-form" className="scroll-mt-12 max-w-xl mx-auto text-center space-y-6 bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-200/80 dark:border-gray-800/80 shadow-lg mt-8">
-          <div className="inline-flex items-center justify-center p-4 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 mb-2">
-            <Clock className="w-12 h-12" />
-          </div>
-          <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white">Access Time Tracker</h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-md mx-auto">
-            Log, track, and manage your billable hours per client. You can convert your logged hours directly into beautiful PDF invoices in a single click!
-          </p>
-          <div className="p-4 bg-blue-50/50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/30 rounded-xl text-xs text-blue-800 dark:text-blue-300 flex items-start gap-2.5 text-left leading-normal">
-            <Info className="w-5 h-5 flex-shrink-0 text-blue-500" />
-            <span>
-              <strong>Account Required:</strong> Because your logged times need to persist securely between sessions, you must be logged in to access this tool. Signing up is free and takes 10 seconds.
-            </span>
-          </div>
-          <div className="pt-4">
-            <button
-              onClick={() => router.push("/login")}
-              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3.5 shadow-md hover:scale-[1.01] transition-all"
-            >
-              Sign In / Create Account
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen pb-16 transition-colors duration-200">
       <ToolHero
         title="Time Tracker"
-        description="Log hours, run live tracking sessions, and instantly prefill your professional client invoices. Managed seamlessly in the cloud."
+        description="Log hours, run live tracking sessions, and instantly prefill your professional client invoices. Fully client-side and session-only."
         actionLabel="Track Time ↓"
         visual={<TimeTrackerVisual />}
       />
@@ -564,7 +479,7 @@ export default function TimeTracker() {
               {loadingEntries ? (
                 <div className="py-12 text-center space-y-2">
                   <div className="w-8 h-8 border-2 border-blue-600/30 border-t-blue-600 rounded-full animate-spin mx-auto" />
-                  <p className="text-xs text-gray-400 dark:text-gray-500">Retrieving cloud entries...</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500">Retrieving logged entries...</p>
                 </div>
               ) : entries.length === 0 ? (
                 <div className="py-16 text-center max-w-sm mx-auto space-y-3">
@@ -649,7 +564,7 @@ export default function TimeTracker() {
 
         <ToolSeoContent
           h2Title="Track Billable Hours Seamlessly with a Freelance Time Tracker Free"
-          intro="Accurately tracking where your working hours are spent is vital for protecting your freelance profitability. Manual spreadsheets are easily forgotten and prone to calculation errors. Our free freelance time tracker offers live stopwatch recording and manual logging, allowing you to organize your client billable hours and sync them securely to the cloud."
+          intro="Accurately tracking where your working hours are spent is vital for protecting your freelance profitability. Manual spreadsheets are easily forgotten and prone to calculation errors. Our free freelance time tracker offers live stopwatch recording and manual logging, allowing you to organize your client billable hours and track them inside your browser session."
           sections={[
             {
               title: "Why Accurate Time Tracking is Vital for Freelancers",

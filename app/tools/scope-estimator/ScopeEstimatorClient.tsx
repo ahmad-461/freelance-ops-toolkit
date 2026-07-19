@@ -1,18 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
-import { User as SupabaseUser } from "@supabase/supabase-js";
 import { ToolHero } from "@/components/layout/ToolHero";
 import { ScopeEstimatorVisual } from "@/components/layout/ToolHeroVisuals";
 import {
-  Save,
-  Trash2,
   Plus,
   Info,
   Layers,
-  FolderOpen
+  Trash2
 } from "lucide-react";
 import ToolSeoContent from "@/components/layout/ToolSeoContent";
 
@@ -21,18 +16,6 @@ interface Deliverable {
   name: string;
   complexity: "Simple" | "Medium" | "Complex";
   checked: boolean;
-}
-
-interface SavedEstimate {
-  id: string;
-  project_type: string;
-  inputs: {
-    deliverables: { name: string; complexity: string }[];
-  };
-  estimated_hours_min: number;
-  estimated_hours_max: number;
-  suggested_timeline: string;
-  created_at: string;
 }
 
 const PROJECT_TYPES = [
@@ -67,53 +50,10 @@ const COMPLEXITY_HOURS = {
 };
 
 export default function ScopeEstimator() {
-  const router = useRouter();
-  const [user, setUser] = useState<SupabaseUser | null>(null);
-  const [loadingUser, setLoadingUser] = useState(true);
-  const [loadingEstimates, setLoadingEstimates] = useState(false);
-  const [savedEstimates, setSavedEstimates] = useState<SavedEstimate[]>([]);
-
   // Project Type & Deliverables list state
   const [projectType, setProjectType] = useState("Website");
   const [deliverables, setDeliverables] = useState<Deliverable[]>([]);
   const [customItemName, setCustomItemName] = useState("");
-
-  // Load User & Saved Estimates
-  useEffect(() => {
-    async function checkUser() {
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        setUser(user);
-        if (user) {
-          fetchSavedEstimates(user.id);
-        }
-      } catch (err) {
-        console.error("Error retrieving user session:", err);
-      } finally {
-        setLoadingUser(false);
-      }
-    }
-    checkUser();
-  }, []);
-
-  // Fetch Saved Estimates
-  const fetchSavedEstimates = async (userId: string) => {
-    setLoadingEstimates(true);
-    try {
-      const { data, error } = await supabase
-        .from("scope_estimates")
-        .select("*")
-        .eq("user_id", userId)
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-      setSavedEstimates((data as SavedEstimate[]) || []);
-    } catch (err: unknown) {
-      console.error("Error fetching saved estimates:", err);
-    } finally {
-      setLoadingEstimates(false);
-    }
-  };
 
   // Populate deliverables whenever project type changes
   useEffect(() => {
@@ -177,84 +117,11 @@ export default function ScopeEstimator() {
   const suggestedWeeks = Math.max(1, Math.round(midpoint / 25));
   const suggestedTimeline = `${suggestedWeeks} Week${suggestedWeeks > 1 ? "s" : ""}`;
 
-  // Save Estimate
-  const saveEstimate = async () => {
-    if (!user) {
-      alert("Please sign in or register to save estimates.");
-      return;
-    }
-
-    if (selectedDeliverables.length === 0) {
-      alert("Please select or add at least one deliverable to save.");
-      return;
-    }
-
-    try {
-      const inputs = {
-        deliverables: selectedDeliverables.map(d => ({
-          name: d.name,
-          complexity: d.complexity
-        }))
-      };
-
-      const { data, error } = await supabase
-        .from("scope_estimates")
-        .insert({
-          user_id: user.id,
-          project_type: projectType,
-          inputs,
-          estimated_hours_min: estimatedMinHours,
-          estimated_hours_max: estimatedMaxHours,
-          suggested_timeline: suggestedTimeline
-        })
-        .select();
-
-      if (error) throw error;
-
-      if (data) {
-        setSavedEstimates(prev => [data[0] as SavedEstimate, ...prev]);
-        alert("Estimate saved successfully!");
-      }
-    } catch (err: unknown) {
-      const errMsg = err instanceof Error ? err.message : "Failed to save estimate";
-      alert(errMsg);
-    }
-  };
-
-  // Delete Estimate
-  const deleteEstimate = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this saved estimate?")) return;
-
-    try {
-      const { error } = await supabase
-        .from("scope_estimates")
-        .delete()
-        .eq("id", id);
-
-      if (error) throw error;
-      setSavedEstimates(prev => prev.filter(e => e.id !== id));
-    } catch (err: unknown) {
-      const errMsg = err instanceof Error ? err.message : "Failed to delete saved estimate";
-      alert(errMsg);
-    }
-  };
-
-  if (loadingUser) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-3">
-          <Layers className="w-10 h-10 text-blue-600 animate-spin" />
-          <p className="text-sm text-gray-500 dark:text-gray-400 font-semibold">Loading Scope Estimator...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen pb-16 transition-colors duration-200">
       <ToolHero
         title="Project Scope Estimator"
-        description="Estimate precise hour ranges and client-ready project timelines mapped directly to deliverable complexity rules. No account required to estimate."
+        description="Estimate precise hour ranges and client-ready project timelines mapped directly to deliverable complexity rules. Fully client-side calculator."
         actionLabel="Estimate Scope ↓"
         visual={<ScopeEstimatorVisual />}
       />
@@ -440,90 +307,9 @@ export default function ScopeEstimator() {
                       Timeline is estimated using a standard developer pace of <strong>~25 billable hours/week</strong> based on the midpoint of the hours range.
                     </span>
                   </div>
-
-                  {/* Action buttons (Sign in to Save OR Save directly) */}
-                  {user ? (
-                    <button
-                      onClick={saveEstimate}
-                      className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 text-sm transition-all shadow-md shadow-blue-500/10"
-                    >
-                      <Save className="w-4 h-4" /> Save This Estimate
-                    </button>
-                  ) : (
-                    <div className="p-4 bg-gray-50 dark:bg-gray-950 border border-gray-100 dark:border-gray-850 rounded-xl space-y-3">
-                      <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-normal">
-                        <strong>Want to save this?</strong> Create a free account or log in to persist this scope estimate.
-                      </p>
-                      <button
-                        onClick={() => router.push("/login")}
-                        className="w-full inline-flex items-center justify-center gap-1 rounded-xl bg-gray-200 dark:bg-gray-850 hover:bg-gray-300 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold py-2 text-xs transition-colors"
-                      >
-                        Sign In / Register to Save
-                      </button>
-                    </div>
-                  )}
                 </div>
               )}
             </div>
-
-            {/* Cloud Saved Estimates section */}
-            {user && (
-              <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/80 dark:border-gray-800/80 p-6 shadow-sm">
-                <h2 className="text-sm font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2 pb-2 border-b border-gray-100 dark:border-gray-850">
-                  <FolderOpen className="w-4 h-4 text-blue-500" />
-                  My Saved Estimates
-                </h2>
-
-                {loadingEstimates ? (
-                  <div className="text-center py-6 text-gray-400 space-y-1.5">
-                    <div className="w-6 h-6 border-2 border-blue-600/30 border-t-blue-600 rounded-full animate-spin mx-auto" />
-                    <p className="text-[10px]">Syncing with database...</p>
-                  </div>
-                ) : savedEstimates.length === 0 ? (
-                  <div className="text-center py-8 text-gray-400 space-y-1">
-                    <p className="text-xs font-semibold">No saved estimates yet</p>
-                    <p className="text-[10px]">Your saved estimations will be listed here.</p>
-                  </div>
-                ) : (
-                  <div className="space-y-3 max-h-[350px] overflow-y-auto pr-1">
-                    {savedEstimates.map((est) => (
-                      <div
-                        key={est.id}
-                        className="p-3 rounded-xl border border-gray-100 dark:border-gray-850 bg-gray-50/40 dark:bg-gray-950/20 text-xs space-y-2 relative group"
-                      >
-                        <div className="flex justify-between items-start gap-4">
-                          <div className="min-w-0">
-                            <span className="inline-block px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-400 font-bold text-[9px] uppercase tracking-wider mb-1">
-                              {est.project_type}
-                            </span>
-                            <div className="font-bold text-gray-900 dark:text-white truncate">
-                              {est.inputs.deliverables.length} Deliverable{est.inputs.deliverables.length > 1 ? "s" : ""}
-                            </div>
-                          </div>
-                          <button
-                            onClick={() => deleteEstimate(est.id)}
-                            className="text-gray-400 hover:text-red-500 p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
-                            title="Delete estimate"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-
-                        {/* Summary specifications */}
-                        <div className="grid grid-cols-2 gap-2 pt-1.5 border-t border-gray-100/60 dark:border-gray-850/60 text-[10px] text-gray-500 dark:text-gray-400 font-medium">
-                          <div>Range: <span className="font-bold text-gray-800 dark:text-gray-200">{est.estimated_hours_min}-{est.estimated_hours_max} hrs</span></div>
-                          <div>Timeline: <span className="font-bold text-emerald-600 dark:text-emerald-400">~{est.suggested_timeline}</span></div>
-                        </div>
-
-                        <div className="text-[9px] text-gray-400 pt-0.5">
-                          Saved: {new Date(est.created_at).toLocaleDateString()}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
 
           </div>
 

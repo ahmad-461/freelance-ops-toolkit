@@ -66,24 +66,24 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative bg-white dark:bg-gray-950 text-gray-500 dark:text-gray-400">
+    <footer className="relative bg-blue-600 text-blue-100">
       {/* Subtle top border with gradient */}
       <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500" />
 
       <div className="max-w-7xl mx-auto px-4 pt-14 pb-12 sm:px-6 lg:px-8">
 
         {/* Desktop Grid & Mobile Accordion */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-8 border-b border-gray-200 dark:border-gray-800">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-8 border-b border-blue-500/50">
 
           {/* Column 1 - Brand */}
           <div className="space-y-4 pr-4">
             <div className="flex items-center gap-2">
-              <Logo size={28} className="text-blue-600 dark:text-blue-400" />
-              <span className="font-extrabold text-gray-900 dark:text-gray-100 text-lg tracking-tight">
+              <Logo size={28} className="text-white" />
+              <span className="font-extrabold text-white text-lg tracking-tight">
                 Freelance Ops
               </span>
             </div>
-            <p className="text-xs sm:text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+            <p className="text-xs sm:text-sm leading-relaxed text-blue-100">
               Free tools for freelancers to manage clients, contracts, and cash flow.
             </p>
           </div>
@@ -94,19 +94,19 @@ export default function Footer() {
             return (
               <div
                 key={col.key}
-                className="border-t border-gray-100 dark:border-gray-900/50 pt-5 md:pt-0 md:border-t-0"
+                className="border-t border-blue-500/50 pt-5 md:pt-0 md:border-t-0"
               >
                 {/* Desktop Heading */}
-                <h3 className="hidden md:block font-bold text-gray-900 dark:text-gray-100 uppercase tracking-widest text-xs mb-4">
+                <h3 className="hidden md:block font-bold text-white uppercase tracking-widest text-xs mb-4">
                   {col.title}
                 </h3>
                 {/* Mobile Header (Accordion Trigger) */}
                 <button
                   onClick={() => toggleSection(col.key)}
-                  className="flex md:hidden items-center justify-between w-full font-bold text-gray-900 dark:text-gray-100 uppercase tracking-widest text-xs py-2"
+                  className="flex md:hidden items-center justify-between w-full font-bold text-white uppercase tracking-widest text-xs py-2"
                 >
                   <span>{col.title}</span>
-                  {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                  {isExpanded ? <ChevronUp className="w-4 h-4 text-blue-200" /> : <ChevronDown className="w-4 h-4 text-blue-200" />}
                 </button>
 
                 {/* Links List */}
@@ -121,10 +121,10 @@ export default function Footer() {
                       <li key={link.href}>
                         <Link
                           href={link.href}
-                          className={`hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-150 block py-1 ${
+                          className={`hover:text-white transition-colors duration-150 block py-1 ${
                             isViewAll
-                              ? "font-medium text-gray-700 dark:text-gray-300"
-                              : ""
+                              ? "font-medium text-white"
+                              : "text-blue-100"
                           }`}
                         >
                           {link.label}
@@ -140,24 +140,23 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 text-xs text-gray-400 dark:text-gray-500">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 text-xs text-blue-200">
 
           <div className="text-center sm:text-left space-y-1">
             <p>&copy; {currentYear} Freelance Ops Toolkit. All rights reserved.</p>
             <p>
-              Built by <span className="font-semibold text-gray-700 dark:text-gray-300">Ahmad Khan</span>
+              Built by <span className="font-semibold text-white">Ahmad Khan</span>
             </p>
           </div>
 
-          <div className="flex items-center gap-4">
-            <Link href="/privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+          <div className="flex items-center gap-4 text-blue-200">
+            <Link href="/privacy" className="hover:text-white transition-colors">
               Privacy
             </Link>
             <span>|</span>
-            <Link href="/terms" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+            <Link href="/terms" className="hover:text-white transition-colors">
               Terms
             </Link>
-            {/* Omit Sitemap gracefully as no sitemap.xml exists yet */}
           </div>
 
         </div>
