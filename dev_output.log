@@ -1,0 +1,23 @@
+
+> freelance-ops-toolkit@0.1.0 dev
+> next dev --turbopack
+
+ ⚠ Port 3000 is in use, trying 3001 instead.
+   ▲ Next.js 15.1.11 (Turbopack)
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.0.2:3001
+
+ ✓ Starting...
+ ✓ Ready in 1533ms
+ ○ Compiling / ...
+ ✓ Compiled / in 6.9s
+ GET / 200 in 8018ms
+ ○ Compiling /tools/invoice-generator ...
+ ✓ Compiled /tools/invoice-generator in 5.1s
+ GET /tools/invoice-generator 200 in 5356ms
+ GET / 200 in 138ms
+ GET /tools/invoice-generator 200 in 283ms
+ GET / 200 in 121ms
+ GET / 200 in 111ms
+ GET /tools/invoice-generator 200 in 279ms
+ GET / 200 in 110ms

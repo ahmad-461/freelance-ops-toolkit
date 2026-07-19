@@ -80,6 +80,26 @@ export default function Home() {
     }
   };
 
+  const handleRemoveVisitedTool = (slugToRemove: string) => {
+    if (typeof window === "undefined") return;
+    try {
+      const stored = localStorage.getItem("visited_tools");
+      if (stored) {
+        let visits: { slug: string; timestamp: number }[] = JSON.parse(stored);
+        visits = visits.filter((item) => item.slug !== slugToRemove);
+        localStorage.setItem("visited_tools", JSON.stringify(visits));
+
+        // Dispatch custom event to notify layout/other parts if needed
+        window.dispatchEvent(new Event("storage_visited_tools_updated"));
+
+        // Reload state locally immediately
+        loadVisitedTools();
+      }
+    } catch (e) {
+      console.error("Failed to remove visited tool", e);
+    }
+  };
+
   useEffect(() => {
     loadVisitedTools();
 
@@ -658,6 +678,7 @@ export default function Home() {
             tools={visitedTools}
             isRecentState={isRecentState}
             timestamps={visitedTimestamps}
+            onRemove={handleRemoveVisitedTool}
           />
         </div>
       )}
