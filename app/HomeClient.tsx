@@ -93,6 +93,32 @@ export default function Home() {
     };
   }, []);
 
+  // Delete/dismiss item from visited tools list in localStorage
+  const handleRemoveRecent = (slug: string) => {
+    if (typeof window === "undefined") return;
+    try {
+      const stored = localStorage.getItem("visited_tools");
+      if (stored) {
+        let visits: { slug: string; timestamp: number }[] = JSON.parse(stored);
+        visits = visits.filter((item) => item.slug !== slug);
+
+        if (visits.length > 0) {
+          localStorage.setItem("visited_tools", JSON.stringify(visits));
+        } else {
+          localStorage.removeItem("visited_tools");
+        }
+
+        // Dispatch custom storage updated event to notify of history change
+        window.dispatchEvent(new Event("storage_visited_tools_updated"));
+
+        // Directly trigger load of updated tools to immediately sync client state
+        loadVisitedTools();
+      }
+    } catch (e) {
+      console.error("Failed to remove tool from visited tools history", e);
+    }
+  };
+
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Search state
@@ -658,6 +684,7 @@ export default function Home() {
             tools={visitedTools}
             isRecentState={isRecentState}
             timestamps={visitedTimestamps}
+        onRemoveRecent={handleRemoveRecent}
           />
         </div>
       )}
