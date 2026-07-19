@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Briefcase, ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import Logo from "@/components/shared/Logo";
 
 interface FooterLink {
   label: string;
@@ -77,7 +78,7 @@ export default function Footer() {
           {/* Column 1 - Brand */}
           <div className="space-y-4 pr-4">
             <div className="flex items-center gap-2">
-              <Briefcase className="w-5.5 h-5.5 text-blue-600 dark:text-blue-400" />
+              <Logo size={28} className="text-blue-600 dark:text-blue-400" />
               <span className="font-extrabold text-gray-900 dark:text-gray-100 text-lg tracking-tight">
                 Freelance Ops
               </span>
