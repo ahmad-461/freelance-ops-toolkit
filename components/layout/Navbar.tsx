@@ -307,7 +307,7 @@ export default function Navbar() {
 
   // Dynamically compute navbar classes based on scroll state
   const navbarClasses = isScrolled
-    ? "bg-white/85 dark:bg-gray-950/85 backdrop-blur-md shadow-sm border-b border-gray-200/50 dark:border-gray-800/50 py-3"
+    ? "bg-white dark:bg-gray-950 shadow-sm border-b border-gray-200/50 dark:border-gray-800/50 py-3"
     : "bg-transparent border-b border-transparent py-4";
 
   const transitionClasses = shouldAnimate ? "transition-all duration-300 ease-in-out" : "";

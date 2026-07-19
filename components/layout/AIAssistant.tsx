@@ -27,6 +27,7 @@ export default function AIAssistant() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [shouldAnimate, setShouldAnimate] = useState(false);
+  const [isVisibleOnMobile, setIsVisibleOnMobile] = useState(true);
 
   const panelRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -42,6 +43,30 @@ export default function AIAssistant() {
         sessionStorage.setItem("ai-assistant-animated", "true");
       }
     }
+  }, []);
+
+  // Track scroll and resize to hide on mobile viewports when near the top of the page (< 100px)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleScrollAndResize = () => {
+      const isMobile = window.innerWidth < 768;
+      if (isMobile && window.scrollY < 100) {
+        setIsVisibleOnMobile(false);
+      } else {
+        setIsVisibleOnMobile(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScrollAndResize);
+    window.addEventListener("resize", handleScrollAndResize);
+    // Initial evaluation
+    handleScrollAndResize();
+
+    return () => {
+      window.removeEventListener("scroll", handleScrollAndResize);
+      window.removeEventListener("resize", handleScrollAndResize);
+    };
   }, []);
 
   // Manage body scroll and focus when panel opens
@@ -237,21 +262,21 @@ Operational boundaries & guidelines:
   return (
     <>
       {/* Part A — Trigger Floating Action Button */}
-      <button
-        ref={triggerRef}
-        onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 z-[90] flex items-center gap-2 rounded-full bg-blue-600 dark:bg-blue-500 text-white px-5 py-3 shadow-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950 font-semibold text-sm ${
-          shouldAnimate
-            ? "animate-slideIn"
-            : ""
-        }`}
-        aria-label="Open AI Assistant"
-        aria-haspopup="dialog"
-        aria-expanded={isOpen}
-      >
-        <MessageSquare className="w-4 h-4" />
-        <span>Ask AI</span>
-      </button>
+      {isVisibleOnMobile && (
+        <button
+          ref={triggerRef}
+          onClick={() => setIsOpen(true)}
+          className={`fixed bottom-6 right-6 z-[90] flex items-center gap-2 rounded-full bg-blue-600 dark:bg-blue-500 text-white px-5 py-3 shadow-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-950 font-semibold text-sm ${
+            shouldAnimate ? "animate-slideIn" : ""
+          }`}
+          aria-label="Open AI Assistant"
+          aria-haspopup="dialog"
+          aria-expanded={isOpen}
+        >
+          <MessageSquare className="w-4 h-4" />
+          <span>Ask AI</span>
+        </button>
+      )}
 
       {/* Part B — Chat Panel Wrapper (Slide-in right/Mobile full-screen) */}
       {isOpen && (
