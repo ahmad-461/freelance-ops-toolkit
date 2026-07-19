@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Clock } from "lucide-react";
+import { ArrowRight, Clock, X } from "lucide-react";
 import { ToolItem } from "@/lib/tools-registry";
 
 interface FeaturedToolsRowProps {
@@ -10,6 +10,7 @@ interface FeaturedToolsRowProps {
   tools: ToolItem[];
   isRecentState: boolean;
   timestamps?: Record<string, number>;
+  onRemoveRecent?: (slug: string) => void;
 }
 
 // Function to calculate friendly relative time strings (e.g., "5 minutes ago", "2 hours ago")
@@ -38,6 +39,7 @@ export default function FeaturedToolsRow({
   tools,
   isRecentState,
   timestamps = {},
+  onRemoveRecent,
 }: FeaturedToolsRowProps) {
   if (tools.length === 0) return null;
 
@@ -72,8 +74,8 @@ export default function FeaturedToolsRow({
                 className="group relative rounded-xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-[#0c0d12] p-5 shadow-sm hover:shadow-md hover:border-blue-500/40 dark:hover:border-blue-500/40 transition-all flex flex-col justify-between"
               >
                 <div>
-                  {/* Category and Visited Timestamp Indicator */}
-                  <div className="flex items-center justify-between gap-2 mb-4">
+                  {/* Category and Visited Timestamp Indicator with Delete Button spacer */}
+                  <div className="flex items-center justify-between gap-2 mb-4 pr-6">
                     <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200/40 dark:border-slate-700/40">
                       {tool.category}
                     </span>
@@ -84,6 +86,22 @@ export default function FeaturedToolsRow({
                       </span>
                     )}
                   </div>
+
+                  {/* Optional Dismiss/Remove recent item button */}
+                  {isRecentState && onRemoveRecent && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        onRemoveRecent(tool.slug);
+                      }}
+                      className="absolute top-4 right-4 p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 opacity-70 md:opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all cursor-pointer z-10"
+                      aria-label={`Remove ${tool.title} from recent history`}
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
 
                   {/* Icon & Title */}
                   <div className="flex items-start gap-3.5">

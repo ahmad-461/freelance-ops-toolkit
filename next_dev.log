@@ -7,9 +7,9 @@
    - Network:      http://192.168.0.2:3000
 
  ✓ Starting...
- ✓ Ready in 1296ms
- ○ Compiling / ...
- ✓ Compiled / in 4.2s
- GET / 200 in 4783ms
- GET / 200 in 148ms
-[?25h
+ ✓ Ready in 1369ms
+ ○ Compiling /tools/invoice-generator ...
+ ✓ Compiled /tools/invoice-generator in 11s
+ GET /tools/invoice-generator 200 in 12405ms
+ ✓ Compiled / in 431ms
+ GET / 200 in 653ms
