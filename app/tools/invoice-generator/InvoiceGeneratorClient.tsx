@@ -35,6 +35,31 @@ const CURRENCIES = [
   { code: "INR", symbol: "₹", label: "INR (₹)" },
 ];
 
+const formatInvoiceDate = (dateStr: string) => {
+  if (!dateStr) return "-";
+  try {
+    const parts = dateStr.split("-");
+    if (parts.length !== 3) return dateStr;
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const day = parseInt(parts[2], 10);
+    const date = new Date(year, month, day);
+    if (isNaN(date.getTime())) return dateStr;
+
+    const dayNum = date.getDate();
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    const monthName = months[date.getMonth()];
+    const fullYear = date.getFullYear();
+
+    return `${dayNum} ${monthName} ${fullYear}`;
+  } catch {
+    return dateStr;
+  }
+};
+
 export default function InvoiceGenerator() {
   // Core Form State
   const [businessName, setBusinessName] = useState("");
@@ -644,155 +669,178 @@ export default function InvoiceGenerator() {
             </div>
 
             {/* Simulated Live Preview Page */}
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-850 bg-white dark:bg-gray-900 p-6 sm:p-8 shadow-lg text-gray-800 dark:text-gray-100 transition-colors">
-              <div className="relative flex justify-between items-start gap-4 mb-8">
-                <div>
-                  {logo ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={logo} alt="Logo preview" className="max-h-12 max-w-[120px] object-contain mb-3" />
-                  ) : null}
-                  <h3 className="text-base font-bold text-gray-900 dark:text-white leading-tight">
-                    {businessName || "Your Business Name"}
-                  </h3>
-                  <p className="text-xs text-gray-400 dark:text-gray-500 whitespace-pre-line mt-1.5 leading-normal">
-                    {businessAddress || "Your Business Address\nCountry"}
-                  </p>
+            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-[#FAF9F6] dark:bg-[#12131a] p-6 sm:p-8 shadow-lg text-slate-900 dark:text-slate-100 transition-colors overflow-hidden relative">
+              {/* Geometric Background Accents */}
+              <div className="absolute inset-0 pointer-events-none opacity-20 dark:opacity-10">
+                {/* Elegant ticks, thin hairlines */}
+                <div className="absolute top-4 left-4 w-4 h-4 border-t border-l border-slate-900 dark:border-white" />
+                <div className="absolute top-4 right-4 w-4 h-4 border-t border-r border-slate-900 dark:border-white" />
+                <div className="absolute bottom-4 left-4 w-4 h-4 border-b border-l border-slate-900 dark:border-white" />
+                <div className="absolute bottom-4 right-4 w-4 h-4 border-b border-r border-slate-900 dark:border-white" />
+
+                {/* Thin horizontal lines */}
+                <div className="absolute top-[18%] left-0 right-0 h-[1px] bg-slate-900/10 dark:bg-white/10" />
+                <div className="absolute top-[35%] left-0 right-0 h-[1px] bg-slate-900/10 dark:bg-white/10" />
+                <div className="absolute bottom-[20%] left-0 right-0 h-[1px] bg-slate-900/10 dark:bg-white/10" />
+              </div>
+
+              {/* Main Content (Spacious, Minimalist Stacked Layout with Off-center Asymmetrical Elements) */}
+              <div className="relative z-10 space-y-8 text-left">
+
+                {/* Top Section: Giant "INVOICE" Title + Prominent Top-Right Invoice Number & Details */}
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-6">
+                  <div>
+                    {/* Giant, bold uppercase INVOICE */}
+                    <h3 className="text-4xl font-black tracking-[0.2em] uppercase font-sans text-slate-900 dark:text-white leading-none">
+                      INVOICE
+                    </h3>
+                    <div className="h-[2px] bg-slate-900 dark:bg-white w-16 mt-4" />
+                  </div>
+
+                  {/* Prominent Top-Right Invoice Number */}
+                  <div className="text-left sm:text-right">
+                    <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-none">
+                      INVOICE NO.
+                    </span>
+                    <span className="block text-2xl font-black text-blue-600 dark:text-blue-500 tracking-wider mt-1.5">
+                      #{invoiceNumber || "DRAFT"}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="text-right relative pr-8">
-                  {/* Geometric Accent Element */}
-                  <div
-                    className="absolute top-0 right-0 w-6 h-6 bg-blue-600 dark:bg-blue-500"
-                    style={{ clipPath: "polygon(100% 0, 0 0, 100% 100%)" }}
-                  />
-
+                {/* Sub-header details block: Business on the left, Dates stacked on the right */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-slate-900/5 dark:border-white/5">
+                  {/* Business details */}
                   <div className="space-y-3">
-                    <div>
-                      <span className="block text-[9px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest leading-none">
-                        INVOICE NO.
-                      </span>
-                      <h4 className="text-lg font-black text-gray-900 dark:text-white mt-1">
-                        #{invoiceNumber || "DRAFT"}
-                      </h4>
-                    </div>
+                    {logo ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={logo} alt="Logo preview" className="max-h-12 max-w-[120px] object-contain mb-2" />
+                    ) : null}
+                    <h4 className="text-xs font-bold tracking-wider uppercase text-slate-850 dark:text-slate-200">
+                      {businessName || "Your Business Name"}
+                    </h4>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 whitespace-pre-line leading-relaxed">
+                      {businessAddress || "Your Business Address\nCountry"}
+                    </p>
+                  </div>
 
-                    <div className="grid grid-cols-2 gap-3 text-right">
-                      <div>
-                        <span className="block text-[8px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest leading-none">
-                          DATE
-                        </span>
-                        <span className="block text-xs font-bold text-gray-800 dark:text-gray-200 mt-1">
-                          {invoiceDate || "-"}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="block text-[8px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest leading-none">
-                          DUE DATE
-                        </span>
-                        <span className="block text-xs font-bold text-gray-900 dark:text-white mt-1">
-                          {dueDate || "-"}
-                        </span>
-                      </div>
+                  {/* Dates stacked on the right */}
+                  <div className="flex flex-col sm:items-end justify-center gap-3">
+                    <div className="sm:text-right">
+                      <span className="block text-[8px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                        DATE OF ISSUE
+                      </span>
+                      <span className="block text-xs font-bold text-slate-800 dark:text-slate-200 mt-1 font-mono">
+                        {formatInvoiceDate(invoiceDate)}
+                      </span>
+                    </div>
+                    <div className="sm:text-right">
+                      <span className="block text-[8px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                        DUE DATE
+                      </span>
+                      <span className="block text-xs font-black text-slate-900 dark:text-white mt-1 font-mono">
+                        {formatInvoiceDate(dueDate)}
+                      </span>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* "Bill To" Boxed Section */}
-              <div className="mb-8 p-5 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-950/20">
-                <span className="block text-[9px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest leading-none">
-                  BILL TO CLIENT
-                </span>
-                <h4 className="text-base font-bold text-gray-900 dark:text-white mt-2">
-                  {clientName || "Client Name / Company"}
-                </h4>
-                {clientAddress ? (
-                  <p className="text-xs text-gray-500 dark:text-gray-400 whitespace-pre-line mt-1.5 leading-relaxed">
-                    {clientAddress}
-                  </p>
-                ) : (
-                  <p className="text-xs text-gray-400 dark:text-gray-500 italic mt-1.5">
-                    No client address specified
-                  </p>
-                )}
-              </div>
+                {/* Client Card with distinct visual character, positioned offset to the left */}
+                <div className="p-5 rounded-xl border-l-4 border-blue-600 dark:border-blue-500 bg-[#faf8f5] dark:bg-[#1c1d26] shadow-sm max-w-sm">
+                  <span className="block text-[9px] font-bold text-blue-600 dark:text-blue-500 uppercase tracking-widest mb-1.5">
+                    BILL TO CLIENT
+                  </span>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                    {clientName || "Client Name / Company"}
+                  </h4>
+                  {clientAddress ? (
+                    <p className="text-xs text-slate-500 dark:text-slate-400 whitespace-pre-line mt-1.5 leading-relaxed">
+                      {clientAddress}
+                    </p>
+                  ) : (
+                    <p className="text-xs text-slate-400 dark:text-slate-500 italic mt-1.5">
+                      No client address specified
+                    </p>
+                  )}
+                </div>
 
-              {/* Invoice table preview */}
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs mb-6">
-                  <thead>
-                    <tr className="border-b-2 border-gray-200 dark:border-gray-800 text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-wider font-bold">
-                      <th className="py-3 font-bold">Description of Services</th>
-                      <th className="py-3 pr-4 text-right font-bold w-12">Qty</th>
-                      <th className="py-3 pr-4 text-right font-bold w-20">Rate</th>
-                      <th className="py-3 text-right font-bold w-20">Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {lineItems.map((item) => (
-                      <tr key={item.id} className="border-b border-gray-150/60 dark:border-gray-800/40">
-                        <td className="py-3.5 text-gray-900 dark:text-gray-100 font-semibold pr-4 max-w-[150px] truncate" title={item.description}>
-                          {item.description || <span className="text-gray-300 dark:text-gray-700 italic">No description</span>}
-                        </td>
-                        <td className="py-3.5 pr-4 text-right text-gray-600 dark:text-gray-300 font-medium">
-                          {item.quantity}
-                        </td>
-                        <td className="py-3.5 pr-4 text-right text-gray-600 dark:text-gray-300 font-mono">
-                          {currency.symbol}{item.rate.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </td>
-                        <td className="py-3.5 text-right text-gray-900 dark:text-gray-100 font-bold font-mono">
-                          {currency.symbol}{(item.quantity * item.rate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                {/* Line Items Table spanning the full available width */}
+                <div className="border-t border-b border-slate-900/10 dark:border-white/10 py-4">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs">
+                      <thead>
+                        <tr className="text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-widest font-bold">
+                          <th className="pb-3 font-bold">Services / Deliverables</th>
+                          <th className="pb-3 px-3 text-right font-bold w-16">Qty</th>
+                          <th className="pb-3 px-3 text-right font-bold w-24">Rate</th>
+                          <th className="pb-3 text-right font-bold w-28">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-900/5 dark:divide-white/5">
+                        {lineItems.map((item) => (
+                          <tr key={item.id} className="hover:bg-slate-900/5 dark:hover:bg-white/5 transition-colors">
+                            <td className="py-3 text-slate-900 dark:text-slate-100 font-medium pr-3 max-w-[200px] truncate" title={item.description}>
+                              {item.description || <span className="text-slate-300 dark:text-slate-700 italic">No description</span>}
+                            </td>
+                            <td className="py-3 px-3 text-right text-slate-600 dark:text-slate-400 font-medium">
+                              {item.quantity}
+                            </td>
+                            <td className="py-3 px-3 text-right text-slate-600 dark:text-slate-400 font-mono">
+                              {currency.symbol}{item.rate.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </td>
+                            <td className="py-3 text-right text-slate-950 dark:text-white font-bold font-mono">
+                              {currency.symbol}{(item.quantity * item.rate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
 
-              {/* Total calculations */}
-              <div className="flex justify-end mb-8">
-                <div className="w-64 border border-gray-150 dark:border-gray-800/80 rounded-xl overflow-hidden bg-slate-50/30 dark:bg-slate-950/10 text-xs">
-                  <div className="p-3.5 space-y-2">
-                    <div className="flex justify-between text-gray-500 dark:text-gray-400">
-                      <span>Subtotal</span>
-                      <span className="font-bold text-gray-900 dark:text-gray-250 font-mono">
-                        {currency.symbol}{subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                      </span>
-                    </div>
-                    {taxRate > 0 && (
-                      <div className="flex justify-between text-gray-500 dark:text-gray-400">
-                        <span>Tax ({taxRate}%)</span>
-                        <span className="font-bold text-gray-900 dark:text-gray-250 font-mono">
-                          {currency.symbol}{taxAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {/* Bottom Row: Notes on the left, Total Highlight Box on the right (Asymmetric Layout) */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start pt-2">
+                  {/* Notes Field (Left-bottom side) */}
+                  <div className="md:col-span-6 space-y-1.5">
+                    {notes && (
+                      <>
+                        <span className="font-bold text-slate-400 dark:text-slate-500 block uppercase tracking-widest text-[9px]">
+                          Notes / Instructions
                         </span>
-                      </div>
+                        <p className="whitespace-pre-line text-[11px] leading-relaxed text-slate-600 dark:text-slate-400">{notes}</p>
+                      </>
                     )}
                   </div>
-                  {/* Highlighted Total Due Row spanning the entire width of the block */}
-                  <div className="bg-blue-600 text-white px-3.5 py-3 flex justify-between items-center text-sm font-bold">
-                    <span>Total Due</span>
-                    <span className="font-mono text-base">
-                      {currency.symbol}{grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </span>
+
+                  {/* Bold Modern Total Due Highlight Box (Right-bottom side, prominent width) */}
+                  <div className="md:col-span-6 flex justify-end">
+                    <div className="w-full sm:w-72 rounded-xl border border-blue-600/20 bg-blue-600 text-white p-5 shadow-md">
+                      <div className="space-y-2 mb-4">
+                        <div className="flex justify-between text-xs text-blue-100">
+                          <span>Subtotal</span>
+                          <span className="font-mono font-bold">
+                            {currency.symbol}{subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </span>
+                        </div>
+                        {taxRate > 0 && (
+                          <div className="flex justify-between text-xs text-blue-100">
+                            <span>Tax ({taxRate}%)</span>
+                            <span className="font-mono font-bold">
+                              {currency.symbol}{taxAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex justify-between items-center border-t border-blue-500/50 pt-3">
+                        <span className="text-xs font-black tracking-widest uppercase">Total Due</span>
+                        <span className="text-lg font-black font-mono">
+                          {currency.symbol}{grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Quiet Footer Area */}
-              <div className="mt-8 pt-4 border-t border-gray-150 dark:border-gray-800 text-[11px] text-gray-400 dark:text-gray-500 space-y-3">
-                {notes && (
-                  <div>
-                    <span className="font-bold text-gray-500 dark:text-gray-400 block mb-1 uppercase tracking-wider text-[9px]">
-                      Notes / Payment Instructions
-                    </span>
-                    <p className="whitespace-pre-line leading-relaxed text-gray-600 dark:text-gray-450">{notes}</p>
-                  </div>
-                )}
-
-                <div className="flex justify-between items-center pt-2 border-t border-gray-100 dark:border-gray-850/40 text-[10px] text-gray-400">
-                  <span>Thank you for your business!</span>
-                  <span className="font-medium">Freelance Ops Toolkit</span>
-                </div>
               </div>
             </div>
 
@@ -803,7 +851,7 @@ export default function InvoiceGenerator() {
                 : "bg-amber-50/50 dark:bg-amber-950/20 border-amber-100 dark:border-amber-900/30 text-amber-800 dark:text-amber-400"
             }`}>
               <Info className="w-5 h-5 flex-shrink-0 mt-0.5" />
-              <div className="text-xs leading-normal">
+              <div className="text-xs leading-normal text-left">
                 {isFormValid ? (
                   <div className="font-semibold flex items-center gap-1">
                     Everything is valid! Ready to download your PDF.
@@ -870,216 +918,232 @@ export default function InvoiceGenerator() {
           style={{
             width: "794px",
             minHeight: "1123px",
-            backgroundColor: "#ffffff",
-            color: "#111827",
+            backgroundColor: "#FAF9F6",
+            color: "#0f172a",
             padding: "48px",
             fontFamily: "system-ui, -apple-system, sans-serif",
-            boxSizing: "border-box"
+            boxSizing: "border-box",
+            position: "relative"
           }}
-          className="print-container text-gray-900"
+          className="print-container"
         >
-          {/* Header block */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", marginBottom: "40px", position: "relative" }}>
+          {/* Subtle Background Geometric Accents */}
+          <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, pointerEvents: "none", opacity: 0.15 }}>
+            <div style={{ position: "absolute", top: "24px", left: "24px", width: "16px", height: "16px", borderTop: "1px solid #0f172a", borderLeft: "1px solid #0f172a" }} />
+            <div style={{ position: "absolute", top: "24px", right: "24px", width: "16px", height: "16px", borderTop: "1px solid #0f172a", borderRight: "1px solid #0f172a" }} />
+            <div style={{ position: "absolute", bottom: "24px", left: "24px", width: "16px", height: "16px", borderBottom: "1px solid #0f172a", borderLeft: "1px solid #0f172a" }} />
+            <div style={{ position: "absolute", bottom: "24px", right: "24px", width: "16px", height: "16px", borderBottom: "1px solid #0f172a", borderRight: "1px solid #0f172a" }} />
 
-            {/* Left Header: Business Details */}
-            <div style={{ maxWidth: "450px" }}>
-              {logo ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={logo}
-                  alt="Business Logo"
-                  style={{ maxHeight: "64px", maxWidth: "180px", objectFit: "contain", marginBottom: "16px" }}
-                />
-              ) : null}
-              <h2 style={{ fontSize: "18px", fontWeight: "bold", color: "#111827", margin: "0 0 8px 0", lineHeight: "1.2" }}>
-                {businessName || "Your Business Name"}
-              </h2>
-              <p style={{ fontSize: "11px", color: "#4b5563", whiteSpace: "pre-line", margin: "0", lineHeight: "1.5" }}>
-                {businessAddress || "Your Business Address\nCountry"}
-              </p>
-            </div>
+            <div style={{ position: "absolute", top: "25%", left: 0, right: 0, height: "1px", backgroundColor: "#0f172a", opacity: 0.5 }} />
+            <div style={{ position: "absolute", top: "66%", left: 0, right: 0, height: "1px", backgroundColor: "#0f172a", opacity: 0.5 }} />
+            <div style={{ position: "absolute", top: 0, bottom: 0, left: "60%", width: "1px", backgroundColor: "#0f172a", opacity: 0.5 }} />
+          </div>
 
-            {/* Right Header: Invoice Metadata & Geometric Accent shape */}
-            <div style={{ textAlign: "right", minWidth: "220px", paddingRight: "28px", position: "relative" }}>
-              {/* Geometric Accent Element */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: "0",
-                  right: "0",
-                  width: "24px",
-                  height: "24px",
-                  backgroundColor: "#2563eb",
-                  clipPath: "polygon(100% 0, 0 0, 100% 100%)"
-                }}
-              />
+          {/* Grid Layout Container */}
+          <div style={{ position: "relative", zIndex: 10, display: "grid", gridTemplateColumns: "1.6fr 1fr", gap: "32px", height: "100%" }}>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                <div>
-                  <div style={{ fontSize: "9px", fontWeight: "bold", color: "#9ca3af", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: "4px" }}>
-                    INVOICE NO.
-                  </div>
-                  <h1 style={{ fontSize: "24px", fontWeight: "900", color: "#111827", margin: "0" }}>
-                    #{invoiceNumber || "DRAFT"}
-                  </h1>
-                </div>
+            {/* Left Column (Main Body) */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+              <div>
+                <h1 style={{ fontSize: "42px", fontWeight: "900", letterSpacing: "0.2em", textTransform: "uppercase", margin: "0", color: "#0f172a", lineHeight: "1" }}>
+                  INVOICE
+                </h1>
+                <div style={{ height: "2px", backgroundColor: "#0f172a", width: "48px", marginTop: "16px", marginBottom: "24px" }} />
 
-                <div style={{ display: "flex", justifyContent: "flex-end", gap: "16px" }}>
-                  <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: "8px", fontWeight: "bold", color: "#9ca3af", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: "3px" }}>
-                      DATE
-                    </div>
-                    <strong style={{ fontSize: "11px", color: "#111827" }}>{invoiceDate || "-"}</strong>
-                  </div>
-                  <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: "8px", fontWeight: "bold", color: "#9ca3af", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: "3px" }}>
-                      DUE DATE
-                    </div>
-                    <strong style={{ fontSize: "11px", color: "#111827" }}>{dueDate || "-"}</strong>
-                  </div>
+                {/* Business Profile */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {logo ? (
+                    <img
+                      src={logo}
+                      alt="Business Logo"
+                      style={{ maxHeight: "48px", maxWidth: "160px", objectFit: "contain", alignSelf: "flex-start", marginBottom: "8px" }}
+                    />
+                  ) : null}
+                  <h4 style={{ fontSize: "14px", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "1px", margin: "0", color: "#0f172a" }}>
+                    {businessName || "Your Business Name"}
+                  </h4>
+                  <p style={{ fontSize: "11px", color: "#475569", whiteSpace: "pre-line", margin: "0", lineHeight: "1.6" }}>
+                    {businessAddress || "Your Business Address\nCountry"}
+                  </p>
                 </div>
               </div>
-            </div>
 
-          </div>
+              {/* Table of Line Items */}
+              <div style={{ borderTop: "1px solid rgba(15, 23, 42, 0.1)", borderBottom: "1px solid rgba(15, 23, 42, 0.1)", paddingTop: "16px", paddingBottom: "16px" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "11px", textAlign: "left" }}>
+                  <thead>
+                    <tr style={{ color: "#94a3b8", textTransform: "uppercase", letterSpacing: "1.5px", fontWeight: "bold", fontSize: "9px" }}>
+                      <th style={{ paddingBottom: "12px", fontWeight: "bold" }}>Services / Deliverables</th>
+                      <th style={{ paddingBottom: "12px", textAlign: "right", fontWeight: "bold", width: "40px" }}>Qty</th>
+                      <th style={{ paddingBottom: "12px", textAlign: "right", fontWeight: "bold", width: "80px" }}>Rate</th>
+                      <th style={{ paddingBottom: "12px", textAlign: "right", fontWeight: "bold", width: "80px" }}>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {lineItems.map((item) => (
+                      <tr key={item.id} style={{ borderBottom: "1px solid rgba(15, 23, 42, 0.05)" }}>
+                        <td style={{ paddingTop: "12px", paddingBottom: "12px", paddingRight: "16px", fontWeight: "600", color: "#0f172a" }}>
+                          {item.description || "No description"}
+                        </td>
+                        <td style={{ paddingTop: "12px", paddingBottom: "12px", textAlign: "right", color: "#475569" }}>
+                          {item.quantity}
+                        </td>
+                        <td style={{ paddingTop: "12px", paddingBottom: "12px", textAlign: "right", color: "#475569", fontFamily: "monospace" }}>
+                          {currency.symbol}{item.rate.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </td>
+                        <td style={{ paddingTop: "12px", paddingBottom: "12px", textAlign: "right", fontWeight: "bold", color: "#0f172a", fontFamily: "monospace" }}>
+                          {currency.symbol}{(item.quantity * item.rate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
-          {/* "Bill To" Boxed Section */}
-          <div style={{
-            border: "1px solid #e5e7eb",
-            borderRadius: "12px",
-            padding: "20px",
-            backgroundColor: "#f9fafb",
-            marginBottom: "36px"
-          }}>
-            <div style={{ fontSize: "9px", fontWeight: "bold", color: "#2563eb", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: "8px" }}>
-              BILL TO CLIENT
-            </div>
-            <h3 style={{ fontSize: "14px", fontWeight: "bold", color: "#111827", margin: "0 0 6px 0" }}>
-              {clientName || "Client Name / Company"}
-            </h3>
-            {clientAddress ? (
-              <p style={{ fontSize: "11px", color: "#4b5563", whiteSpace: "pre-line", margin: "0", lineHeight: "1.5" }}>
-                {clientAddress}
-              </p>
-            ) : (
-              <p style={{ fontSize: "11px", color: "#9ca3af", fontStyle: "italic", margin: "0" }}>
-                No client address specified
-              </p>
-            )}
-          </div>
-
-          {/* Line Items Table */}
-          <div style={{ marginBottom: "36px" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
-              <thead>
-                <tr style={{ borderBottom: "2px solid #111827", color: "#111827" }}>
-                  <th style={{ padding: "12px 8px", fontSize: "9px", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "1px", width: "450px" }}>
-                    Description of Services
-                  </th>
-                  <th style={{ padding: "12px 8px", fontSize: "9px", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "1px", textAlign: "right", width: "60px" }}>
-                    Qty
-                  </th>
-                  <th style={{ padding: "12px 8px", fontSize: "9px", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "1px", textAlign: "right", width: "100px" }}>
-                    Rate
-                  </th>
-                  <th style={{ padding: "12px 8px", fontSize: "9px", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "1px", textAlign: "right", width: "100px" }}>
-                    Total
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {lineItems.map((item) => (
-                  <tr
-                    key={item.id}
-                    style={{ borderBottom: "1px solid #e5e7eb" }}
-                  >
-                    <td style={{ padding: "14px 8px", fontSize: "11px", color: "#111827", fontWeight: "600", verticalAlign: "top" }}>
-                      {item.description || "No description"}
-                    </td>
-                    <td style={{ padding: "14px 8px", fontSize: "11px", color: "#4b5563", textAlign: "right", verticalAlign: "top" }}>
-                      {item.quantity}
-                    </td>
-                    <td style={{ padding: "14px 8px", fontSize: "11px", color: "#4b5563", fontFamily: "monospace", textAlign: "right", verticalAlign: "top" }}>
-                      {currency.symbol}{item.rate.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </td>
-                    <td style={{ padding: "14px 8px", fontSize: "11px", color: "#111827", fontWeight: "bold", fontFamily: "monospace", textAlign: "right", verticalAlign: "top" }}>
-                      {currency.symbol}{(item.quantity * item.rate).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Calculations Block Box with Highlighted row */}
-          <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "40px" }}>
-            <div style={{
-              width: "256px",
-              border: "1px solid #e5e7eb",
-              borderRadius: "12px",
-              overflow: "hidden",
-              backgroundColor: "#f9fafb"
-            }}>
-              <div style={{ padding: "14px", display: "flex", flexDirection: "column", gap: "8px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px" }}>
-                  <span style={{ color: "#4b5563" }}>Subtotal:</span>
-                  <span style={{ fontWeight: "bold", color: "#111827", fontFamily: "monospace" }}>
-                    {currency.symbol}{subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              {/* Notes Field */}
+              {notes && (
+                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                  <span style={{ fontSize: "9px", fontWeight: "bold", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "1.5px" }}>
+                    Notes / Instructions
                   </span>
+                  <p style={{ fontSize: "11px", color: "#475569", whiteSpace: "pre-line", margin: "0", lineHeight: "1.6" }}>
+                    {notes}
+                  </p>
                 </div>
+              )}
+            </div>
 
-                {taxRate > 0 && (
-                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px" }}>
-                    <span style={{ color: "#4b5563" }}>Tax ({taxRate}%):</span>
-                    <span style={{ fontWeight: "bold", color: "#111827", fontFamily: "monospace" }}>
-                      {currency.symbol}{taxAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              {/* Highlighted Total row spanning the full width */}
-              <div style={{
-                backgroundColor: "#2563eb",
-                color: "#ffffff",
-                padding: "12px 14px",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                fontSize: "13px",
-                fontWeight: "bold"
-              }}>
-                <span>Total Due:</span>
-                <span style={{ fontSize: "15px", fontFamily: "monospace" }}>
-                  {currency.symbol}{grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            {/* Right Column (Sidebar details) */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px", paddingLeft: "16px" }}>
+              {/* Prominent Invoice Number */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                <span style={{ fontSize: "9px", fontWeight: "bold", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "1.5px" }}>
+                  INVOICE NO.
+                </span>
+                <span style={{ fontSize: "24px", fontWeight: "900", color: "#2563eb", letterSpacing: "1px" }}>
+                  #{invoiceNumber || "DRAFT"}
                 </span>
               </div>
 
+              {/* Client Card */}
+              <div style={{
+                padding: "16px",
+                borderRadius: "12px",
+                borderLeft: "4px solid #2563eb",
+                backgroundColor: "#FAF9F6",
+                boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
+                borderTop: "1px solid rgba(15, 23, 42, 0.05)",
+                borderRight: "1px solid rgba(15, 23, 42, 0.05)",
+                borderBottom: "1px solid rgba(15, 23, 42, 0.05)"
+              }}>
+                <span style={{ fontSize: "9px", fontWeight: "bold", color: "#2563eb", textTransform: "uppercase", letterSpacing: "1.5px", display: "block", marginBottom: "8px" }}>
+                  BILL TO CLIENT
+                </span>
+                <h4 style={{ fontSize: "13px", fontWeight: "bold", color: "#0f172a", margin: "0 0 6px 0" }}>
+                  {clientName || "Client Name / Company"}
+                </h4>
+                {clientAddress ? (
+                  <p style={{ fontSize: "11px", color: "#475569", whiteSpace: "pre-line", margin: "0", lineHeight: "1.5" }}>
+                    {clientAddress}
+                  </p>
+                ) : (
+                  <p style={{ fontSize: "11px", color: "#94a3b8", fontStyle: "italic", margin: "0" }}>
+                    No client address specified
+                  </p>
+                )}
+              </div>
+
+              {/* Stacked Dates block */}
+              <div style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "12px",
+                borderTop: "1px solid rgba(15, 23, 42, 0.05)",
+                borderBottom: "1px solid rgba(15, 23, 42, 0.05)",
+                paddingTop: "16px",
+                paddingBottom: "16px"
+              }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: "8px", fontWeight: "bold", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "1px" }}>
+                    DATE OF ISSUE:
+                  </span>
+                  <span style={{ fontSize: "11px", fontWeight: "bold", color: "#0f172a", fontFamily: "monospace" }}>
+                    {formatInvoiceDate(invoiceDate)}
+                  </span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: "8px", fontWeight: "bold", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "1px" }}>
+                    DUE DATE:
+                  </span>
+                  <span style={{ fontSize: "11px", fontWeight: "bold", color: "#0f172a", fontFamily: "monospace" }}>
+                    {formatInvoiceDate(dueDate)}
+                  </span>
+                </div>
+              </div>
+
+              {/* Bold Modern Total Due Highlight Box */}
+              <div style={{
+                borderRadius: "12px",
+                backgroundColor: "#2563eb",
+                color: "#ffffff",
+                padding: "20px",
+                boxShadow: "0 4px 6px -1px rgba(37, 99, 235, 0.2)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                gap: "16px"
+              }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", opacity: 0.9 }}>
+                    <span>Subtotal</span>
+                    <span style={{ fontFamily: "monospace", fontWeight: "bold" }}>
+                      {currency.symbol}{subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </span>
+                  </div>
+                  {taxRate > 0 && (
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", opacity: 0.9 }}>
+                      <span>Tax ({taxRate}%)</span>
+                      <span style={{ fontFamily: "monospace", fontWeight: "bold" }}>
+                        {currency.symbol}{taxAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid rgba(255, 255, 255, 0.3)", paddingTop: "12px" }}>
+                  <span style={{ fontSize: "11px", fontWeight: "900", textTransform: "uppercase", letterSpacing: "1px" }}>Total Due</span>
+                  <span style={{ fontSize: "18px", fontWeight: "900", fontFamily: "monospace" }}>
+                    {currency.symbol}{grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </span>
+                </div>
+              </div>
+
             </div>
+
           </div>
 
-          {/* Notes & payment instructions and Footer */}
-          <div style={{ marginTop: "auto", borderTop: "1px solid #e5e7eb", paddingTop: "24px" }}>
-            {notes ? (
-              <div style={{ marginBottom: "24px" }}>
-                <div style={{ fontSize: "9px", fontWeight: "bold", color: "#9ca3af", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "6px" }}>
-                  Notes / Payment Instructions
-                </div>
-                <p style={{ fontSize: "10px", color: "#4b5563", whiteSpace: "pre-line", margin: "0", lineHeight: "1.6" }}>
-                  {notes}
-                </p>
-              </div>
-            ) : null}
-
-            {/* Printed footer signature element */}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", textTransform: "uppercase", fontSize: "9px", color: "#9ca3af", letterSpacing: "0.5px" }}>
-              <span>
-                Generated via Freelance Ops Toolkit
-              </span>
-              <span style={{ fontWeight: "600" }}>
-                Thank you for your business!
-              </span>
-            </div>
+          {/* PDF Footer element at bottom */}
+          <div style={{
+            position: "absolute",
+            bottom: "48px",
+            left: "48px",
+            right: "48px",
+            borderTop: "1px solid rgba(15, 23, 42, 0.1)",
+            paddingTop: "16px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            textTransform: "uppercase",
+            fontSize: "8px",
+            color: "#94a3b8",
+            letterSpacing: "0.5px"
+          }}>
+            <span>
+              Generated via Freelance Ops Toolkit
+            </span>
+            <span style={{ fontWeight: "600" }}>
+              Thank you for your business!
+            </span>
           </div>
 
         </div>

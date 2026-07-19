@@ -7,9 +7,18 @@
    - Network:      http://192.168.0.2:3000
 
  ✓ Starting...
- ✓ Ready in 1369ms
+ ✓ Ready in 1352ms
+ ○ Compiling / ...
+ ✓ Compiled / in 4.7s
+ HEAD / 200 in 5446ms
+ GET / 200 in 142ms
+ GET / 200 in 103ms
  ○ Compiling /tools/invoice-generator ...
- ✓ Compiled /tools/invoice-generator in 11s
- GET /tools/invoice-generator 200 in 12405ms
- ✓ Compiled / in 431ms
- GET / 200 in 653ms
+ ✓ Compiled /tools/invoice-generator in 4s
+ GET /tools/invoice-generator 200 in 4824ms
+ GET / 200 in 524ms
+ GET / 200 in 125ms
+ GET /tools/invoice-generator 200 in 152ms
+ GET / 200 in 393ms
+ GET / 200 in 104ms
+ GET /tools/invoice-generator 200 in 714ms
