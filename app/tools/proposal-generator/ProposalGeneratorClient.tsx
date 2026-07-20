@@ -801,7 +801,7 @@ export default function ProposalGenerator() {
             },
             {
               title: "Transitioning from Proposal to Signed Contract",
-              prose: "Once a client approves your proposed scope of work and pricing model, immediately transition the agreed terms into a formal, binding contract. Consolidating the details of your proposal into standard legal agreements guarantees that both parties have agreed to the same scope, payment structures, and intellectual property rights before work officially begins."
+              prose: "Once a client approves your proposed scope of work and pricing model, immediately transition the agreed terms into a formal, standard contract. Consolidating the details of your proposal into standard legal agreements guarantees that both parties have agreed to the same scope, payment structures, and intellectual property rights before work officially begins."
             }
           ]}
           internalLinks={[

@@ -78,7 +78,23 @@ export default function PrivacyPage() {
           </p>
 
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
-            3. No Third-Party Tracking or Selling
+            3. AI Assistant Privacy & Data Handling
+          </h2>
+          <p>
+            The AI Assistant is a transient drafting helper. Conversations are held in-memory (React state) for your active browser session and are never saved to our servers, logs, or databases. However, to generate responses, your prompt and conversation history are sent to Google&apos;s Gemini API (via our secure serverless proxy). Google processes this data in accordance with their own API terms and privacy policy, which you can review at{" "}
+            <a
+              href="https://ai.google.dev/gemini-api/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-0.5"
+            >
+              Google Gemini API Terms of Service
+            </a>
+            . Once your session is closed or the &quot;Clear&quot; button is clicked, the chat history is permanently wiped from your browser memory.
+          </p>
+
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
+            4. No Third-Party Tracking or Selling
           </h2>
           <ul className="list-disc pl-5 space-y-2">
             <li>We do not sell, rent, or trade your personal information or account data to third parties.</li>
@@ -86,7 +102,7 @@ export default function PrivacyPage() {
           </ul>
 
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
-            4. Data Deletion & Account Closure
+            5. Data Deletion & Account Closure
           </h2>
           <p>
             If you have created an account and wish to delete it and remove all associated data, you have two options:
@@ -100,7 +116,7 @@ export default function PrivacyPage() {
           </ul>
 
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
-            5. Browser Storage & Cookies
+            6. Browser Storage & Cookies
           </h2>
           <p>
             To enhance your experience, we use minimal local browser storage and secure cookies. Specifically:
