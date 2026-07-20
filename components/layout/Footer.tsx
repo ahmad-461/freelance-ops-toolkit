@@ -66,14 +66,11 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative bg-blue-600 text-blue-100">
-      {/* Subtle top border with gradient */}
-      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500" />
-
+    <footer className="relative bg-[#090a0f] text-slate-300 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 pt-14 pb-12 sm:px-6 lg:px-8">
 
         {/* Desktop Grid & Mobile Accordion */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-8 border-b border-blue-500/50">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-8 border-b border-slate-800">
 
           {/* Column 1 - Brand */}
           <div className="space-y-4 pr-4">
@@ -83,7 +80,7 @@ export default function Footer() {
                 Freelance Ops
               </span>
             </div>
-            <p className="text-xs sm:text-sm leading-relaxed text-blue-100">
+            <p className="text-xs sm:text-sm leading-relaxed text-slate-400">
               Free tools for freelancers to manage clients, contracts, and cash flow.
             </p>
           </div>
@@ -94,7 +91,7 @@ export default function Footer() {
             return (
               <div
                 key={col.key}
-                className="border-t border-blue-500/50 pt-5 md:pt-0 md:border-t-0"
+                className="border-t border-slate-800 pt-5 md:pt-0 md:border-t-0"
               >
                 {/* Desktop Heading */}
                 <h3 className="hidden md:block font-bold text-white uppercase tracking-widest text-xs mb-4">
@@ -106,7 +103,7 @@ export default function Footer() {
                   className="flex md:hidden items-center justify-between w-full font-bold text-white uppercase tracking-widest text-xs py-2"
                 >
                   <span>{col.title}</span>
-                  {isExpanded ? <ChevronUp className="w-4 h-4 text-blue-200" /> : <ChevronDown className="w-4 h-4 text-blue-200" />}
+                  {isExpanded ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
                 </button>
 
                 {/* Links List */}
@@ -124,7 +121,7 @@ export default function Footer() {
                           className={`hover:text-white transition-colors duration-150 block py-1 ${
                             isViewAll
                               ? "font-medium text-white"
-                              : "text-blue-100"
+                              : "text-slate-400 hover:text-white"
                           }`}
                         >
                           {link.label}
@@ -140,7 +137,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 text-xs text-blue-200">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 text-xs text-slate-400">
 
           <div className="text-center sm:text-left space-y-1">
             <p>&copy; {currentYear} Freelance Ops Toolkit. All rights reserved.</p>
@@ -149,7 +146,7 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="flex items-center gap-4 text-blue-200">
+          <div className="flex items-center gap-4 text-slate-400">
             <Link href="/privacy" className="hover:text-white transition-colors">
               Privacy
             </Link>
