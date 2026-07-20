@@ -38,10 +38,142 @@ const POPULAR_TOOL_SLUGS = [
   "time-tracker",
 ];
 
+function ToolPreviewThumbnail({ slug }: { slug: string }) {
+  if (slug === "invoice-generator") {
+    return (
+      <div className="w-full h-32 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-900 p-3 flex flex-col justify-between overflow-hidden font-mono text-[9px] text-slate-600 dark:text-slate-400 select-none mb-4">
+        <div className="flex justify-between items-start border-b border-slate-100 dark:border-slate-800 pb-1.5">
+          <div className="font-bold text-slate-800 dark:text-white">INVOICE</div>
+          <div className="text-right text-[7px] text-slate-400">#INV-0824</div>
+        </div>
+        <div className="space-y-1 my-1">
+          <div className="flex justify-between border-b border-slate-100/50 dark:border-slate-800/50 pb-0.5">
+            <span>Development Services</span>
+            <span className="font-bold text-slate-850 dark:text-white">$3,200</span>
+          </div>
+          <div className="flex justify-between border-b border-slate-100/50 dark:border-slate-800/50 pb-0.5">
+            <span>UI/UX Design Spec</span>
+            <span className="font-bold text-slate-850 dark:text-white">$1,500</span>
+          </div>
+        </div>
+        <div className="bg-slate-150 dark:bg-slate-900 rounded p-1 flex justify-between items-center text-[10px] text-slate-800 dark:text-white font-bold">
+          <span className="uppercase text-[8px] tracking-wider text-slate-400">TOTAL DUE</span>
+          <span>$4,700.00</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (slug === "proposal-generator") {
+    return (
+      <div className="w-full h-32 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-900 p-3 flex flex-col justify-between overflow-hidden text-[9px] text-slate-600 dark:text-slate-400 select-none mb-4">
+        <div className="border-b border-slate-100 dark:border-slate-800 pb-1 flex justify-between items-center">
+          <span className="font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider text-[8px]">PROPOSAL</span>
+          <span className="text-[7px] bg-blue-500/10 text-blue-600 dark:text-blue-400 px-1 py-0.5 rounded">v1.2</span>
+        </div>
+        <div className="space-y-1">
+          <div className="font-bold text-slate-800 dark:text-white">NovaSphere Brand Migration</div>
+          <p className="text-[8px] text-slate-400 line-clamp-2">Complete frontend audit, Next.js application rebuild, and design system migration.</p>
+        </div>
+        <div className="flex justify-between items-center border-t border-slate-100 dark:border-slate-800 pt-1">
+          <div>
+            <span className="text-[7px] text-slate-400 block">EST. BUDGET</span>
+            <span className="font-bold font-mono text-slate-800 dark:text-white text-[10px]">$12,500</span>
+          </div>
+          <div className="text-right">
+            <span className="text-[7px] text-slate-400 block">DURATION</span>
+            <span className="font-bold text-slate-850 dark:text-white">5 Weeks</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (slug === "contract-generator") {
+    return (
+      <div className="w-full h-32 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-900 p-3 flex flex-col justify-between overflow-hidden text-[9px] text-slate-600 dark:text-slate-400 select-none mb-4">
+        <div className="bg-red-500/5 border border-red-500/20 text-red-600 dark:text-red-400 text-[7px] p-1 rounded leading-normal">
+          DISCLAIMER: For informational purposes only.
+        </div>
+        <div className="space-y-1">
+          <div className="font-bold text-slate-800 dark:text-white uppercase text-[8px] tracking-wider border-b border-slate-100 dark:border-slate-800 pb-0.5">1. SCOPE OF SERVICES</div>
+          <p className="text-[8px] text-slate-400 leading-relaxed line-clamp-2">The Service Provider agrees to perform design and engineering duties under NY jurisdiction...</p>
+        </div>
+        <div className="flex justify-between gap-2 border-t border-slate-100 dark:border-slate-800 pt-1 text-[7px]">
+          <div className="border-r border-slate-200 dark:border-slate-800 pr-2">
+            <span className="text-slate-400 block">PROVIDER</span>
+            <span className="font-bold text-slate-800 dark:text-white">Jane Doe LLC</span>
+          </div>
+          <div>
+            <span className="text-slate-400 block">CLIENT</span>
+            <span className="font-bold text-slate-850 dark:text-white">Horizon Analytics</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (slug === "rate-calculator") {
+    return (
+      <div className="w-full h-32 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-900 p-3 flex flex-col justify-between overflow-hidden text-[9px] text-slate-600 dark:text-slate-400 select-none mb-4 font-mono">
+        <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-1">
+          <span className="font-bold text-slate-850 dark:text-white uppercase text-[8px]">RATE MODELER</span>
+          <span className="font-mono text-emerald-600 text-[10px] font-bold">+$115K/yr</span>
+        </div>
+        <div className="grid grid-cols-2 gap-1.5 my-1 text-[8px]">
+          <div className="bg-slate-100 dark:bg-slate-900 p-1 rounded">
+            <span className="text-slate-400 block">Target Income</span>
+            <span className="font-bold text-slate-850 dark:text-white">$95,000</span>
+          </div>
+          <div className="bg-slate-100 dark:bg-slate-900 p-1 rounded">
+            <span className="text-slate-400 block">Expenses</span>
+            <span className="font-bold text-slate-850 dark:text-white">$20,000</span>
+          </div>
+        </div>
+        <div className="bg-blue-600/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400 border border-blue-200/30 p-1 rounded flex justify-between items-center text-[10px] font-bold">
+          <span className="text-[8px] uppercase tracking-wider text-blue-500 font-sans">HOURLY RATE</span>
+          <span className="font-mono">$85.00/hr</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (slug === "time-tracker") {
+    return (
+      <div className="w-full h-32 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-900 p-3 flex flex-col justify-between overflow-hidden text-[9px] text-slate-600 dark:text-slate-400 select-none mb-4 font-mono">
+        <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-1.5">
+          <div className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+            <span className="font-bold text-slate-800 dark:text-white">LIVE TRACK</span>
+          </div>
+          <div className="font-bold text-blue-600 dark:text-blue-400 text-[10px]">02:45:12</div>
+        </div>
+        <div className="space-y-1">
+          <div className="flex justify-between text-[7px] text-slate-400">
+            <span>CLIENT / PROJECT</span>
+            <span>DURATION</span>
+          </div>
+          <div className="flex justify-between text-[8px] border-b border-slate-150 dark:border-slate-850 pb-0.5">
+            <span className="truncate text-slate-750 dark:text-slate-200">Stellar Horizon Corp</span>
+            <span className="font-semibold text-slate-800 dark:text-white">4.5 hrs</span>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <div className="flex-1 text-center py-1 rounded bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[8px] font-semibold font-sans">PAUSE</div>
+          <div className="flex-1 text-center py-1 rounded bg-blue-600 text-white text-[8px] font-black font-sans">LOG HOURS</div>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+}
+
 export default function Home() {
   const [visitedTools, setVisitedTools] = useState<ToolItem[]>([]);
   const [visitedTimestamps, setVisitedTimestamps] = useState<Record<string, number>>({});
   const [isRecentState, setIsRecentState] = useState(false);
+  const [openHomepageFaq, setOpenHomepageFaq] = useState<number | null>(null);
 
   const [issueDate, setIssueDate] = useState("12 October 2025");
   const [dueDate, setDueDate] = useState("26 October 2025");
@@ -385,22 +517,22 @@ export default function Home() {
                 15 Professional Utilities • Fully Live
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-[2.75rem] font-black leading-[1.1] tracking-tight text-slate-900 dark:text-white">
-                The Complete, <br className="hidden sm:inline" />
-                <span className="text-blue-600 dark:text-blue-500">Privacy-First</span> Operating Suite for Freelancers.
+              <h1 className="text-4xl sm:text-5xl lg:text-[2.75rem] font-black leading-[1.15] tracking-tight text-slate-900 dark:text-white">
+                Everything you need to <br className="hidden sm:inline" />
+                run your freelance business — <span className="text-blue-600 dark:text-blue-500">free, private, no signup</span>.
               </h1>
 
               <p className="text-base sm:text-lg text-slate-700 dark:text-slate-300 leading-relaxed max-w-xl">
-                A highly refined suite of business-operations utilities designed to make you look exceptionally credible to your clients. Run invoices, contracts, proposals, and tracking completely serverless and secure.
+                Create professional invoices, contracts, proposals, and trackers instantly. All tools run entirely in your browser—meaning your business data and client agreements remain 100% secure and private, with no accounts or hidden subscriptions.
               </p>
 
               {/* Primary Call to Action */}
               <div className="flex flex-col sm:flex-row gap-4 pt-2">
                 <a
-                  href="#tools-section"
+                  href="#workflow-section"
                   className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 text-white font-bold px-6 py-4 shadow-lg shadow-blue-500/20 transition-all hover:scale-[1.01]"
                 >
-                  Explore the 15 Tools
+                  Start With Any Tool — No Signup
                   <ArrowRight className="w-5 h-5" />
                 </a>
                 <Link
@@ -787,6 +919,249 @@ export default function Home() {
         </div>
       </section>
 
+      {/* SECTION 2.2: Freelance Operational Workflow Sequence */}
+      <section id="workflow-section" className="py-16 sm:py-20 bg-white dark:bg-[#090a0f] border-b border-slate-200/50 dark:border-slate-900/60 scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
+            <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight sm:text-4xl">
+              Discover Tools by Freelance Workflow
+            </h2>
+            <p className="text-base text-slate-650 dark:text-slate-400">
+              Stop looking at tools as disconnected utilities. Follow the actual lifecycle of a client project and jump straight to the exact generator or calculator you need right now.
+            </p>
+          </div>
+
+          {/* Workflow steps layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 relative">
+
+            {/* Step 1: Find & Onboard */}
+            <div className="group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-[#0c0d12]/50 p-6 flex flex-col justify-between hover:border-blue-500/30 transition-all shadow-sm">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black tracking-widest text-slate-400 dark:text-slate-500 uppercase">STAGE 1</span>
+                  <div className="p-2 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                    <Briefcase className="w-4 h-4" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">Find & Onboard</h3>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                    Showcase past work with professional case studies and qualify prospects during intake.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-6 pt-4 border-t border-slate-200/30 dark:border-slate-800/40 space-y-2">
+                <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Launch Utility:</span>
+                <div className="flex flex-wrap gap-1.5">
+                  <Link href="/tools/case-study-builder" className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 dark:hover:text-white text-[11px] font-semibold transition-all">
+                    Case Study Builder
+                  </Link>
+                  <Link href="/tools/client-intake-form" className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 dark:hover:text-white text-[11px] font-semibold transition-all">
+                    Intake Form
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 2: Send a Proposal */}
+            <div className="group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-[#0c0d12]/50 p-6 flex flex-col justify-between hover:border-blue-500/30 transition-all shadow-sm">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black tracking-widest text-slate-400 dark:text-slate-500 uppercase">STAGE 2</span>
+                  <div className="p-2 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                    <Sparkles className="w-4 h-4" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">Send a Proposal</h3>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                    Estimate deliverable complexities, timelines, and pitch pricing with clean proposals.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-6 pt-4 border-t border-slate-200/30 dark:border-slate-800/40 space-y-2">
+                <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Launch Utility:</span>
+                <div className="flex flex-wrap gap-1.5">
+                  <Link href="/tools/proposal-generator" className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 dark:hover:text-white text-[11px] font-semibold transition-all">
+                    Proposal Gen
+                  </Link>
+                  <Link href="/tools/scope-estimator" className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 dark:hover:text-white text-[11px] font-semibold transition-all">
+                    Scope Estimator
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 3: Sign a Contract */}
+            <div className="group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-[#0c0d12]/50 p-6 flex flex-col justify-between hover:border-blue-500/30 transition-all shadow-sm">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black tracking-widest text-slate-400 dark:text-slate-500 uppercase">STAGE 3</span>
+                  <div className="p-2 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                    <FileSignature className="w-4 h-4" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">Sign a Contract</h3>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                    Protect intellectual property and secure monthly income before doing any work.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-6 pt-4 border-t border-slate-200/30 dark:border-slate-800/40 space-y-2">
+                <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Launch Utility:</span>
+                <div className="flex flex-wrap gap-1.5">
+                  <Link href="/tools/contract-generator" className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 dark:hover:text-white text-[11px] font-semibold transition-all">
+                    Contract Builder
+                  </Link>
+                  <Link href="/tools/nda-generator" className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 dark:hover:text-white text-[11px] font-semibold transition-all">
+                    NDA Gen
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 4: Track Your Time */}
+            <div className="group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-[#0c0d12]/50 p-6 flex flex-col justify-between hover:border-blue-500/30 transition-all shadow-sm">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black tracking-widest text-slate-400 dark:text-slate-500 uppercase">STAGE 4</span>
+                  <div className="p-2 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                    <Clock className="w-4 h-4" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">Track Your Time</h3>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                    Log billable hours, record client sessions, and instantly prefill your invoices.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-6 pt-4 border-t border-slate-200/30 dark:border-slate-800/40 space-y-2">
+                <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Launch Utility:</span>
+                <div className="flex flex-wrap gap-1.5">
+                  <Link href="/tools/time-tracker" className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 dark:hover:text-white text-[11px] font-semibold transition-all">
+                    Time Tracker
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 5: Get Paid */}
+            <div className="group relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-[#0c0d12]/50 p-6 flex flex-col justify-between hover:border-blue-500/30 transition-all shadow-sm">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black tracking-widest text-slate-400 dark:text-slate-500 uppercase">STAGE 5</span>
+                  <div className="p-2 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                    <FileText className="w-4 h-4" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">Get Paid</h3>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                    Generate polished invoices, calculate late payment fees, and draft polite payment reminders.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-6 pt-4 border-t border-slate-200/30 dark:border-slate-800/40 space-y-2">
+                <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Launch Utility:</span>
+                <div className="flex flex-wrap gap-1.5">
+                  <Link href="/tools/invoice-generator" className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 dark:hover:text-white text-[11px] font-semibold transition-all">
+                    Invoice Gen
+                  </Link>
+                  <Link href="/tools/late-payment-fee-calculator" className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 dark:hover:text-white text-[11px] font-semibold transition-all">
+                    Late Fee Calc
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 2.3: Data flow / Privacy Transparency Section */}
+      <section className="py-16 bg-slate-50 dark:bg-[#07080d]/60 border-b border-slate-200/50 dark:border-slate-900/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              Where Does Your Business Data Go?
+            </h2>
+            <p className="text-base text-slate-605 dark:text-slate-400">
+              Complete transparency. A privacy-focused professional should know exactly how their confidential data is handled under the hood.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Class 1: Local Only */}
+            <div className="p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c0d12] flex flex-col justify-between shadow-sm">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:bg-emerald-400/10 dark:text-emerald-400 border border-emerald-200/20 dark:border-emerald-500/30">
+                    100% Client-Side
+                  </span>
+                  <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500 font-semibold">12 of 15 Tools</span>
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Fully Local Tools</h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                  Calculators, invoice editors, and standard document contract builders run completely in your browser. All logo uploads, financial entries, and client names are processed in browser memory. <strong>No data ever leaves your computer.</strong>
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/60">
+                <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Applies to:</span>
+                <p className="text-[11px] text-slate-500 dark:text-slate-500 leading-relaxed">
+                  Invoice Generator, Proposal Draft, Contract Builder, NDA Generator, Retainer Generator, Client Intake Form, Portfolio Case Study, Rate Calculator, Currency Converter, Late Fee Calculator, Rate Benchmark.
+                </p>
+              </div>
+            </div>
+
+            {/* Class 2: Account-Optional */}
+            <div className="p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c0d12] flex flex-col justify-between shadow-sm">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-indigo-500/10 text-indigo-600 dark:bg-indigo-400/10 dark:text-indigo-400 border border-indigo-200/20 dark:border-indigo-500/30">
+                    Account Optional
+                  </span>
+                  <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500 font-semibold">2 of 15 Tools</span>
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Local-First, Sync Optional</h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                  Time tracker logs and project scopes operate on your browser storage with zero login required. You can opt to register a free, secure account if you want your active timesheets to sync across devices—otherwise, it remains 100% local.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/60">
+                <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Applies to:</span>
+                <p className="text-[11px] text-slate-500 dark:text-slate-500 leading-relaxed">
+                  Time Tracker, Project Scope Estimator.
+                </p>
+              </div>
+            </div>
+
+            {/* Class 3: AI-Assisted */}
+            <div className="p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c0d12] flex flex-col justify-between shadow-sm">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:bg-amber-400/10 dark:text-amber-400 border border-amber-200/20 dark:border-amber-500/30">
+                    SSL Encryption
+                  </span>
+                  <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500 font-semibold">3 of 15 Tools</span>
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">AI-Drafted, Never Retained</h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                  Email reminder drafts, meeting bullet summaries, and our global chat assistant. Your text inputs are securely encrypted and processed by Google&apos;s Gemini API to generate response templates, but <strong>no prompts or results are saved or retained afterward.</strong>
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/60">
+                <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Applies to:</span>
+                <p className="text-[11px] text-slate-500 dark:text-slate-500 leading-relaxed">
+                  Payment Reminder Generator, Meeting Recap Generator, Site-wide AI Assistant.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* SECTION 2.5: Popular / Recently Used Tools Row (Only visible if history exists) */}
       {isRecentState && visitedTools.length > 0 && (
         <div className="relative">
@@ -939,16 +1314,20 @@ export default function Home() {
                               {tool.category}
                             </div>
 
-                            {/* Icon Accent */}
-                            <div className="p-3 rounded-lg bg-blue-600 text-white w-12 h-12 flex items-center justify-center shadow-md shadow-blue-500/10 group-hover:scale-105 transition-transform duration-200">
-                              <Icon className="w-5 h-5" />
+                            {/* Tool Preview Thumbnail */}
+                            <ToolPreviewThumbnail slug={tool.slug} />
+
+                            {/* Icon Accent & Title block */}
+                            <div className="flex items-center gap-3 mt-4">
+                              <div className="p-2.5 rounded-lg bg-blue-600 text-white w-10 h-10 flex items-center justify-center shadow-md shadow-blue-500/10 group-hover:scale-105 transition-transform duration-200 flex-shrink-0">
+                                <Icon className="w-4 h-4" />
+                              </div>
+                              <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white line-clamp-1 leading-tight">
+                                {tool.title}
+                              </h4>
                             </div>
 
-                            <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-6">
-                              {tool.title}
-                            </h4>
-
-                            <p className="text-slate-600 dark:text-slate-400 mt-3 text-sm leading-relaxed">
+                            <p className="text-slate-650 dark:text-slate-400 mt-4 text-xs sm:text-sm leading-relaxed line-clamp-3">
                               {tool.description}
                             </p>
                           </div>
@@ -1132,6 +1511,94 @@ export default function Home() {
               Need cloud persistence or automated time sheet syncing? An optional free account is only required for the cloud-enabled Time Tracker and Project Scope Estimator tools.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* SECTION 5: Condensed Homepage FAQ Preview Section */}
+      <section className="py-16 sm:py-20 bg-slate-50 dark:bg-[#090a0f] border-t border-slate-200/50 dark:border-slate-900/60">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-12">
+
+          <div className="space-y-3">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              Trust & Frequently Asked Questions
+            </h2>
+            <p className="text-sm sm:text-base text-slate-605 dark:text-slate-400">
+              Quick, clear answers to the most common questions freelancers ask about our platform.
+            </p>
+          </div>
+
+          <div className="space-y-4 max-w-3xl mx-auto text-left">
+            {/* FAQ 1 */}
+            <div className="border border-slate-200 dark:border-slate-850 bg-white dark:bg-[#0c0d12] rounded-xl overflow-hidden transition-all shadow-sm">
+              <button
+                onClick={() => setOpenHomepageFaq(openHomepageFaq === 0 ? null : 0)}
+                className="flex items-center justify-between w-full px-5 py-4 text-left font-bold text-sm sm:text-base text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-950/40 transition-colors"
+              >
+                <span>Is this really free?</span>
+                {openHomepageFaq === 0 ? (
+                  <ChevronUp className="w-4 h-4 text-blue-500" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-slate-500" />
+                )}
+              </button>
+              {openHomepageFaq === 0 && (
+                <div className="px-5 pb-4 pt-1 text-xs sm:text-sm text-slate-650 dark:text-slate-450 leading-relaxed border-t border-slate-100 dark:border-slate-850/40 animate-fadeIn">
+                  Yes, Freelance Ops Toolkit is 100% free. There are no subscriptions, paywalls, or hidden fees. We operate completely serverless for stateless tools to keep overhead minimal and pass all benefits on to the independent community.
+                </div>
+              )}
+            </div>
+
+            {/* FAQ 2 */}
+            <div className="border border-slate-200 dark:border-slate-850 bg-white dark:bg-[#0c0d12] rounded-xl overflow-hidden transition-all shadow-sm">
+              <button
+                onClick={() => setOpenHomepageFaq(openHomepageFaq === 1 ? null : 1)}
+                className="flex items-center justify-between w-full px-5 py-4 text-left font-bold text-sm sm:text-base text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-950/40 transition-colors"
+              >
+                <span>Where does my business data go?</span>
+                {openHomepageFaq === 1 ? (
+                  <ChevronUp className="w-4 h-4 text-blue-500" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-slate-500" />
+                )}
+              </button>
+              {openHomepageFaq === 1 && (
+                <div className="px-5 pb-4 pt-1 text-xs sm:text-sm text-slate-650 dark:text-slate-450 leading-relaxed border-t border-slate-100 dark:border-slate-850/40 animate-fadeIn">
+                  90% of our tools operate completely client-side in browser memory. Invoices, contracts, rates, and client details are calculated and generated locally—meaning your sensitive data never leaves your browser window and is never sent to or stored on our servers.
+                </div>
+              )}
+            </div>
+
+            {/* FAQ 3 */}
+            <div className="border border-slate-200 dark:border-slate-850 bg-white dark:bg-[#0c0d12] rounded-xl overflow-hidden transition-all shadow-sm">
+              <button
+                onClick={() => setOpenHomepageFaq(openHomepageFaq === 2 ? null : 2)}
+                className="flex items-center justify-between w-full px-5 py-4 text-left font-bold text-sm sm:text-base text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-950/40 transition-colors"
+              >
+                <span>Do I need an account?</span>
+                {openHomepageFaq === 2 ? (
+                  <ChevronUp className="w-4 h-4 text-blue-500" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-slate-500" />
+                )}
+              </button>
+              {openHomepageFaq === 2 && (
+                <div className="px-5 pb-4 pt-1 text-xs sm:text-sm text-slate-650 dark:text-slate-450 leading-relaxed border-t border-slate-100 dark:border-slate-850/40 animate-fadeIn">
+                  No. You can generate unlimited invoices, NDAs, proposals, and track late fees with no account or signup. An optional free account is only required if you use cloud persistence features in the Time Tracker or Project Scope Estimator.
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="pt-4">
+            <Link
+              href="/about#faq"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-850 border border-slate-200 dark:border-slate-850 text-slate-800 dark:text-slate-200 font-semibold px-6 py-3.5 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+            >
+              Read our full FAQ on the About page
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
         </div>
       </section>
 
