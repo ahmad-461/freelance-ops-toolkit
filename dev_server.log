@@ -7,10 +7,7 @@
    - Network:      http://192.168.0.2:3000
 
  ✓ Starting...
- ✓ Ready in 1312ms
+ ✓ Ready in 1333ms
  ○ Compiling / ...
- ✓ Compiled / in 5.8s
- GET / 200 in 6557ms
- ○ Compiling /tools/proposal-generator ...
- ✓ Compiled /tools/proposal-generator in 4.6s
- GET /tools/proposal-generator 200 in 5204ms
+ ✓ Compiled / in 6s
+ GET / 200 in 6754ms

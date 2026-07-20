@@ -144,6 +144,9 @@ export default function Footer() {
             <p>
               Built by <span className="font-semibold text-white">Ahmad Khan</span>
             </p>
+            <p className="text-slate-500 text-[11px] pt-1">
+              Last updated: July 2026
+            </p>
           </div>
 
           <div className="flex items-center gap-4 text-slate-400">

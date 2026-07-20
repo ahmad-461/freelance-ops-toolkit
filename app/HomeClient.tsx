@@ -420,18 +420,18 @@ export default function Home() {
                   {/* Play/Pause controls for auto rotation */}
                   <button
                     onClick={() => setIsAutoplay(!isAutoplay)}
-                    className="inline-flex items-center gap-1 px-2 py-1 rounded bg-slate-100 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-[10px] font-mono hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-all focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-[10px] font-mono hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-all focus:outline-none focus:ring-1 focus:ring-blue-500"
                     title={isAutoplay ? "Pause rotation" : "Play rotation"}
                   >
                     {isAutoplay ? (
                       <>
-                        <Pause className="w-3 h-3" />
-                        <span>AUTO</span>
+                        <Pause className="w-3 h-3 text-blue-500 animate-pulse" />
+                        <span>Auto-cycling preview</span>
                       </>
                     ) : (
                       <>
                         <Play className="w-3 h-3" />
-                        <span>PAUSED</span>
+                        <span>Rotation paused</span>
                       </>
                     )}
                   </button>
@@ -462,91 +462,110 @@ export default function Home() {
 
                   {/* TAB 1: INVOICE SIMULATOR */}
                   {activeTab === "invoice" && (
-                    <div className="space-y-6 animate-fadeIn">
-                      <div className="flex justify-between items-start">
+                    <div className="space-y-6 animate-fadeIn text-slate-850 dark:text-slate-200">
+                      {/* Premium executive header matching PdfHeader */}
+                      <div className="flex justify-between items-start border-b border-slate-100 dark:border-slate-800 pb-5">
                         <div>
-                          <div className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                          <div className="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
                             <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
                             ACME CREATIVE
                           </div>
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">
-                            hello@acmecreative.io
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-1">
+                            123 Freelance Way, Tech Hub
                           </p>
                         </div>
                         <div className="text-right">
-                          <span className="inline-block text-[10px] font-bold tracking-wider uppercase bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400 px-2 py-1 rounded-md">
-                            PREPARED
-                          </span>
-                          <p className="text-xs text-slate-400 dark:text-slate-500 mt-2 font-mono">
-                            INV-2025-084
-                          </p>
+                          <h1 className="text-xl font-black tracking-widest text-slate-900 dark:text-white leading-none uppercase">
+                            INVOICE
+                          </h1>
+                          <div className="h-1 bg-blue-600 dark:bg-blue-500 w-10 mt-2 ml-auto" />
                         </div>
                       </div>
 
-                      <div className="border-t border-slate-100 dark:border-slate-800 pt-4 grid grid-cols-2 gap-4 text-xs">
+                      {/* 3-Column Metadata Block matching PdfMetadataBlock */}
+                      <div className="grid grid-cols-3 gap-4 p-4 bg-slate-50 dark:bg-[#12131a] border-b border-slate-100 dark:border-slate-800/85 rounded-lg text-xs">
                         <div>
-                          <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                            Billed To:
+                          <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                            INVOICE NO.
                           </span>
-                          <span className="font-semibold text-slate-800 dark:text-slate-200 mt-1 block">
-                            Stellar Horizon Corp.
+                          <span className="font-bold text-slate-900 dark:text-white mt-1 block">
+                            #INV-2025-084
                           </span>
                         </div>
-                        <div className="text-right">
-                          <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                            Issue Date:
+                        <div>
+                          <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                            DATE OF ISSUE
                           </span>
-                          <span className="font-mono text-slate-600 dark:text-slate-400 mt-1 block">
-                            October 12, 2025
+                          <span className="font-semibold text-slate-600 dark:text-slate-400 mt-1 block">
+                            12 October 2025
+                          </span>
+                        </div>
+                        <div>
+                          <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                            DUE DATE
+                          </span>
+                          <span className="font-semibold text-slate-900 dark:text-white mt-1 block">
+                            26 October 2025
                           </span>
                         </div>
                       </div>
 
-                      {/* Mocked Invoice Line items */}
-                      <div className="space-y-3 pt-3">
-                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 border-b border-slate-100 dark:border-slate-800 pb-1.5 flex justify-between">
-                          <span>Description</span>
+                      {/* Billed to Section */}
+                      <div className="text-xs space-y-1">
+                        <span className="block text-[9px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">
+                          BILL TO CLIENT
+                        </span>
+                        <h4 className="font-bold text-slate-900 dark:text-white">
+                          Stellar Horizon Corp.
+                        </h4>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                          456 Enterprise Boulevard, Suite 800
+                        </p>
+                      </div>
+
+                      {/* Mocked Invoice Line items table */}
+                      <div className="space-y-3 pt-2">
+                        <div className="text-[9px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 border-b border-slate-200 dark:border-slate-800 pb-1.5 flex justify-between">
+                          <span>Services / Deliverables</span>
                           <span>Total</span>
                         </div>
                         <div className="flex justify-between text-xs items-center py-0.5">
                           <div>
-                            <span className="font-semibold text-slate-800 dark:text-slate-200">
+                            <span className="font-semibold text-slate-900 dark:text-white">
                               System Architecture & NextJS Build
                             </span>
-                            <span className="block text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
+                            <span className="block text-[10px] text-slate-500 dark:text-slate-450 mt-0.5">
                               40 Hours @ $95/hr
                             </span>
                           </div>
-                          <span className="font-mono font-semibold text-slate-800 dark:text-slate-200">$3,800.00</span>
+                          <span className="font-mono font-bold text-slate-900 dark:text-white">$3,800.00</span>
                         </div>
                         <div className="flex justify-between text-xs items-center py-0.5">
                           <div>
-                            <span className="font-semibold text-slate-800 dark:text-slate-200">
+                            <span className="font-semibold text-slate-900 dark:text-white">
                               UI/UX & Interactive Design Prototyping
                             </span>
-                            <span className="block text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
+                            <span className="block text-[10px] text-slate-500 dark:text-slate-450 mt-0.5">
                               Flat project rate
                             </span>
                           </div>
-                          <span className="font-mono font-semibold text-slate-800 dark:text-slate-200">$1,000.00</span>
+                          <span className="font-mono font-bold text-slate-900 dark:text-white">$1,000.00</span>
                         </div>
                       </div>
 
-                      {/* Summary calculations */}
-                      <div className="border-t border-slate-100 dark:border-slate-800 pt-4 flex justify-end">
-                        <div className="w-1/2 text-right space-y-2">
-                          <div className="flex justify-between text-xs">
-                            <span className="text-slate-500 dark:text-slate-400">Subtotal:</span>
-                            <span className="font-mono text-slate-800 dark:text-slate-200">$4,800.00</span>
-                          </div>
-                          <div className="flex justify-between text-xs">
-                            <span className="text-slate-500 dark:text-slate-400">VAT (20%):</span>
-                            <span className="font-mono text-slate-800 dark:text-slate-200">$960.00</span>
-                          </div>
-                          <div className="flex justify-between text-sm pt-2 border-t border-slate-100 dark:border-slate-800">
-                            <span className="font-bold text-slate-800 dark:text-white">Amount Due:</span>
-                            <span className="font-mono font-bold text-blue-600 dark:text-blue-400 text-base">$5,760.00</span>
-                          </div>
+                      {/* Subtotal & Premium High-Contrast TOTAL DUE highlight box */}
+                      <div className="pt-2 flex flex-col items-end gap-3">
+                        <div className="w-1/2 flex justify-between text-xs text-slate-500 dark:text-slate-400 pr-4">
+                          <span>Subtotal:</span>
+                          <span className="font-mono font-semibold">$4,800.00</span>
+                        </div>
+                        <div className="w-full border-t border-b border-slate-900 dark:border-slate-100 bg-slate-100 dark:bg-[#151722]/80 py-2.5 px-4 flex justify-between items-center rounded">
+                          <span className="text-[10px] font-black text-slate-950 dark:text-white uppercase tracking-widest">
+                            Total Due
+                          </span>
+                          <span className="font-mono font-black text-slate-950 dark:text-white text-base">
+                            $5,760.00
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -554,39 +573,73 @@ export default function Home() {
 
                   {/* TAB 2: PROPOSAL SIMULATOR */}
                   {activeTab === "proposal" && (
-                    <div className="space-y-6 animate-fadeIn">
-                      <div className="border-b border-slate-100 dark:border-slate-800 pb-4">
-                        <span className="text-[10px] font-mono uppercase bg-blue-100 dark:bg-blue-950/40 text-blue-800 dark:text-blue-400 px-2 py-0.5 rounded font-bold">
-                          Client Proposal
-                        </span>
-                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-2">
-                          Enterprise Portal Migration & Optimization
-                        </h3>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                          Prepared for: <span className="font-semibold text-slate-700 dark:text-slate-300">NovaSphere Technologies</span>
-                        </p>
+                    <div className="space-y-6 animate-fadeIn text-slate-850 dark:text-slate-200">
+                      {/* Premium executive header matching PdfHeader */}
+                      <div className="flex justify-between items-start border-b border-slate-100 dark:border-slate-800 pb-5">
+                        <div>
+                          <div className="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+                            ACME CREATIVE
+                          </div>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                            Professional Creative & Consulting Services
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <h1 className="text-xl font-black tracking-widest text-slate-900 dark:text-white leading-none uppercase">
+                            PROPOSAL
+                          </h1>
+                          <div className="h-1 bg-blue-600 dark:bg-blue-500 w-10 mt-2 ml-auto" />
+                        </div>
+                      </div>
+
+                      {/* 3-Column Metadata Block matching PdfMetadataBlock */}
+                      <div className="grid grid-cols-3 gap-4 p-4 bg-slate-50 dark:bg-[#12131a] border-b border-slate-100 dark:border-slate-800/85 rounded-lg text-xs">
+                        <div>
+                          <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                            PREPARED FOR
+                          </span>
+                          <span className="font-bold text-slate-900 dark:text-white mt-1 block truncate">
+                            NovaSphere Tech
+                          </span>
+                        </div>
+                        <div>
+                          <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                            DATE OF ISSUE
+                          </span>
+                          <span className="font-semibold text-slate-600 dark:text-slate-400 mt-1 block">
+                            12 October 2025
+                          </span>
+                        </div>
+                        <div>
+                          <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                            TIMELINE
+                          </span>
+                          <span className="font-semibold text-slate-900 dark:text-white mt-1 block">
+                            4-6 Weeks Total
+                          </span>
+                        </div>
                       </div>
 
                       {/* Deliverables outline */}
-                      <div className="space-y-4">
-                        <h4 className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                          Key Deliverables
-                        </h4>
+                      <div className="space-y-3">
+                        <span className="block text-[9px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">
+                          1. Project Strategy & Overview
+                        </span>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="p-3.5 rounded-lg border border-slate-100 dark:border-slate-800/80 bg-slate-50/50 dark:bg-[#090a0f]">
-                            <span className="font-bold text-xs text-slate-800 dark:text-white block">
+                          <div className="p-3 rounded-lg border border-slate-100 dark:border-slate-800/80 bg-slate-50/50 dark:bg-[#090a0f] space-y-1">
+                            <span className="font-bold text-xs text-slate-900 dark:text-white block">
                               Phase 1: Blueprint & Architecture
                             </span>
-                            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                            <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-normal">
                               Database optimization plan, performance diagnostics, and custom UI design specs.
                             </p>
                           </div>
-                          <div className="p-3.5 rounded-lg border border-slate-100 dark:border-slate-800/80 bg-slate-50/50 dark:bg-[#090a0f]">
-                            <span className="font-bold text-xs text-slate-800 dark:text-white block">
+                          <div className="p-3 rounded-lg border border-slate-100 dark:border-slate-800/80 bg-slate-50/50 dark:bg-[#090a0f] space-y-1">
+                            <span className="font-bold text-xs text-slate-900 dark:text-white block">
                               Phase 2: Live Integration
                             </span>
-                            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                            <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-normal">
                               Serverless migration, API logic construction, and client onboard pipeline.
                             </p>
                           </div>
@@ -596,18 +649,18 @@ export default function Home() {
                       {/* Scope & Cost Footer */}
                       <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
                         <div>
-                          <span className="block text-[10px] text-slate-400 dark:text-slate-500 uppercase font-bold tracking-wider">
+                          <span className="block text-[10px] text-slate-400 dark:text-slate-500 uppercase font-bold tracking-widest">
                             Estimated Investment
                           </span>
-                          <span className="text-lg font-extrabold text-blue-600 dark:text-blue-400">
+                          <span className="text-base font-black text-blue-600 dark:text-blue-400 font-mono">
                             $12,500.00 USD
                           </span>
                         </div>
                         <div className="text-right">
-                          <span className="block text-[10px] text-slate-400 dark:text-slate-500 uppercase font-bold tracking-wider">
+                          <span className="block text-[10px] text-slate-400 dark:text-slate-500 uppercase font-bold tracking-widest">
                             Estimated Duration
                           </span>
-                          <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                          <span className="text-xs font-bold text-slate-900 dark:text-white">
                             4-6 Weeks Total
                           </span>
                         </div>
@@ -617,44 +670,80 @@ export default function Home() {
 
                   {/* TAB 3: CONTRACT SIMULATOR */}
                   {activeTab === "contract" && (
-                    <div className="space-y-4 animate-fadeIn text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-mono">
-
-                      <div className="border-b border-slate-100 dark:border-slate-800 pb-3 text-center">
-                        <span className="text-[9px] font-bold uppercase text-amber-600 dark:text-amber-500 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded">
-                          STANDARD TEMPLATE - LEGAL PREVIEW
-                        </span>
-                        <h4 className="text-sm font-bold text-slate-900 dark:text-white mt-2 uppercase tracking-wide">
-                          Independent Contractor Services Agreement
-                        </h4>
+                    <div className="space-y-4 animate-fadeIn text-slate-850 dark:text-slate-200">
+                      {/* Authentic legal disclaimer matching PdfDisclaimer */}
+                      <div className="border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#12131a] text-slate-600 dark:text-slate-400 text-[10px] leading-relaxed p-3 rounded-lg font-medium select-none">
+                        DISCLAIMER: This is a generic template for informational purposes only and does not constitute legal advice. Consult a qualified lawyer before using this document.
                       </div>
 
-                      <p className="text-[11px]">
-                        This agreement is entered into as of <span className="text-blue-600 dark:text-blue-400 underline font-semibold">October 1, 2025</span> (the &quot;Effective Date&quot;), by and between:
-                      </p>
-
-                      <div className="p-3 rounded border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-[#090a0f] text-[11px] space-y-1.5 font-sans">
-                        <p>
-                          <strong className="text-slate-800 dark:text-white">Contractor:</strong> Jane Doe, Freelance Developer (&quot;Jane Doe Design LLC&quot;)
-                        </p>
-                        <p>
-                          <strong className="text-slate-800 dark:text-white">Client:</strong> Horizon Retail Analytics, Inc. (&quot;Horizon&quot;)
-                        </p>
+                      {/* Premium executive header matching PdfHeader */}
+                      <div className="flex justify-between items-start border-b border-slate-100 dark:border-slate-800 pb-4 pt-1">
+                        <div>
+                          <div className="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+                            Jane Doe Design LLC
+                          </div>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                            Independent Creative Consulting
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <h1 className="text-xl font-black tracking-widest text-slate-900 dark:text-white leading-none uppercase">
+                            CONTRACT
+                          </h1>
+                          <p className="text-[9px] text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1.5">
+                            Service Agreement
+                          </p>
+                          <div className="h-1 bg-blue-600 dark:bg-blue-500 w-10 mt-2 ml-auto" />
+                        </div>
                       </div>
 
-                      <div className="space-y-1.5 font-sans text-[11px]">
-                        <p className="font-bold text-slate-800 dark:text-white uppercase tracking-wider text-[10px]">
-                          1. Services Provided & Deliverables
-                        </p>
-                        <p className="text-slate-500 dark:text-slate-400">
-                          Contractor agrees to perform comprehensive front-end systems engineering, accessibility auditing, and performance tuning under the conditions set forth herein.
-                        </p>
+                      {/* 3-Column Metadata Block matching PdfMetadataBlock */}
+                      <div className="grid grid-cols-3 gap-4 p-4 bg-slate-50 dark:bg-[#12131a] border-b border-slate-100 dark:border-slate-800/85 rounded-lg text-xs">
+                        <div>
+                          <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                            CLIENT
+                          </span>
+                          <span className="font-bold text-slate-900 dark:text-white mt-1 block truncate">
+                            Horizon Analytics
+                          </span>
+                        </div>
+                        <div>
+                          <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                            EFFECTIVE DATE
+                          </span>
+                          <span className="font-semibold text-slate-600 dark:text-slate-400 mt-1 block font-mono text-[11px]">
+                            1 October 2025
+                          </span>
+                        </div>
+                        <div>
+                          <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                            JURISDICTION
+                          </span>
+                          <span className="font-semibold text-slate-900 dark:text-white mt-1 block truncate">
+                            State of New York
+                          </span>
+                        </div>
+                      </div>
 
-                        <p className="font-bold text-slate-800 dark:text-white uppercase tracking-wider text-[10px] pt-1">
-                          2. IP Ownership & Assignment
-                        </p>
-                        <p className="text-slate-500 dark:text-slate-400">
-                          Upon receipt of full compensation due, Contractor assigns all rights, titles, and interests in the created deliverables directly to the Client.
-                        </p>
+                      {/* Standard legal copy block */}
+                      <div className="space-y-3 text-[11px] leading-relaxed">
+                        <div className="space-y-1 font-sans">
+                          <h4 className="font-bold text-slate-950 dark:text-white uppercase tracking-wider text-[10px]">
+                            1. Scope of Work & Deliverables
+                          </h4>
+                          <p className="text-slate-500 dark:text-slate-400">
+                            The Service Provider agrees to perform comprehensive front-end systems engineering, accessibility auditing, and performance tuning under the conditions set forth herein.
+                          </p>
+                        </div>
+
+                        <div className="space-y-1 font-sans">
+                          <h4 className="font-bold text-slate-950 dark:text-white uppercase tracking-wider text-[10px]">
+                            2. Compensation & Financial Terms
+                          </h4>
+                          <p className="text-slate-500 dark:text-slate-400">
+                            The Client shall compensate the Service Provider according to the following agreed schedule: 50% upfront retainer, 50% upon final delivery of assets.
+                          </p>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -671,7 +760,7 @@ export default function Home() {
       <section className="py-12 bg-slate-50 dark:bg-[#06070a]/90 border-b border-slate-200/50 dark:border-slate-900/60">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-lg sm:text-xl font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
-            &ldquo;We built Freelance Ops Toolkit to package essential, institutional-grade calculations, professional documents, and communication guides usually gated behind expensive corporate platform subscriptions. No trackers, no data traps—just pristine utilities designed specifically to help independent professionals transact with complete authority.&rdquo;
+            &ldquo;We built Freelance Ops Toolkit to package essential, professional-grade calculations, standard business documents, and communication guides usually gated behind expensive corporate subscriptions. No sign-ups, no data tracking—just secure, local utilities designed specifically to help independent professionals run their business with confidence and clarity.&rdquo;
           </p>
         </div>
       </section>
@@ -743,7 +832,7 @@ export default function Home() {
                         {category.badge}
                       </span>
                       <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
-                        {category.categoryName}
+                        {category.categoryName} <span className="text-slate-400 dark:text-slate-500 font-normal">({category.tools.length})</span>
                       </h3>
                     </div>
 
@@ -879,7 +968,7 @@ export default function Home() {
                           {category.badge}
                         </span>
                         <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
-                          {category.categoryName}
+                          {category.categoryName} <span className="text-slate-400 dark:text-slate-500 font-normal">({category.tools.length})</span>
                         </h3>
                       </div>
 
@@ -956,11 +1045,11 @@ export default function Home() {
               An Institutional Suite Designed For Absolute Autonomy
             </h2>
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400">
-              Unlike modern software companies that lock basic utilities behind paywalls and cookie traps, we operate on three hard, developer-guided principles.
+              Unlike modern software companies that lock basic utilities behind paywalls and cookie traps, we operate on four hard, developer-guided principles.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
             {/* Pillar 1: Total Privacy */}
             <div className="p-6 sm:p-8 rounded-xl border border-slate-200 dark:border-slate-800 bg-[#f8fafc] dark:bg-[#0d0e14] text-left space-y-4">
@@ -998,6 +1087,19 @@ export default function Home() {
               </h3>
               <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 Generate highly polished, print-optimized A4-compliant PDF agreements and calculations. All documents feature pristine typography and clean structural elements.
+              </p>
+            </div>
+
+            {/* Pillar 4: AI Privacy & Retention */}
+            <div className="p-6 sm:p-8 rounded-xl border border-slate-200 dark:border-slate-800 bg-[#f8fafc] dark:bg-[#0d0e14] text-left space-y-4">
+              <div className="p-3 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 w-12 h-12 flex items-center justify-center">
+                <Sparkles className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                AI Drafting, No Data Retention
+              </h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                Your conversations with the AI Assistant are transient and remain strictly client-side. We never store or retain chat history on our servers, ensuring your business prompts stay completely confidential.
               </p>
             </div>
 
