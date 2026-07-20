@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-white dark:bg-gray-950 text-gray-950 dark:text-gray-50 antialiased font-sans transition-colors duration-200">
         <ThemeProvider>
           <Navbar />
-          <main className="flex-grow">
+          <main className="flex-grow pt-16">
             {children}
           </main>
           <Footer />

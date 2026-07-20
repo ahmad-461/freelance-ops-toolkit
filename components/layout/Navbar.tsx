@@ -281,7 +281,7 @@ export default function Navbar() {
 
   // Dynamically compute navbar classes based on scroll state
   const navbarClasses = isScrolled
-    ? "bg-blue-600 border-b border-blue-700/50 shadow-md py-3 text-white"
+    ? "bg-[#090a0f] border-b border-slate-800 shadow-md py-3 text-white"
     : "bg-transparent border-b border-transparent py-4";
 
   const transitionClasses = shouldAnimate ? "transition-all duration-300 ease-in-out" : "";
@@ -296,47 +296,47 @@ export default function Navbar() {
     : "hidden md:inline bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent font-extrabold tracking-tight";
 
   const linkClasses = isScrolled
-    ? "text-blue-100 hover:text-white"
+    ? "text-slate-300 hover:text-white"
     : "text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400";
 
   const searchBtnClasses = isScrolled
-    ? "inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-blue-500 bg-blue-700/60 hover:bg-blue-700 text-blue-100 hover:text-white text-xs font-mono transition-all"
+    ? "inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/60 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-mono transition-all"
     : "inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50/50 hover:bg-gray-100 dark:bg-gray-900/50 dark:hover:bg-gray-900 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 text-xs font-mono transition-all";
 
   const kbdClasses = isScrolled
-    ? "inline-flex items-center gap-0.5 rounded border border-blue-400 bg-blue-800 px-1.5 text-[9px] font-sans font-medium text-blue-200 shadow-sm"
+    ? "inline-flex items-center gap-0.5 rounded border border-slate-700 bg-slate-800 px-1.5 text-[9px] font-sans font-medium text-slate-400 shadow-sm"
     : "inline-flex items-center gap-0.5 rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 px-1.5 text-[9px] font-sans font-medium text-gray-400 dark:text-gray-500 shadow-sm";
 
   const themeToggleClasses = isScrolled
-    ? "p-2 rounded-lg bg-blue-700 text-blue-100 hover:bg-blue-800 hover:text-white transition-colors focus:outline-none"
+    ? "p-2 rounded-lg bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors focus:outline-none"
     : "p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500";
 
   const mobileToggleClasses = isScrolled
-    ? "p-2 rounded-lg text-blue-100 hover:text-white hover:bg-blue-700 transition-colors"
+    ? "p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
     : "p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-850 transition-colors";
 
   const mobileMenuContainerClasses = isScrolled
-    ? "md:hidden border-t border-blue-700 bg-blue-600 px-4 py-3 space-y-4 max-h-[85vh] overflow-y-auto text-white"
+    ? "md:hidden border-t border-slate-800 bg-[#090a0f] px-4 py-3 space-y-4 max-h-[85vh] overflow-y-auto text-white"
     : "md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-3 space-y-4 max-h-[85vh] overflow-y-auto";
 
   const mobileHomeLinkClasses = isScrolled
-    ? "block text-base font-semibold text-blue-100 hover:text-white py-1 border-b border-blue-500 pb-2"
+    ? "block text-base font-semibold text-slate-300 hover:text-white py-1 border-b border-slate-800 pb-2"
     : "block text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-blue-600 py-1 border-b border-gray-100 dark:border-gray-900 pb-2";
 
   const mobileCatClasses = isScrolled
-    ? "text-[10px] font-bold text-blue-200 uppercase tracking-wider px-1"
+    ? "text-[10px] font-bold text-slate-400 uppercase tracking-wider px-1"
     : "text-[10px] font-bold text-gray-400 uppercase tracking-wider px-1";
 
   const mobileItemClasses = isScrolled
-    ? "flex items-center gap-3 rounded-lg p-2 hover:bg-blue-700 text-blue-100 hover:text-white transition-colors"
+    ? "flex items-center gap-3 rounded-lg p-2 hover:bg-slate-900 text-slate-300 hover:text-white transition-colors"
     : "flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors";
 
   const mobileItemIconClasses = isScrolled
-    ? "w-4 h-4 text-blue-200 flex-shrink-0"
+    ? "w-4 h-4 text-slate-400 flex-shrink-0"
     : "w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0";
 
   return (
-    <header className={`sticky top-0 z-50 w-full ${navbarClasses} ${transitionClasses}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 w-full ${navbarClasses} ${transitionClasses}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Logo & Brand */}
