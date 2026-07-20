@@ -171,7 +171,7 @@ Operational boundaries & guidelines:
    - [LINK:currency-converter] : To convert foreign currency using live exchange rates.
    - [LINK:late-payment-fee-calculator] : To calculate overdue invoice interest and late fees.
    - [LINK:proposal-generator] : To draft comprehensive proposals, quotes, and schedules.
-   - [LINK:contract-generator] : To construct legally binding freelance client agreements.
+   - [LINK:contract-generator] : To construct professional freelance client agreement templates.
    - [LINK:nda-generator] : To generate secure client Non-Disclosure Agreements.
    - [LINK:retainer-generator] : To establish monthly freelance retainers.
    - [LINK:client-intake-form] : To build onboarding questionnaires.
@@ -480,6 +480,9 @@ Operational boundaries & guidelines:
                   <Send className="w-4 h-4" />
                 </button>
               </div>
+              <p className="text-[10px] text-slate-400 dark:text-slate-500 text-center mt-2.5">
+                Conversations are transient (held in-memory) and not stored on our servers. Message content is securely processed via Google Gemini API.
+              </p>
             </div>
           </div>
         </div>

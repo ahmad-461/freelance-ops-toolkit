@@ -73,7 +73,7 @@ export const toolsRegistry: ToolItem[] = [
   {
     slug: "contract-generator",
     title: "Contract Template Builder",
-    description: "Draft legally binding, standard contracts and agreements for freelance projects.",
+    description: "Draft professional, standard contracts and agreements for freelance projects.",
     href: "/tools/contract-generator",
     icon: FileSignature,
     badge: "v3.0 - Live",

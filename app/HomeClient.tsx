@@ -43,6 +43,11 @@ export default function Home() {
   const [visitedTimestamps, setVisitedTimestamps] = useState<Record<string, number>>({});
   const [isRecentState, setIsRecentState] = useState(false);
 
+  const [issueDate, setIssueDate] = useState("12 October 2025");
+  const [dueDate, setDueDate] = useState("26 October 2025");
+  const [proposalDate, setProposalDate] = useState("12 October 2025");
+  const [contractDate, setContractDate] = useState("1 October 2025");
+
   // Load visited tools and timestamps on mount or storage update
   const loadVisitedTools = () => {
     if (typeof window === "undefined") return;
@@ -86,6 +91,23 @@ export default function Home() {
     // Listen to our custom storage updated event or window storage events
     window.addEventListener("storage_visited_tools_updated", loadVisitedTools);
     window.addEventListener("storage", loadVisitedTools);
+
+    // Calculate relative dynamic dates
+    const now = new Date();
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    const formatDate = (date: Date) => {
+      return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+    };
+    const due = new Date(now);
+    due.setDate(now.getDate() + 14);
+
+    setIssueDate(formatDate(now));
+    setDueDate(formatDate(due));
+    setProposalDate(formatDate(now));
+    setContractDate(formatDate(now));
 
     return () => {
       window.removeEventListener("storage_visited_tools_updated", loadVisitedTools);
@@ -180,7 +202,7 @@ export default function Home() {
         },
         {
           title: "Contract Template Builder",
-          description: "Draft legally binding, standard contracts and agreements for freelance projects.",
+          description: "Draft professional, standard contracts and agreements for freelance projects.",
           href: "/tools/contract-generator",
           icon: FileSignature,
           badge: "v3.0 - Live",
@@ -497,7 +519,7 @@ export default function Home() {
                             DATE OF ISSUE
                           </span>
                           <span className="font-semibold text-slate-600 dark:text-slate-400 mt-1 block">
-                            12 October 2025
+                            {issueDate}
                           </span>
                         </div>
                         <div>
@@ -505,7 +527,7 @@ export default function Home() {
                             DUE DATE
                           </span>
                           <span className="font-semibold text-slate-900 dark:text-white mt-1 block">
-                            26 October 2025
+                            {dueDate}
                           </span>
                         </div>
                       </div>
@@ -607,7 +629,7 @@ export default function Home() {
                             DATE OF ISSUE
                           </span>
                           <span className="font-semibold text-slate-600 dark:text-slate-400 mt-1 block">
-                            12 October 2025
+                            {proposalDate}
                           </span>
                         </div>
                         <div>
@@ -712,7 +734,7 @@ export default function Home() {
                             EFFECTIVE DATE
                           </span>
                           <span className="font-semibold text-slate-600 dark:text-slate-400 mt-1 block font-mono text-[11px]">
-                            1 October 2025
+                            {contractDate}
                           </span>
                         </div>
                         <div>
@@ -1099,7 +1121,7 @@ export default function Home() {
                 AI Drafting, No Data Retention
               </h3>
               <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                Your conversations with the AI Assistant are transient and remain strictly client-side. We never store or retain chat history on our servers, ensuring your business prompts stay completely confidential.
+                Your conversations with the AI Assistant are transient and held in-memory for the current session only. We never save or store chat history on our servers or databases; message content is securely processed through the Google Gemini API to generate responses without being retained.
               </p>
             </div>
 

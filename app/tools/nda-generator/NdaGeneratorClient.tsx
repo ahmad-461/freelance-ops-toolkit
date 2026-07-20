@@ -409,7 +409,7 @@ export default function NdaGenerator() {
 
         <ToolSeoContent
           h2Title="Protect Your Ideas with a Free NDA Generator"
-          intro="As an independent contractor, sharing proprietary concepts, source code, or design systems with potential clients is often necessary during project discovery. Protecting your intellectual property and business interests requires clear, binding confidentiality terms. Our free non-disclosure agreement generator lets you draft custom Mutual or One-way NDAs in US or UK jurisdictions instantly."
+          intro="As an independent contractor, sharing proprietary concepts, source code, or design systems with potential clients is often necessary during project discovery. Protecting your intellectual property and business interests requires clear, standard confidentiality terms. Our free non-disclosure agreement generator lets you draft custom Mutual or One-way NDAs in US or UK jurisdictions instantly."
           sections={[
             {
               title: "How to Create an NDA for Creative and Technical Projects",

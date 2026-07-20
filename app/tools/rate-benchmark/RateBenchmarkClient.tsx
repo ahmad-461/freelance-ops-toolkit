@@ -245,7 +245,7 @@ export default function RateBenchmarkPage() {
             },
             {
               title: "Factors That Influence Your Market Pricing Power",
-              prose: "Beyond raw experience levels, multiple factors influence your pricing power. A highly focused portfolio featuring metrics-driven case studies, a structured discovery process, clear client intake guidelines, and professional, legally binding service contracts all signal operational authority, justifying premium rates."
+              prose: "Beyond raw experience levels, multiple factors influence your pricing power. A highly focused portfolio featuring metrics-driven case studies, a structured discovery process, clear client intake guidelines, and professional service contract templates all signal operational authority, justifying premium rates."
             }
           ]}
           internalLinks={[
