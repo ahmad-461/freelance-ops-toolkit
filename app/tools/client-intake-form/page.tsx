@@ -8,5 +8,30 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ClientIntakeFormClient />;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Client Intake Form Builder",
+    "url": "https://freelance-ops-toolkit-6w1z.vercel.app/tools/client-intake-form",
+    "description": "Draft tailored client intake questionnaires with editable questions. Free freelance client questionnaire generator with clean PDF & text exports.",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires HTML5 compatible browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "isAccessibleForFree": true
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ClientIntakeFormClient />
+    </>
+  );
 }

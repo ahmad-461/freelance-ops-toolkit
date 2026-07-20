@@ -8,5 +8,30 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <RateBenchmarkClient />;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Rate Benchmark Tool",
+    "url": "https://freelance-ops-toolkit-6w1z.vercel.app/tools/rate-benchmark",
+    "description": "Compare global freelance hourly rate ranges across experience levels, categories, and regional markets. Discover average freelance hourly rates in 2026.",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires HTML5 compatible browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "isAccessibleForFree": true
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <RateBenchmarkClient />
+    </>
+  );
 }
