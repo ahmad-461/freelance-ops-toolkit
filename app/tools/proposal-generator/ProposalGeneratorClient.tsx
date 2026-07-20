@@ -17,6 +17,7 @@ import {
   Clock
 } from "lucide-react";
 import ToolSeoContent from "@/components/layout/ToolSeoContent";
+import { formatPdfDate } from "@/components/shared/PdfComponents";
 
 interface Deliverable {
   id: string;
@@ -61,7 +62,7 @@ export default function ProposalGenerator() {
   const [pricingModel, setPricingModel] = useState<"fixed" | "milestone">("fixed");
   const [fixedAmount, setFixedAmount] = useState<number | "">("");
   const [milestones, setMilestones] = useState<Milestone[]>([
-    { id: "1", description: "Initial concept concept & conceptual setup", amount: 1500 }
+    { id: "1", description: "Initial concept design & conceptual setup", amount: 1500 }
   ]);
 
   const [currency, setCurrency] = useState(CURRENCIES[0]);
@@ -606,104 +607,151 @@ export default function ProposalGenerator() {
               </span>
             </div>
 
-            {/* Interactive Preview Canvas */}
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 sm:p-8 shadow-lg text-gray-800 dark:text-gray-100 transition-colors">
-              <div className="mb-6 pb-4 border-b border-gray-100 dark:border-gray-800">
-                <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider block mb-1">
-                  PROJECT PROPOSAL
-                </span>
-                <h3 className="text-xl font-extrabold text-gray-900 dark:text-white">
-                  For: {clientName || <span className="text-gray-300 dark:text-gray-700 italic">Client Name</span>}
-                </h3>
-                <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                  Prepared by: <span className="font-semibold text-gray-700 dark:text-gray-300">{businessName || "Your Business"}</span>
-                </p>
-              </div>
+            {/* Premium Executive Styled Live Preview Page */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-lg text-slate-900 dark:text-slate-100 transition-colors relative">
+              <div className="space-y-6 text-left">
 
-              {/* Overview */}
-              <div className="mb-6">
-                <h4 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                  1. Project Overview
-                </h4>
-                <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed whitespace-pre-line">
-                  {projectDescription || <span className="text-gray-300 dark:text-gray-700 italic">No project description provided yet.</span>}
-                </p>
-              </div>
+                {/* Header Row: Company Brand + Title */}
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-6 border-b border-slate-100 dark:border-slate-800 pb-6">
+                  {/* Left: Branding */}
+                  <div className="space-y-2">
+                    <span className="text-xs font-black tracking-widest text-blue-600 dark:text-blue-400 uppercase">
+                      PROJECT PROPOSAL
+                    </span>
+                    <h3 className="text-sm font-extrabold tracking-tight text-slate-900 dark:text-white">
+                      {businessName || "Your Business Name"}
+                    </h3>
+                  </div>
 
-              {/* Deliverables */}
-              <div className="mb-6">
-                <h4 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                  2. Scope &amp; Deliverables
-                </h4>
-                <ul className="space-y-1.5 pl-4 list-disc text-xs text-gray-600 dark:text-gray-400">
-                  {deliverables.map(d => (
-                    <li key={d.id}>
-                      {d.description || <span className="text-gray-300 dark:text-gray-700 italic">Empty deliverable description</span>}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                  {/* Right: Wordmark */}
+                  <div className="sm:text-right">
+                    <h3 className="text-2xl font-black tracking-[0.12em] uppercase text-slate-900 dark:text-white leading-none">
+                      PROPOSAL
+                    </h3>
+                    <div className="h-1 bg-blue-600 dark:bg-blue-500 w-12 sm:ml-auto mt-3" />
+                  </div>
+                </div>
 
-              {/* Timeline */}
-              <div className="mb-6">
-                <h4 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                  3. Timeline
-                </h4>
-                <p className="text-xs text-gray-600 dark:text-gray-300 font-medium">
-                  {timelineType === "structured" ? (
-                    <>
-                      Estimated Schedule: <span className="text-blue-600 dark:text-blue-400">{startDate || "Start Date"}</span> to <span className="text-blue-600 dark:text-blue-400">{endDate || "Completion Date"}</span>
-                    </>
-                  ) : (
-                    customTimeline || <span className="text-gray-300 dark:text-gray-700 italic">No timeline defined</span>
-                  )}
-                </p>
-              </div>
-
-              {/* Investment */}
-              <div className="mb-6 pt-4 border-t border-gray-100 dark:border-gray-800">
-                <h4 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                  4. Investment &amp; Pricing
-                </h4>
-
-                {pricingModel === "fixed" ? (
-                  <div className="bg-blue-50/50 dark:bg-blue-950/20 p-3 rounded-xl">
-                    <span className="text-[10px] text-gray-400 uppercase tracking-wider block mb-0.5">Fixed Project Fee</span>
-                    <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
-                      {currency.symbol}{totalInvestment.toLocaleString()} {currency.code}
+                {/* Executive Metadata block */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 px-4 rounded-xl">
+                  <div>
+                    <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                      PREPARED FOR
+                    </span>
+                    <span className="block text-xs font-extrabold text-slate-900 dark:text-white mt-1 truncate">
+                      {clientName || "Acme Corporation"}
                     </span>
                   </div>
-                ) : (
-                  <div className="space-y-2">
-                    {milestones.map((m, index) => (
-                      <div key={m.id} className="flex justify-between items-center text-xs border-b border-gray-50 dark:border-gray-850 py-1.5">
-                        <span className="text-gray-600 dark:text-gray-400">
-                          {m.description || <span className="italic text-gray-300 dark:text-gray-700">Milestone #{index + 1}</span>}
-                        </span>
-                        <span className="font-bold text-gray-900 dark:text-white">
-                          {currency.symbol}{(m.amount || 0).toLocaleString()}
-                        </span>
-                      </div>
-                    ))}
-                    <div className="flex justify-between items-center pt-2 font-bold text-sm text-blue-600 dark:text-blue-400">
-                      <span>Total Investment</span>
-                      <span>{currency.symbol}{totalInvestment.toLocaleString()} {currency.code}</span>
-                    </div>
+                  <div>
+                    <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                      DATE OF ISSUE
+                    </span>
+                    <span className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mt-1">
+                      {new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+                    </span>
                   </div>
-                )}
-              </div>
+                  <div>
+                    <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                      ESTIMATED TIMELINE
+                    </span>
+                    <span className="block text-xs font-semibold text-slate-900 dark:text-white mt-1">
+                      {timelineType === "structured" ? (
+                        <>
+                          {startDate ? formatPdfDate(startDate) : "TBD"} to {endDate ? formatPdfDate(endDate) : "TBD"}
+                        </>
+                      ) : (
+                        customTimeline || "Specified scope terms"
+                      )}
+                    </span>
+                  </div>
+                </div>
 
-              {/* Notes */}
-              {notes && (
-                <div className="border-t border-gray-100 dark:border-gray-800 pt-4">
-                  <h4 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1.5">
-                    5. Terms &amp; Conditions
-                  </h4>
-                  <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed whitespace-pre-line">
-                    {notes}
+                {/* 1. Project Strategy */}
+                <div>
+                  <span className="block text-[9px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-1.5">
+                    1. PROJECT OVERVIEW
+                  </span>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed whitespace-pre-line">
+                    {projectDescription || <span className="italic text-slate-400 dark:text-slate-500">No project description defined yet.</span>}
                   </p>
                 </div>
-              )}
+
+                {/* 2. Scope / Deliverables List */}
+                <div className="pt-2">
+                  <span className="block text-[9px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-2">
+                    2. SERVICES &amp; DELIVERABLES
+                  </span>
+                  <ul className="space-y-1.5 pl-4 list-disc text-xs text-slate-600 dark:text-slate-400">
+                    {deliverables.map(d => (
+                      <li key={d.id}>
+                        {d.description || <span className="italic text-slate-300 dark:text-slate-700">Empty scope description</span>}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* 3. Pricing & Investments */}
+                <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+                  <span className="block text-[9px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-2.5">
+                    3. FINANCIAL STRUCTURE
+                  </span>
+
+                  {pricingModel === "fixed" ? (
+                    <div className="space-y-3">
+                      <div className="flex justify-between text-xs text-slate-600 dark:text-slate-400 pb-1.5">
+                        <span>Project Fee (Flat Pricing Model)</span>
+                        <span className="font-mono font-semibold">
+                          {currency.symbol}{totalInvestment.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </span>
+                      </div>
+                      <div className="border-t-2 border-b-2 border-slate-950 dark:border-slate-100 bg-slate-50 dark:bg-slate-800/40 py-3 px-4 flex justify-between items-center">
+                        <span className="text-xs font-black tracking-widest uppercase text-slate-900 dark:text-white">
+                          Total Investment
+                        </span>
+                        <span className="text-lg font-black font-mono text-slate-900 dark:text-white">
+                          {currency.symbol}{totalInvestment.toLocaleString(undefined, { minimumFractionDigits: 2 })} {currency.code}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      <div className="space-y-1.5">
+                        {milestones.map((m, idx) => (
+                          <div key={m.id} className="flex justify-between text-xs text-slate-600 dark:text-slate-400 border-b border-slate-50 dark:border-slate-850 py-1">
+                            <span>
+                              {m.description || <span className="italic text-slate-300 dark:text-slate-700">Milestone #{idx + 1}</span>}
+                            </span>
+                            <span className="font-mono font-semibold">
+                              {currency.symbol}{(m.amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="border-t-2 border-b-2 border-slate-950 dark:border-slate-100 bg-slate-50 dark:bg-slate-800/40 py-3 px-4 flex justify-between items-center">
+                        <span className="text-xs font-black tracking-widest uppercase text-slate-900 dark:text-white">
+                          Total Investment
+                        </span>
+                        <span className="text-lg font-black font-mono text-slate-900 dark:text-white">
+                          {currency.symbol}{totalInvestment.toLocaleString(undefined, { minimumFractionDigits: 2 })} {currency.code}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* 4. Terms / Notes */}
+                {notes && (
+                  <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+                    <span className="block text-[9px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-1">
+                      4. TERMS &amp; CONDITIONS
+                    </span>
+                    <p className="text-xs leading-relaxed text-slate-600 dark:text-slate-400 whitespace-pre-line">
+                      {notes}
+                    </p>
+                  </div>
+                )}
+
+              </div>
             </div>
 
             {/* Form Validation Indicator */}
@@ -775,136 +823,179 @@ export default function ProposalGenerator() {
             width: "794px",
             minHeight: "1123px",
             backgroundColor: "#ffffff",
-            color: "#1f2937",
-            padding: "48px",
+            color: "#0f172a",
+            padding: "56px",
             fontFamily: "system-ui, -apple-system, sans-serif",
-            boxSizing: "border-box"
+            boxSizing: "border-box",
+            position: "relative"
           }}
-          className="text-gray-800"
         >
-          {/* Header section */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", marginBottom: "40px" }}>
-            <div>
-              <div style={{ fontSize: "12px", fontWeight: "bold", color: "#2563eb", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "4px" }}>
-                Project Proposal
+          <div style={{ display: "flex", flexDirection: "column", gap: "32px", height: "100%" }}>
+
+            {/* Executive top-to-bottom header */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", borderBottom: "1px solid #e2e8f0", paddingBottom: "24px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <h4 style={{ fontSize: "14px", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "0.5px", margin: "0", color: "#0f172a" }}>
+                  {businessName || "Your Business Name"}
+                </h4>
+                <p style={{ fontSize: "11px", color: "#475569", margin: "0" }}>
+                  Professional Creative &amp; Consulting Services
+                </p>
               </div>
-              <h1 style={{ fontSize: "28px", fontWeight: "900", color: "#111827", margin: "0 0 4px 0" }}>
-                {clientName || "Client Company"}
-              </h1>
-              <p style={{ fontSize: "12px", color: "#4b5563", margin: "0" }}>
-                Prepared by: <strong>{businessName || "Your Business"}</strong>
-              </p>
+
+              <div style={{ textAlign: "right" }}>
+                <h1 style={{ fontSize: "32px", fontWeight: "900", letterSpacing: "0.15em", textTransform: "uppercase", margin: "0", color: "#0f172a", lineHeight: "1" }}>
+                  PROPOSAL
+                </h1>
+                <div style={{ height: "4px", backgroundColor: "#2563eb", width: "48px", marginTop: "12px", marginLeft: "auto" }} />
+              </div>
             </div>
-            <div style={{ textAlign: "right" }}>
-              <div style={{ fontSize: "11px", color: "#9ca3af" }}>Date Generated</div>
-              <strong style={{ fontSize: "12px", color: "#111827" }}>
-                {new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
-              </strong>
-            </div>
-          </div>
 
-          {/* 1. Overview */}
-          <div style={{ borderTop: "2px solid #e5e7eb", paddingTop: "24px", marginBottom: "32px" }}>
-            <h3 style={{ fontSize: "14px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", letterSpacing: "0.5px", margin: "0 0 12px 0" }}>
-              1. Project Overview &amp; Strategy
-            </h3>
-            <p style={{ fontSize: "12px", color: "#4b5563", whiteSpace: "pre-line", margin: "0", lineHeight: "1.6" }}>
-              {projectDescription}
-            </p>
-          </div>
-
-          {/* 2. Deliverables */}
-          <div style={{ borderTop: "1px solid #e5e7eb", paddingTop: "24px", marginBottom: "32px" }}>
-            <h3 style={{ fontSize: "14px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", letterSpacing: "0.5px", margin: "0 0 12px 0" }}>
-              2. Deliverables &amp; Scope
-            </h3>
-            <ul style={{ margin: "0", paddingLeft: "20px", fontSize: "12px", color: "#4b5563", lineHeight: "1.6" }}>
-              {deliverables.map(d => (
-                <li key={d.id} style={{ marginBottom: "6px" }}>{d.description}</li>
-              ))}
-            </ul>
-          </div>
-
-          {/* 3. Timeline */}
-          <div style={{ borderTop: "1px solid #e5e7eb", paddingTop: "24px", marginBottom: "32px" }}>
-            <h3 style={{ fontSize: "14px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", letterSpacing: "0.5px", margin: "0 0 12px 0" }}>
-              3. Proposed Timeline
-            </h3>
-            <p style={{ fontSize: "12px", color: "#4b5563", margin: "0", lineHeight: "1.5" }}>
-              {timelineType === "structured" ? (
-                <>
-                  Project kick-off scheduled for <strong>{startDate}</strong>, with estimated completion and final delivery on <strong>{endDate}</strong>.
-                </>
-              ) : (
-                customTimeline
-              )}
-            </p>
-          </div>
-
-          {/* 4. Financial Plan */}
-          <div style={{ borderTop: "1px solid #e5e7eb", paddingTop: "24px", marginBottom: "32px" }}>
-            <h3 style={{ fontSize: "14px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", letterSpacing: "0.5px", margin: "0 0 12px 0" }}>
-              4. Investment Structure
-            </h3>
-
-            {pricingModel === "fixed" ? (
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", backgroundColor: "#f9fafb", padding: "16px", borderRadius: "8px" }}>
-                <span style={{ fontSize: "12px", color: "#4b5563", fontWeight: "bold" }}>Total Project Fee (Flat)</span>
-                <span style={{ fontSize: "18px", fontWeight: "bold", color: "#2563eb" }}>
-                  {currency.symbol}{totalInvestment.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {currency.code}
+            {/* Executive Metadata Block */}
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: "16px",
+              padding: "16px",
+              backgroundColor: "#f8fafc",
+              borderBottom: "1px solid #e2e8f0",
+              borderRadius: "8px"
+            }}>
+              <div>
+                <span style={{ fontSize: "9px", fontWeight: "bold", color: "#64748b", textTransform: "uppercase", letterSpacing: "1.5px" }}>
+                  PREPARED FOR
+                </span>
+                <span style={{ fontSize: "12px", fontWeight: "bold", color: "#0f172a", display: "block", marginTop: "4px" }}>
+                  {clientName || "Client Name"}
                 </span>
               </div>
-            ) : (
               <div>
-                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12px", marginBottom: "16px" }}>
-                  <thead>
-                    <tr style={{ borderBottom: "2px solid #e5e7eb" }}>
-                      <th style={{ padding: "8px", textAlign: "left", fontWeight: "bold" }}>Milestone Description</th>
-                      <th style={{ padding: "8px", textAlign: "right", fontWeight: "bold", width: "120px" }}>Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {milestones.map(m => (
-                      <tr key={m.id} style={{ borderBottom: "1px solid #f3f4f6" }}>
-                        <td style={{ padding: "10px 8px", color: "#4b5563" }}>{m.description}</td>
-                        <td style={{ padding: "10px 8px", textAlign: "right", fontWeight: "bold", color: "#111827" }}>
-                          {currency.symbol}{m.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <div style={{ display: "flex", justifyContent: "flex-end", padding: "8px 0" }}>
-                  <div style={{ textAlign: "right" }}>
-                    <span style={{ fontSize: "11px", color: "#9ca3af", textTransform: "uppercase" }}>Total Proposed Investment</span>
-                    <div style={{ fontSize: "18px", fontWeight: "bold", color: "#2563eb", marginTop: "4px" }}>
-                      {currency.symbol}{totalInvestment.toLocaleString(undefined, { minimumFractionDigits: 2 })} {currency.code}
-                    </div>
-                  </div>
-                </div>
+                <span style={{ fontSize: "9px", fontWeight: "bold", color: "#64748b", textTransform: "uppercase", letterSpacing: "1.5px" }}>
+                  DATE OF ISSUE
+                </span>
+                <span style={{ fontSize: "12px", fontWeight: "600", color: "#334155", display: "block", marginTop: "4px" }}>
+                  {new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+                </span>
               </div>
-            )}
-          </div>
+              <div>
+                <span style={{ fontSize: "9px", fontWeight: "bold", color: "#64748b", textTransform: "uppercase", letterSpacing: "1.5px" }}>
+                  TIMELINE
+                </span>
+                <span style={{ fontSize: "12px", fontWeight: "600", color: "#0f172a", display: "block", marginTop: "4px" }}>
+                  {timelineType === "structured" ? (
+                    <>
+                      {startDate ? formatPdfDate(startDate) : "TBD"} to {endDate ? formatPdfDate(endDate) : "TBD"}
+                    </>
+                  ) : (
+                    customTimeline
+                  )}
+                </span>
+              </div>
+            </div>
 
-          {/* 5. Notes */}
-          {notes ? (
-            <div style={{ borderTop: "1px solid #e5e7eb", paddingTop: "24px", marginTop: "24px" }}>
-              <h3 style={{ fontSize: "13px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", letterSpacing: "0.5px", margin: "0 0 8px 0" }}>
-                5. Terms &amp; Provisions
-              </h3>
-              <p style={{ fontSize: "11px", color: "#4b5563", whiteSpace: "pre-line", margin: "0", lineHeight: "1.6" }}>
-                {notes}
+            {/* 1. Overview */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              <span style={{ fontSize: "9px", fontWeight: "bold", color: "#2563eb", textTransform: "uppercase", letterSpacing: "1.5px" }}>
+                1. Project Strategy &amp; Overview
+              </span>
+              <p style={{ fontSize: "11px", color: "#475569", whiteSpace: "pre-line", margin: "0", lineHeight: "1.6" }}>
+                {projectDescription}
               </p>
             </div>
-          ) : null}
 
-          {/* Footer branding */}
-          <div style={{ borderTop: "1px solid #f3f4f6", paddingTop: "12px", marginTop: "auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: "10px", color: "#9ca3af" }}>
-              Generated via Freelance Ops Toolkit • Proposal Generator
+            {/* 2. Scope & Deliverables */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              <span style={{ fontSize: "9px", fontWeight: "bold", color: "#2563eb", textTransform: "uppercase", letterSpacing: "1.5px" }}>
+                2. Scope &amp; Deliverables
+              </span>
+              <ul style={{ margin: "0", paddingLeft: "16px", fontSize: "11px", color: "#475569", lineHeight: "1.6" }}>
+                {deliverables.map(d => (
+                  <li key={d.id} style={{ marginBottom: "4px" }}>{d.description}</li>
+                ))}
+              </ul>
+            </div>
+
+            {/* 3. Pricing Milestones / Plan */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <span style={{ fontSize: "9px", fontWeight: "bold", color: "#2563eb", textTransform: "uppercase", letterSpacing: "1.5px" }}>
+                3. Financial &amp; Milestone Investment
+              </span>
+
+              {pricingModel === "fixed" ? (
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: "#475569", paddingBottom: "4px" }}>
+                  <span>Flat project pricing model terms</span>
+                  <span style={{ fontFamily: "monospace", fontWeight: "bold" }}>
+                    {currency.symbol}{totalInvestment.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  </span>
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                  {milestones.map((m, idx) => (
+                    <div key={m.id} style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: "#475569", borderBottom: "1px solid #f1f5f9", paddingBottom: "4px" }}>
+                      <span>{m.description || `Milestone #${idx + 1}`}</span>
+                      <span style={{ fontFamily: "monospace", fontWeight: "bold" }}>
+                        {currency.symbol}{m.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Minimalist Corporate Highlight Box for Total Investment */}
+              <div style={{
+                borderTop: "2px solid #0f172a",
+                borderBottom: "2px solid #0f172a",
+                backgroundColor: "#f1f5f9",
+                padding: "12px 16px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginTop: "12px"
+              }}>
+                <span style={{ fontSize: "11px", fontWeight: "900", textTransform: "uppercase", letterSpacing: "1px", color: "#0f172a" }}>
+                  Total Project Investment
+                </span>
+                <span style={{ fontSize: "18px", fontWeight: "900", fontFamily: "monospace", color: "#0f172a" }}>
+                  {currency.symbol}{totalInvestment.toLocaleString(undefined, { minimumFractionDigits: 2 })} {currency.code}
+                </span>
+              </div>
+            </div>
+
+            {/* 4. Notes & Provisions */}
+            {notes ? (
+              <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginTop: "12px" }}>
+                <span style={{ fontSize: "9px", fontWeight: "bold", color: "#2563eb", textTransform: "uppercase", letterSpacing: "1.5px" }}>
+                  4. Additional Terms &amp; Provisions
+                </span>
+                <p style={{ fontSize: "10px", color: "#475569", whiteSpace: "pre-line", margin: "0", lineHeight: "1.6" }}>
+                  {notes}
+                </p>
+              </div>
+            ) : null}
+
+          </div>
+
+          {/* PDF Footer element */}
+          <div style={{
+            position: "absolute",
+            bottom: "56px",
+            left: "56px",
+            right: "56px",
+            borderTop: "1px solid #e2e8f0",
+            paddingTop: "16px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            textTransform: "uppercase",
+            fontSize: "8px",
+            color: "#94a3b8",
+            letterSpacing: "0.5px"
+          }}>
+            <span>
+              Generated via Freelance Ops Toolkit
             </span>
-            <span style={{ fontSize: "10px", color: "#9ca3af" }}>
-              Zero-Server • Secure &amp; Private
+            <span style={{ fontWeight: "600" }}>
+              Empowering independent operations
             </span>
           </div>
 

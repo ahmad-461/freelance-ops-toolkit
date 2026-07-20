@@ -11,10 +11,10 @@ import {
   Info,
   CheckCircle2,
   Briefcase,
-  Scale,
-  ShieldAlert
+  Scale
 } from "lucide-react";
 import ToolSeoContent from "@/components/layout/ToolSeoContent";
+import { PdfDisclaimer, PdfHeader, PdfMetadataBlock, PdfHighlightBlock, formatPdfDate } from "@/components/shared/PdfComponents";
 
 const CURRENCIES = [
   { code: "USD", symbol: "$", label: "USD ($)" },
@@ -155,12 +155,9 @@ export default function RetainerGenerator() {
           </button>
         </div>
 
-        {/* Legal disclaimer */}
-        <div className="mb-8 p-4 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/30 rounded-xl flex items-start gap-3">
-          <ShieldAlert className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
-          <p className="text-xs text-amber-800 dark:text-amber-400 leading-relaxed font-medium">
-            DISCLAIMER: This document is a generic template and does not constitute legal advice. Consult a qualified lawyer before use.
-          </p>
+        {/* Premium elegante disclaimer notice block */}
+        <div className="mb-8">
+          <PdfDisclaimer />
         </div>
 
         {/* Split Layout */}
@@ -359,72 +356,75 @@ export default function RetainerGenerator() {
               </span>
             </div>
 
-            {/* Simulated legal paper */}
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 sm:p-8 shadow-lg text-gray-850 dark:text-gray-200 text-xs transition-colors space-y-4 max-h-[500px] overflow-y-auto">
-              <p className="text-[10px] text-amber-600 dark:text-amber-400 font-bold border border-dashed border-amber-200 dark:border-amber-900/40 p-2.5 rounded bg-amber-50/40 dark:bg-amber-950/10 leading-normal">
-                DISCLAIMER: This is a generic template for informational purposes only and does not constitute legal advice. Consult a qualified lawyer before using this document.
-              </p>
+            {/* Simulated legal paper with premium executive styling */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-lg text-slate-850 dark:text-slate-205 text-xs transition-colors space-y-4 max-h-[500px] overflow-y-auto">
+              <PdfDisclaimer />
 
-              <div className="text-center pb-2 border-b border-gray-100 dark:border-gray-800">
-                <h3 className="font-bold text-sm text-gray-900 dark:text-white uppercase">
+              <div className="text-center pb-2 border-b border-slate-100 dark:border-slate-850">
+                <h3 className="font-extrabold text-sm text-slate-900 dark:text-white uppercase tracking-wider">
                   MONTHLY RETAINER AGREEMENT
                 </h3>
-                <p className="text-[10px] text-gray-400 mt-1">Jurisdiction: {jurisdiction === "US" ? "United States (NY)" : "United Kingdom (E&W)"}</p>
+                <p className="text-[9px] text-slate-400 mt-1 uppercase tracking-widest font-bold">Jurisdiction: {jurisdiction === "US" ? "United States (NY)" : "United Kingdom (E&W)"}</p>
               </div>
 
               <div>
                 <p className="leading-relaxed">
                   This Retainer Agreement is entered into by and between:
                 </p>
-                <div className="mt-2 pl-3 border-l-2 border-blue-500 space-y-1">
-                  <div><strong>Service Provider:</strong> {freelancerName || "[Freelancer Name]"}</div>
-                  <div><strong>Client:</strong> {clientName || "[Client Name]"}</div>
+                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50/60 dark:bg-slate-850/30 p-3.5 rounded-xl border border-slate-100 dark:border-slate-850">
+                  <div>
+                    <span className="block text-[8px] font-black text-slate-400 tracking-wider uppercase">SERVICE PROVIDER</span>
+                    <strong className="block text-slate-900 dark:text-white mt-1 text-xs">{freelancerName || "[Freelancer Name]"}</strong>
+                  </div>
+                  <div>
+                    <span className="block text-[8px] font-black text-slate-400 tracking-wider uppercase">CLIENT</span>
+                    <strong className="block text-slate-900 dark:text-white mt-1 text-xs">{clientName || "[Client Name]"}</strong>
+                  </div>
                 </div>
               </div>
 
-              <div>
-                <h4 className="font-bold text-gray-900 dark:text-white uppercase mb-1">1. Services &amp; Deliverables</h4>
-                <p className="leading-relaxed whitespace-pre-line">
-                  {includedScope || <span className="italic text-gray-300 dark:text-gray-700">No scope/deliverables described yet.</span>}
-                </p>
-              </div>
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-bold text-slate-900 dark:text-white uppercase text-[10px] tracking-widest border-b border-slate-100 dark:border-slate-800 pb-1 mb-2">1. Services &amp; Deliverables</h4>
+                  <p className="leading-relaxed whitespace-pre-line text-slate-600 dark:text-slate-400">
+                    {includedScope || <span className="italic text-slate-350 dark:text-slate-700">No scope/deliverables described yet.</span>}
+                  </p>
+                </div>
 
-              <div>
-                <h4 className="font-bold text-gray-900 dark:text-white uppercase mb-1">2. Monthly Retainer Fee</h4>
-                <p className="leading-relaxed">
-                  The Client shall pay the Service Provider a flat retainer amount of{" "}
-                  <strong>
-                    {currency.symbol}
-                    {monthlyRetainer !== "" ? monthlyRetainer.toLocaleString() : "[Amount]"}
-                  </strong>{" "}
-                  per month, due in advance of each service period.
-                </p>
-              </div>
+                {/* Emphasized monthly retainer block similar to total due style */}
+                <div className="space-y-2">
+                  <h4 className="font-bold text-slate-900 dark:text-white uppercase text-[10px] tracking-widest border-b border-slate-100 dark:border-slate-800 pb-1 mb-2">2. Financial Structure</h4>
 
-              <div>
-                <h4 className="font-bold text-gray-900 dark:text-white uppercase mb-1">3. Overage Fees</h4>
-                <p className="leading-relaxed">
-                  Any work requested by the Client that exceeds the specified monthly allotment will be billed at an hourly overage rate of{" "}
-                  <strong>
-                    {currency.symbol}
-                    {overageRate !== "" ? overageRate.toLocaleString() : "[Rate]"}
-                  </strong>{" "}
-                  per hour.
-                </p>
-              </div>
+                  <div className="flex justify-between text-xs text-slate-600 dark:text-slate-400">
+                    <span>Hourly Overage Rate Cap</span>
+                    <span className="font-semibold text-slate-900 dark:text-white font-mono">
+                      {currency.symbol}{overageRate !== "" ? overageRate.toLocaleString() : "0.00"} / hr
+                    </span>
+                  </div>
 
-              <div>
-                <h4 className="font-bold text-gray-900 dark:text-white uppercase mb-1">4. Renewal &amp; Termination</h4>
-                <p className="leading-relaxed whitespace-pre-line">{renewalTerms || "[Renewal details]"}</p>
-              </div>
+                  <div className="border-t-2 border-b-2 border-slate-950 dark:border-slate-100 bg-slate-50 dark:bg-slate-800/40 py-3 px-4 flex justify-between items-center">
+                    <span className="text-xs font-black tracking-widest uppercase text-slate-900 dark:text-white">
+                      Monthly Retainer Fee
+                    </span>
+                    <span className="text-lg font-black font-mono text-slate-900 dark:text-white">
+                      {currency.symbol}{monthlyRetainer !== "" ? monthlyRetainer.toLocaleString(undefined, { minimumFractionDigits: 2 }) : "0.00"}
+                    </span>
+                  </div>
+                </div>
 
-              <div>
-                <h4 className="font-bold text-gray-900 dark:text-white uppercase mb-1">5. Governing Law</h4>
-                <p className="leading-relaxed">
-                  {jurisdiction === "US"
-                    ? "This Agreement shall be governed by and construed under the laws of the State of New York, United States."
-                    : "This Agreement shall be governed by and construed under the laws of England and Wales."}
-                </p>
+                <div>
+                  <h4 className="font-bold text-slate-900 dark:text-white uppercase text-[10px] tracking-widest border-b border-slate-100 dark:border-slate-800 pb-1 mb-2">3. Renewal &amp; Termination</h4>
+                  <p className="leading-relaxed whitespace-pre-line text-slate-600 dark:text-slate-400">{renewalTerms || "[Renewal details]"}</p>
+                </div>
+
+                <div>
+                  <h4 className="font-bold text-slate-900 dark:text-white uppercase text-[10px] tracking-widest border-b border-slate-100 dark:border-slate-800 pb-1 mb-2">4. Governing Law</h4>
+                  <p className="leading-relaxed text-slate-600 dark:text-slate-400">
+                    {jurisdiction === "US"
+                      ? "This Agreement shall be governed by and construed under the laws of the State of New York, United States."
+                      : "This Agreement shall be governed by and construed under the laws of England and Wales."}
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -496,137 +496,124 @@ export default function RetainerGenerator() {
             width: "794px",
             minHeight: "1123px",
             backgroundColor: "#ffffff",
-            color: "#1f2937",
-            padding: "54px",
+            color: "#0f172a",
+            padding: "56px",
             fontFamily: "system-ui, -apple-system, sans-serif",
-            boxSizing: "border-box"
+            boxSizing: "border-box",
+            position: "relative"
           }}
-          className="text-gray-800"
         >
-          {/* Top Legal Disclaimer */}
-          <div style={{
-            border: "1px dashed #d1d5db",
-            padding: "12px",
-            borderRadius: "6px",
-            backgroundColor: "#fef3c7",
-            color: "#92400e",
-            fontSize: "10px",
-            lineHeight: "1.5",
-            marginBottom: "30px",
-            fontWeight: "500"
-          }}>
-            DISCLAIMER: This is a generic template for informational purposes only and does not constitute legal advice. Consult a qualified lawyer before using this document.
-          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            {/* Top Legal Disclaimer */}
+            <PdfDisclaimer />
 
-          <div style={{ textAlign: "center", marginBottom: "32px" }}>
-            <h1 style={{ fontSize: "20px", fontWeight: "bold", textTransform: "uppercase", color: "#111827", margin: "0" }}>
-              MONTHLY RETAINER AGREEMENT
-            </h1>
-            <div style={{ width: "60px", height: "3px", backgroundColor: "#2563eb", margin: "12px auto" }} />
-          </div>
+            {/* Custom Header */}
+            <PdfHeader
+              title="RETAINER"
+              subtitle="RECURRING AGREEMENT"
+              businessName={freelancerName}
+              businessAddress="Dedicated Professional Bandwidth"
+            />
 
-          {/* Parties Block */}
-          <div style={{ fontSize: "12px", lineHeight: "1.6", color: "#374151", marginBottom: "24px" }}>
-            This Monthly Retainer Agreement (the &quot;Agreement&quot;) is entered into by and between the following parties:
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginTop: "12px", backgroundColor: "#f9fafb", padding: "16px", borderRadius: "8px" }}>
-              <div>
-                <strong style={{ color: "#111827" }}>SERVICE PROVIDER:</strong>
-                <div style={{ marginTop: "4px" }}>{freelancerName || "[Freelancer Name]"}</div>
+            {/* 3-Column Metadata Block */}
+            <PdfMetadataBlock
+              items={[
+                { label: "CLIENT", value: clientName },
+                { label: "START DATE", value: formatPdfDate(new Date().toISOString().split('T')[0]) },
+                { label: "JURISDICTION", value: jurisdiction === "US" ? "State of New York" : "England & Wales" }
+              ]}
+            />
+
+            {/* Provisions */}
+            <div style={{ fontSize: "12px", lineHeight: "1.6", color: "#334155" }}>
+              <div style={{ marginBottom: "16px" }}>
+                <h4 style={{ fontSize: "11px", fontWeight: "bold", color: "#0f172a", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 4px 0" }}>
+                  1. Services &amp; Covered Scope
+                </h4>
+                <p style={{ margin: "0", whiteSpace: "pre-line" }}>
+                  {includedScope}
+                </p>
               </div>
-              <div>
-                <strong style={{ color: "#111827" }}>CLIENT:</strong>
-                <div style={{ marginTop: "4px" }}>{clientName || "[Client Name]"}</div>
+
+              <div style={{ marginBottom: "16px" }}>
+                <h4 style={{ fontSize: "11px", fontWeight: "bold", color: "#0f172a", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 4px 0" }}>
+                  2. Financial Allocations &amp; Overage Rate
+                </h4>
+                <p style={{ margin: "0 0 8px 0" }}>
+                  Any client-requested task exceeding the specified monthly scope will be tracked and billed at the following hourly overage rate:
+                </p>
+                <div style={{ fontSize: "11px", color: "#475569" }}>
+                  Hourly Overage Rate: <strong>{currency.symbol}{overageRate !== "" ? overageRate.toLocaleString() : "0.00"} {currency.code} / hr</strong>
+                </div>
               </div>
-            </div>
-          </div>
 
-          {/* Provisions */}
-          <div style={{ fontSize: "12px", lineHeight: "1.6", color: "#374151" }}>
-
-            <div style={{ marginBottom: "20px" }}>
-              <h3 style={{ fontSize: "13px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", margin: "0 0 6px 0" }}>
-                1. Services &amp; Deliverables
-              </h3>
-              <p style={{ margin: "0", whiteSpace: "pre-line" }}>
-                {includedScope}
-              </p>
-            </div>
-
-            <div style={{ marginBottom: "20px" }}>
-              <h3 style={{ fontSize: "13px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", margin: "0 0 6px 0" }}>
-                2. Monthly Retainer Fee
-              </h3>
-              <p style={{ margin: "0" }}>
-                The Client shall pay the Service Provider a flat retainer amount of{" "}
-                <strong>
-                  {currency.symbol}
-                  {monthlyRetainer !== "" ? monthlyRetainer.toLocaleString() : "0"}
-                </strong>{" "}
-                per month, due in advance of each service period.
-              </p>
-            </div>
-
-            <div style={{ marginBottom: "20px" }}>
-              <h3 style={{ fontSize: "13px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", margin: "0 0 6px 0" }}>
-                3. Overage Fees
-              </h3>
-              <p style={{ margin: "0" }}>
-                Any work requested by the Client that exceeds the specified monthly allotment will be billed at an hourly overage rate of{" "}
-                <strong>
-                  {currency.symbol}
-                  {overageRate !== "" ? overageRate.toLocaleString() : "0"}
-                </strong>{" "}
-                per hour.
-              </p>
-            </div>
-
-            <div style={{ marginBottom: "20px" }}>
-              <h3 style={{ fontSize: "13px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", margin: "0 0 6px 0" }}>
-                4. Renewal &amp; Termination
-              </h3>
-              <p style={{ margin: "0", whiteSpace: "pre-line" }}>
-                {renewalTerms}
-              </p>
-            </div>
-
-            <div style={{ marginBottom: "32px" }}>
-              <h3 style={{ fontSize: "13px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", margin: "0 0 6px 0" }}>
-                5. Governing Law
-              </h3>
-              <p style={{ margin: "0" }}>
-                {jurisdiction === "US"
-                  ? "This Agreement shall be governed by and construed under the laws of the State of New York, United States."
-                  : "This Agreement shall be governed by and construed under the laws of England and Wales."}
-              </p>
-            </div>
-
-          </div>
-
-          {/* Signatures */}
-          <div style={{ borderTop: "1px solid #e5e7eb", paddingTop: "30px", marginTop: "40px", fontSize: "12px" }}>
-            <p style={{ margin: "0 0 30px 0", fontStyle: "italic", color: "#4b5563" }}>
-              IN WITNESS WHEREOF, the parties hereto have executed this Agreement as of the date written below.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px" }}>
-              <div>
-                <div style={{ borderBottom: "1px solid #9ca3af", height: "40px" }} />
-                <div style={{ marginTop: "6px", fontWeight: "bold", color: "#111827" }}>Service Provider Representative</div>
-                <div style={{ fontSize: "11px", color: "#4b5563" }}>Date: ________________________</div>
+              {/* High Contrast Emphasized Monthly Retainer Box */}
+              <div style={{ marginBottom: "16px" }}>
+                <PdfHighlightBlock
+                  label="Monthly Retainer Investment"
+                  value={`${currency.symbol}${monthlyRetainer !== "" ? monthlyRetainer.toLocaleString(undefined, { minimumFractionDigits: 2 }) : "0.00"}`}
+                />
               </div>
-              <div>
-                <div style={{ borderBottom: "1px solid #9ca3af", height: "40px" }} />
-                <div style={{ marginTop: "6px", fontWeight: "bold", color: "#111827" }}>Client Representative</div>
-                <div style={{ fontSize: "11px", color: "#4b5563" }}>Date: ________________________</div>
+
+              <div style={{ marginBottom: "16px" }}>
+                <h4 style={{ fontSize: "11px", fontWeight: "bold", color: "#0f172a", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 4px 0" }}>
+                  3. Renewal Conditions &amp; Termination
+                </h4>
+                <p style={{ margin: "0", whiteSpace: "pre-line" }}>
+                  {renewalTerms}
+                </p>
+              </div>
+
+              <div style={{ marginBottom: "24px" }}>
+                <h4 style={{ fontSize: "11px", fontWeight: "bold", color: "#0f172a", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 4px 0" }}>
+                  4. Governing Law
+                </h4>
+                <p style={{ margin: "0" }}>
+                  This Agreement shall be governed by, interpreted, and enforced in accordance with the laws of the jurisdiction specified in the framework metadata above.
+                </p>
               </div>
             </div>
+
+            {/* Signatures */}
+            <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: "24px", fontSize: "11px" }}>
+              <p style={{ margin: "0 0 24px 0", fontStyle: "italic", color: "#64748b" }}>
+                IN WITNESS WHEREOF, the parties hereto have executed this Agreement as of the date written below.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px" }}>
+                <div>
+                  <div style={{ borderBottom: "1px solid #cbd5e1", height: "32px" }} />
+                  <div style={{ marginTop: "6px", fontWeight: "bold", color: "#0f172a" }}>Service Provider Representative</div>
+                  <div style={{ fontSize: "10px", color: "#64748b" }}>Date: ________________________</div>
+                </div>
+                <div>
+                  <div style={{ borderBottom: "1px solid #cbd5e1", height: "32px" }} />
+                  <div style={{ marginTop: "6px", fontWeight: "bold", color: "#0f172a" }}>Client Representative</div>
+                  <div style={{ fontSize: "10px", color: "#64748b" }}>Date: ________________________</div>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           {/* Print Footer */}
-          <div style={{ borderTop: "1px solid #f3f4f6", paddingTop: "12px", marginTop: "auto", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "10px", color: "#9ca3af" }}>
-            <span>Generated via Freelance Ops Toolkit • Retainer Agreement Generator</span>
-            <span>Client-Side Security • Zero Database</span>
+          <div style={{
+            position: "absolute",
+            bottom: "56px",
+            left: "56px",
+            right: "56px",
+            borderTop: "1px solid #e2e8f0",
+            paddingTop: "16px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            textTransform: "uppercase",
+            fontSize: "8px",
+            color: "#94a3b8",
+            letterSpacing: "0.5px"
+          }}>
+            <span>Generated via Freelance Ops Toolkit • Retainer Builder</span>
+            <span>Independent Client Security</span>
           </div>
-
         </div>
       </div>
 

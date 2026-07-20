@@ -66,7 +66,6 @@ export default function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll);
-    // Run once on mount to handle initial state if started scrolled
     handleScroll();
 
     return () => {
@@ -74,11 +73,10 @@ export default function Navbar() {
     };
   }, []);
 
-  // Handle auto tracking of visited tools
+  // Handle visited tools tracking
   useEffect(() => {
     if (!pathname || !pathname.startsWith("/tools/")) return;
 
-    // Derive slug from pathname, e.g., "/tools/invoice-generator" -> "invoice-generator"
     const slug = pathname.replace("/tools/", "");
     if (!slug) return;
 
@@ -89,15 +87,11 @@ export default function Navbar() {
         visits = JSON.parse(stored);
       }
 
-      // Filter out existing and prepend new visit
       visits = visits.filter((item) => item.slug !== slug);
       visits.unshift({ slug, timestamp: Date.now() });
-
-      // Cap at most recent 5 items
       visits = visits.slice(0, 5);
 
       localStorage.setItem("visited_tools", JSON.stringify(visits));
-      // Dispatch a storage event so components on the same page can re-render immediately if needed
       window.dispatchEvent(new Event("storage_visited_tools_updated"));
     } catch (e) {
       console.error("Failed to update tool visits history in localStorage", e);
@@ -122,7 +116,6 @@ export default function Navbar() {
     };
   }, []);
 
-  // Reorganized categories and tools as requested
   const categorizedTools: ToolCategory[] = [
     {
       categoryName: "Billing & Financial",
@@ -281,46 +274,31 @@ export default function Navbar() {
     },
   ];
 
-  // Dynamically compute navbar classes based on scroll state
+  // Concept 3: "The Borderless Editorial Monolith" - completely solid or transparent background without hard boundaries
   const navbarClasses = isScrolled
-    ? "bg-[#090a0f] border-b border-slate-800 shadow-md py-3 text-white"
-    : "bg-transparent border-b border-transparent py-4";
+    ? "bg-[#090a0f] py-3 text-white shadow-[0_4px_30px_rgba(0,0,0,0.8)] border-b border-transparent"
+    : "bg-[#090a0f] py-4 text-white border-b border-transparent";
 
   const transitionClasses = shouldAnimate ? "transition-all duration-300 ease-in-out" : "";
 
-  // Dynamic class selections for components inside Navbar
-  const logoClasses = isScrolled
-    ? "text-white flex-shrink-0"
-    : "text-blue-600 dark:text-blue-400 flex-shrink-0";
+  // Pure white or electric blue logo for premium presence
+  const logoClasses = "text-white flex-shrink-0 hover:text-blue-500 transition-colors duration-200";
 
-  const brandTextClasses = isScrolled
-    ? "hidden md:inline text-white font-extrabold tracking-tight"
-    : "hidden md:inline bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent font-extrabold tracking-tight";
+  // Sophisticated elegant wide-tracking typography
+  const brandTextClasses = "hidden md:inline text-white font-black tracking-[0.2em] uppercase text-xs";
 
-  const linkClasses = isScrolled
-    ? "text-slate-300 hover:text-white"
-    : "text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400";
+  // Monolith sleek editorial interactive states: links draw dynamic line or expand underline on hover
+  const linkClasses = "text-slate-300 hover:text-white text-xs uppercase tracking-widest transition-colors duration-200 py-1.5 px-3 rounded relative group";
 
-  const searchBtnClasses = isScrolled
-    ? "inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/60 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-mono transition-all"
-    : "inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50/50 hover:bg-gray-100 dark:bg-gray-900/50 dark:hover:bg-gray-900 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 text-xs font-mono transition-all";
+  // Sleek, high-contrast, inset input field for search block
+  const searchBtnClasses = "inline-flex items-center gap-3 px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 hover:bg-slate-900 text-xs font-mono transition-all duration-200 shadow-inner w-44 md:w-56 justify-between";
+  const kbdClasses = "inline-flex items-center gap-0.5 rounded border border-slate-800 bg-slate-900 px-1.5 py-0.5 text-[9px] font-mono text-slate-500 shadow-sm";
 
-  const kbdClasses = isScrolled
-    ? "inline-flex items-center gap-0.5 rounded border border-slate-700 bg-slate-800 px-1.5 text-[9px] font-sans font-medium text-slate-400 shadow-sm"
-    : "inline-flex items-center gap-0.5 rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 px-1.5 text-[9px] font-sans font-medium text-gray-400 dark:text-gray-500 shadow-sm";
+  const themeToggleClasses = "p-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 hover:bg-slate-900 hover:text-white transition-all duration-200 focus:outline-none";
 
-  const themeToggleClasses = isScrolled
-    ? "p-2 rounded-lg bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors focus:outline-none"
-    : "p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500";
+  const mobileToggleClasses = "p-2 rounded-xl text-slate-300 hover:text-white bg-slate-950 border border-slate-800 transition-all duration-200";
 
-  const mobileToggleClasses = isScrolled
-    ? "p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
-    : "p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-850 transition-colors";
-
-  // Refined mobile menu styles for the visual redesign
-  const mobileMenuContainerClasses = isScrolled
-    ? "md:hidden border-t border-slate-800 bg-[#090a0f] px-4 py-6 space-y-6 max-h-[85vh] overflow-y-auto text-white shadow-xl"
-    : "md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-6 space-y-6 max-h-[85vh] overflow-y-auto shadow-xl";
+  const mobileMenuContainerClasses = "md:hidden bg-[#090a0f] border-t border-slate-900 px-4 py-6 space-y-6 max-h-[85vh] overflow-y-auto text-white shadow-2xl";
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 w-full ${navbarClasses} ${transitionClasses}`}>
@@ -330,10 +308,10 @@ export default function Navbar() {
           <div className="flex items-center flex-shrink-0">
             <LinkComponent
               href="/"
-              className="flex items-center gap-2.5 font-bold text-xl hover:opacity-90 transition-opacity"
+              className="flex items-center gap-3 font-bold hover:opacity-95 transition-opacity"
               aria-label="Freelance Ops Home"
             >
-              <Logo size={34} className={logoClasses} />
+              <Logo size={28} className={logoClasses} />
               <span className={brandTextClasses}>
                 Freelance Ops
               </span>
@@ -341,33 +319,35 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-4">
             <LinkComponent
               href="/"
-              className={`text-sm font-semibold transition-colors ${linkClasses}`}
+              className={linkClasses}
             >
               Home
+              <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-blue-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-200" />
             </LinkComponent>
 
             {/* Tools Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsToolsOpen(!isToolsOpen)}
-                className={`flex items-center gap-1.5 text-sm font-semibold transition-colors focus:outline-none ${linkClasses}`}
+                className={`flex items-center gap-1.5 focus:outline-none ${linkClasses}`}
                 aria-expanded={isToolsOpen}
                 aria-haspopup="true"
               >
                 Tools
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform duration-200 ${isToolsOpen ? "rotate-180" : ""}`}
+                  className={`w-3.5 h-3.5 transition-transform duration-250 ${isToolsOpen ? "rotate-180 text-blue-500" : ""}`}
                 />
+                <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-blue-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-200" />
               </button>
 
               {isToolsOpen && (
-                <div className="absolute left-1/2 -translate-x-1/2 mt-3 w-[480px] rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-4 shadow-xl ring-1 ring-black/5 focus:outline-none grid grid-cols-2 gap-4 max-h-[85vh] overflow-y-auto z-50">
+                <div className="absolute left-1/2 -translate-x-1/2 mt-3 w-[480px] rounded-2xl border border-slate-800/80 bg-[#090a0f]/95 backdrop-blur-md p-4 shadow-[0_10px_40px_rgba(0,0,0,0.8)] focus:outline-none grid grid-cols-2 gap-4 max-h-[85vh] overflow-y-auto z-50">
                   {categorizedTools.map((cat) => (
                     <div key={cat.categoryName} className="space-y-1">
-                      <div className="px-2 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-800 pb-1 mb-2">
+                      <div className="px-2 py-1 text-[10px] font-black text-slate-500 uppercase tracking-[0.15em] border-b border-slate-900 pb-1.5 mb-2">
                         {cat.categoryName}
                       </div>
                       <div className="space-y-1">
@@ -378,16 +358,16 @@ export default function Navbar() {
                               key={tool.name}
                               href={tool.href}
                               onClick={() => setIsToolsOpen(false)}
-                              className="flex items-start gap-2.5 rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-800/60 transition-colors"
+                              className="flex items-start gap-2.5 rounded-xl p-2 hover:bg-slate-950 transition-all duration-150"
                             >
-                              <div className="p-1 rounded-md bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5">
+                              <div className="p-1 rounded-lg bg-blue-950/50 text-blue-400 flex-shrink-0 mt-0.5">
                                 <Icon className="w-3.5 h-3.5" />
                               </div>
                               <div className="min-w-0">
-                                <div className="text-xs font-semibold text-gray-900 dark:text-gray-100 truncate">
+                                <div className="text-xs font-bold text-slate-100 truncate group-hover:text-white">
                                   {tool.name}
                                 </div>
-                                <div className="text-[10px] text-gray-500 dark:text-gray-400 line-clamp-1">
+                                <div className="text-[10px] text-slate-400 line-clamp-1 mt-0.5 leading-relaxed">
                                   {tool.description}
                                 </div>
                               </div>
@@ -404,14 +384,16 @@ export default function Navbar() {
 
           {/* Right Action Items */}
           <div className="hidden md:flex items-center gap-4 ml-auto">
-            {/* Desktop CMD+K Search Shortcut button */}
+            {/* High-contrast inset search trigger */}
             <button
               onClick={openCommandPalette}
               className={searchBtnClasses}
               title="Search utilities (Cmd+K)"
             >
-              <Search className="w-3.5 h-3.5" />
-              <span>Search...</span>
+              <div className="flex items-center gap-2">
+                <Search className="w-3.5 h-3.5 text-slate-500" />
+                <span>Search...</span>
+              </div>
               <kbd className={kbdClasses}>
                 <span>⌘</span><span>K</span>
               </kbd>
@@ -422,13 +404,13 @@ export default function Navbar() {
           {/* Mobile Menu Toggle / Quick Search */}
           <div className="flex items-center gap-2 md:hidden ml-auto">
             <ThemeToggle className={themeToggleClasses} />
-            {/* Mobile quick search icon button placed next to hamburger menu toggle */}
+            {/* High-contrast inset style for mobile search trigger */}
             <button
               onClick={openCommandPalette}
               className={mobileToggleClasses}
               aria-label="Search utilities"
             >
-              <Search className="w-5 h-5" />
+              <Search className="w-4 h-4 text-slate-300" />
             </button>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -436,7 +418,7 @@ export default function Navbar() {
               aria-expanded={isMobileMenuOpen}
               aria-label="Toggle mobile menu"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMobileMenuOpen ? <X className="w-5 h-5 text-slate-300" /> : <Menu className="w-5 h-5 text-slate-300" />}
             </button>
           </div>
         </div>
@@ -449,17 +431,17 @@ export default function Navbar() {
           <LinkComponent
             href="/"
             onClick={() => setIsMobileMenuOpen(false)}
-            className="flex items-center justify-between p-3 rounded-xl border border-gray-200/60 dark:border-slate-800/80 bg-gray-50/50 dark:bg-[#0c0d12] hover:bg-gray-100/50 dark:hover:bg-slate-900/60 transition-all shadow-sm active:scale-[0.99]"
+            className="flex items-center justify-between p-3.5 rounded-xl border border-slate-900 bg-slate-950 hover:bg-slate-900/60 transition-all shadow-md active:scale-[0.99]"
           >
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-blue-50/50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex-shrink-0">
+              <div className="p-2 rounded-lg bg-blue-950/60 text-blue-400 flex-shrink-0">
                 <Home className="w-4 h-4" />
               </div>
-              <span className="text-sm font-semibold text-gray-900 dark:text-white">
+              <span className="text-xs font-black tracking-[0.1em] uppercase text-white">
                 Home
               </span>
             </div>
-            <ChevronRight className="w-4 h-4 text-gray-400 dark:text-slate-500" />
+            <ChevronRight className="w-4 h-4 text-slate-500" />
           </LinkComponent>
 
           {/* Categorized Tools List */}
@@ -468,14 +450,14 @@ export default function Navbar() {
               <div key={cat.categoryName} className="space-y-3">
                 {/* Category Header */}
                 <div className="flex items-center gap-2 px-1">
-                  <span className="w-1 h-3 rounded-full bg-blue-600 dark:bg-blue-500 flex-shrink-0 animate-pulse" />
-                  <span className="text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">
+                  <span className="w-1 h-3 rounded-full bg-blue-500 flex-shrink-0 animate-pulse" />
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
                     {cat.categoryName}
                   </span>
                 </div>
 
                 {/* Stacked Group Card */}
-                <div className="bg-white dark:bg-[#0c0d12] border border-gray-100 dark:border-slate-800/80 rounded-xl overflow-hidden divide-y divide-gray-100 dark:divide-slate-800/50 shadow-sm">
+                <div className="bg-slate-950 border border-slate-900 rounded-2xl overflow-hidden divide-y divide-slate-900/50 shadow-md">
                   {cat.items.map((tool) => {
                     const Icon = tool.icon;
                     return (
@@ -483,18 +465,17 @@ export default function Navbar() {
                         key={tool.name}
                         href={tool.href}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-slate-900/40 transition-colors active:scale-[0.99]"
+                        className="flex items-center justify-between p-3.5 hover:bg-slate-900 transition-all duration-150 active:scale-[0.99]"
                       >
                         <div className="flex items-center gap-3 min-w-0">
-                          {/* Icon Chip */}
-                          <div className="p-2 rounded-lg bg-blue-50/50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex-shrink-0">
+                          <div className="p-2 rounded-lg bg-blue-950/40 text-blue-400 flex-shrink-0">
                             <Icon className="w-4 h-4" />
                           </div>
-                          <span className="text-sm font-medium text-gray-700 dark:text-slate-200 truncate">
+                          <span className="text-xs font-bold text-slate-200 truncate">
                             {tool.name}
                           </span>
                         </div>
-                        <ChevronRight className="w-4 h-4 text-gray-400 dark:text-slate-500 flex-shrink-0" />
+                        <ChevronRight className="w-4 h-4 text-slate-500 flex-shrink-0" />
                       </LinkComponent>
                     );
                   })}
