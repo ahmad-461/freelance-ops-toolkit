@@ -86,7 +86,6 @@ export default function CaseStudyBuilder() {
       reader.readAsDataURL(file);
     });
 
-    // Reset input value so same file can be uploaded if deleted
     e.target.value = "";
   };
 
@@ -399,7 +398,7 @@ export default function CaseStudyBuilder() {
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                   />
                   <ImageIcon className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                      <p className="text-xs font-semibold text-gray-600 dark:text-gray-400">Click to upload portfolio images</p>
+                  <p className="text-xs font-semibold text-gray-600 dark:text-gray-400">Click to upload portfolio images</p>
                   <p className="text-[10px] text-gray-400 mt-1">PNG or JPEG, up to 2MB each</p>
                 </div>
               )}
@@ -454,104 +453,142 @@ export default function CaseStudyBuilder() {
               </span>
             </div>
 
-            {/* Interactive Preview Container */}
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 sm:p-8 shadow-lg text-gray-850 dark:text-gray-200 text-xs transition-colors space-y-4 max-h-[600px] overflow-y-auto">
-              <div className="mb-6 pb-4 border-b border-gray-100 dark:border-gray-800">
-                <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest block mb-1">
-                  CASE STUDY
-                </span>
-                <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-tight">
-                  {projectName || <span className="text-gray-300 dark:text-gray-700 italic">Project Name</span>}
-                </h3>
-                <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                  Client: <span className="font-semibold text-gray-700 dark:text-gray-300">{displayClientName}</span>
-                </p>
-              </div>
+            {/* Simulated legal/portfolio paper with premium executive formatting */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-lg text-slate-850 dark:text-slate-200 text-xs transition-colors space-y-6 max-h-[600px] overflow-y-auto">
+              <div className="text-left space-y-6">
 
-              {/* Narratives */}
-              <div className="space-y-4 mb-6">
-                <div>
-                  <h4 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">The Problem</h4>
-                  <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed whitespace-pre-line">
-                    {problem || <span className="text-gray-300 dark:text-gray-700 italic">Provide problem narrative...</span>}
-                  </p>
-                </div>
+                {/* Header branding */}
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-6 border-b border-slate-100 dark:border-slate-800 pb-6">
+                  <div className="space-y-2">
+                    <span className="text-xs font-black tracking-widest text-blue-600 dark:text-blue-400 uppercase">
+                      PORTFOLIO SPEC
+                    </span>
+                    <h3 className="text-sm font-extrabold tracking-tight text-slate-900 dark:text-white">
+                      {projectName || "Case Study Project"}
+                    </h3>
+                  </div>
 
-                <div>
-                  <h4 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">The Solution</h4>
-                  <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed whitespace-pre-line">
-                    {approach || <span className="text-gray-300 dark:text-gray-700 italic">Provide solution narrative...</span>}
-                  </p>
-                </div>
-              </div>
-
-              {/* Metrics Highlights */}
-              {metrics.length > 0 && (
-                <div className="mb-6 pt-4 border-t border-gray-100 dark:border-gray-800">
-                  <h4 className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">Key Results</h4>
-                  <div className="grid grid-cols-2 gap-3">
-                    {metrics.map((m) => (
-                      <div key={m.id} className="p-3 bg-blue-50/50 dark:bg-blue-950/20 rounded-xl border border-blue-100/40 dark:border-blue-900/10">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block leading-snug">{m.label || "Metric"}</span>
-                        <span className="text-base font-bold text-blue-600 dark:text-blue-400 block mt-1">{m.value || "—"}</span>
-                      </div>
-                    ))}
+                  <div className="sm:text-right">
+                    <h3 className="text-xl font-black tracking-[0.12em] uppercase text-slate-900 dark:text-white leading-none">
+                      CASE STUDY
+                    </h3>
+                    <div className="h-1 bg-blue-600 dark:bg-blue-500 w-12 sm:ml-auto mt-3" />
                   </div>
                 </div>
-              )}
 
-              {/* Images Preview with dynamic layout logic */}
-              {images.length > 0 && (
-                <div className="mb-6 pt-4 border-t border-gray-100 dark:border-gray-800">
-                  <h4 className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">Project Deliverables</h4>
-
-                  {images.length === 1 && (
-                    <div className="rounded-xl overflow-hidden border border-gray-100 dark:border-gray-800 aspect-video w-full bg-gray-50">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={images[0].base64} alt={images[0].name} className="object-cover w-full h-full" />
-                    </div>
-                  )}
-
-                  {images.length === 2 && (
-                    <div className="grid grid-cols-2 gap-3">
-                      {images.map((img) => (
-                        <div key={img.id} className="rounded-xl overflow-hidden border border-gray-100 dark:border-gray-800 aspect-square bg-gray-50">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={img.base64} alt={img.name} className="object-cover w-full h-full" />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {images.length === 3 && (
-                    <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                      {images.map((img) => (
-                        <div key={img.id} className="rounded-xl overflow-hidden border border-gray-100 dark:border-gray-800 aspect-square bg-gray-50">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={img.base64} alt={img.name} className="object-cover w-full h-full" />
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                {/* Metadata Info Box */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 px-4 rounded-xl">
+                  <div>
+                    <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                      CLIENT
+                    </span>
+                    <span className="block text-xs font-extrabold text-slate-900 dark:text-white mt-1">
+                      {displayClientName}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                      DATE PUBLISHED
+                    </span>
+                    <span className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mt-1">
+                      {new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+                    </span>
+                  </div>
                 </div>
-              )}
 
-              {/* Testimonial Preview */}
-              {testimonial.trim() && (
-                <div className="mb-2 pt-4 border-t border-gray-100 dark:border-gray-800">
-                  <figure className="relative bg-gray-50 dark:bg-gray-950/30 p-4 rounded-xl border border-gray-100 dark:border-gray-850">
-                    <p className="text-xs italic text-gray-600 dark:text-gray-300 relative z-10 leading-relaxed">
-                      &ldquo;{testimonial.trim()}&rdquo;
+                {/* Narrative Sections */}
+                <div className="space-y-4">
+                  <div>
+                    <span className="block text-[9px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-1.5">
+                      1. THE CHALLENGE
+                    </span>
+                    <p className="text-xs text-slate-650 dark:text-slate-400 leading-relaxed whitespace-pre-line">
+                      {problem || <span className="italic text-slate-400">Describe the initial problem details...</span>}
                     </p>
-                    {testimonialAttribution.trim() && (
-                      <figcaption className="mt-3 text-[10px] font-bold text-gray-500 dark:text-gray-400">
-                        &mdash; {testimonialAttribution.trim()}
-                      </figcaption>
-                    )}
-                  </figure>
-                </div>
-              )}
+                  </div>
 
+                  <div>
+                    <span className="block text-[9px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-1.5">
+                      2. THE APPROACH &amp; SOLUTION
+                    </span>
+                    <p className="text-xs text-slate-650 dark:text-slate-400 leading-relaxed whitespace-pre-line">
+                      {approach || <span className="italic text-slate-400">Describe creative solution approach...</span>}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Key Results / Metrics (3-column stats with soft blue borders) */}
+                {metrics.length > 0 && (
+                  <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+                    <span className="block text-[9px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-3">
+                      3. PERFORMANCE METRICS
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      {metrics.map(m => (
+                        <div key={m.id} className="p-3 bg-blue-50/30 dark:bg-blue-950/20 rounded-xl border border-blue-100/50 dark:border-blue-900/10 text-center">
+                          <span className="block text-[9px] text-slate-400 uppercase tracking-wider">{m.label || "Metric"}</span>
+                          <span className="block text-base font-extrabold text-blue-600 dark:text-blue-400 mt-1">{m.value || "—"}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Deliverables Images */}
+                {images.length > 0 && (
+                  <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+                    <span className="block text-[9px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-3">
+                      4. DELIVERABLE GALLERY
+                    </span>
+
+                    {images.length === 1 && (
+                      <div className="rounded-xl overflow-hidden border border-slate-100 dark:border-slate-800 aspect-video w-full bg-slate-50 dark:bg-slate-950">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={images[0].base64} alt={images[0].name} className="object-cover w-full h-full" />
+                      </div>
+                    )}
+
+                    {images.length === 2 && (
+                      <div className="grid grid-cols-2 gap-3">
+                        {images.map((img) => (
+                          <div key={img.id} className="rounded-xl overflow-hidden border border-slate-100 dark:border-slate-800 aspect-square bg-slate-50 dark:bg-slate-950">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={img.base64} alt={img.name} className="object-cover w-full h-full" />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {images.length === 3 && (
+                      <div className="grid grid-cols-3 gap-2">
+                        {images.map((img) => (
+                          <div key={img.id} className="rounded-xl overflow-hidden border border-slate-100 dark:border-slate-800 aspect-square bg-slate-50 dark:bg-slate-950">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={img.base64} alt={img.name} className="object-cover w-full h-full" />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Testimonial Quote with Quiet Elegance & thick left border */}
+                {testimonial.trim() && (
+                  <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+                    <div className="border-l-4 border-blue-600 dark:border-blue-500 bg-slate-50/50 dark:bg-slate-950/20 p-4 rounded-r-xl">
+                      <p className="text-xs italic text-slate-700 dark:text-slate-300 leading-relaxed font-serif">
+                        &ldquo;{testimonial.trim()}&rdquo;
+                      </p>
+                      {testimonialAttribution.trim() && (
+                        <p className="mt-2.5 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+                          &mdash; {testimonialAttribution.trim()}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+              </div>
             </div>
 
             {/* Inline validation errors */}
@@ -624,139 +661,178 @@ export default function CaseStudyBuilder() {
             width: "794px",
             minHeight: "1123px",
             backgroundColor: "#ffffff",
-            color: "#1f2937",
+            color: "#0f172a",
             padding: "56px",
             fontFamily: "system-ui, -apple-system, sans-serif",
-            boxSizing: "border-box"
+            boxSizing: "border-box",
+            position: "relative"
           }}
-          className="text-gray-800"
         >
-          {/* Header section */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", marginBottom: "40px" }}>
-            <div>
-              <div style={{ fontSize: "11px", fontWeight: "bold", color: "#2563eb", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "4px" }}>
-                Project Case Study
+          <div style={{ display: "flex", flexDirection: "column", gap: "32px", height: "100%" }}>
+
+            {/* Header branding */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", borderBottom: "1px solid #e2e8f0", paddingBottom: "24px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <span style={{ fontSize: "11px", fontWeight: "bold", color: "#2563eb", textTransform: "uppercase", letterSpacing: "1px" }}>
+                  PORTFOLIO CASE STUDY
+                </span>
+                <h4 style={{ fontSize: "14px", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "0.5px", margin: "0", color: "#0f172a" }}>
+                  {projectName || "Case Study Project"}
+                </h4>
               </div>
-              <h1 style={{ fontSize: "28px", fontWeight: "900", color: "#111827", margin: "0 0 4px 0" }}>
-                {projectName || "Case Study Project"}
-              </h1>
-              <p style={{ fontSize: "12px", color: "#4b5563", margin: "0" }}>
-                Client Name: <strong>{displayClientName}</strong>
-              </p>
+
+              <div style={{ textAlign: "right" }}>
+                <h1 style={{ fontSize: "32px", fontWeight: "900", letterSpacing: "0.15em", textTransform: "uppercase", margin: "0", color: "#0f172a", lineHeight: "1" }}>
+                  CASE STUDY
+                </h1>
+                <div style={{ height: "4px", backgroundColor: "#2563eb", width: "48px", marginTop: "12px", marginLeft: "auto" }} />
+              </div>
             </div>
-            <div style={{ textAlign: "right" }}>
-              <div style={{ fontSize: "10px", color: "#9ca3af" }}>Date Generated</div>
-              <strong style={{ fontSize: "12px", color: "#111827" }}>
-                {new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
-              </strong>
+
+            {/* Metadata Info Box */}
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              gap: "16px",
+              padding: "16px",
+              backgroundColor: "#f8fafc",
+              borderBottom: "1px solid #e2e8f0",
+              borderRadius: "8px"
+            }}>
+              <div>
+                <span style={{ fontSize: "9px", fontWeight: "bold", color: "#64748b", textTransform: "uppercase", letterSpacing: "1.5px" }}>
+                  CLIENT
+                </span>
+                <span style={{ fontSize: "12px", fontWeight: "bold", color: "#0f172a", display: "block", marginTop: "4px" }}>
+                  {displayClientName}
+                </span>
+              </div>
+              <div>
+                <span style={{ fontSize: "9px", fontWeight: "bold", color: "#64748b", textTransform: "uppercase", letterSpacing: "1.5px" }}>
+                  DATE PUBLISHED
+                </span>
+                <span style={{ fontSize: "12px", fontWeight: "600", color: "#334155", display: "block", marginTop: "4px" }}>
+                  {new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+                </span>
+              </div>
             </div>
-          </div>
 
-          {/* 1. Problem / Challenge */}
-          <div style={{ borderTop: "2px solid #e5e7eb", paddingTop: "24px", marginBottom: "28px" }}>
-            <h3 style={{ fontSize: "13px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", letterSpacing: "0.5px", margin: "0 0 10px 0" }}>
-              1. The Challenge
-            </h3>
-            <p style={{ fontSize: "12px", color: "#4b5563", whiteSpace: "pre-line", margin: "0", lineHeight: "1.6" }}>
-              {problem}
-            </p>
-          </div>
+            {/* Narratives */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              <div>
+                <span style={{ fontSize: "9px", fontWeight: "bold", color: "#2563eb", textTransform: "uppercase", letterSpacing: "1.5px" }}>
+                  1. The Challenge
+                </span>
+                <p style={{ fontSize: "11px", color: "#475569", whiteSpace: "pre-line", margin: "4px 0 0 0", lineHeight: "1.6" }}>
+                  {problem}
+                </p>
+              </div>
 
-          {/* 2. Approach / Solution */}
-          <div style={{ borderTop: "1px solid #e5e7eb", paddingTop: "24px", marginBottom: "28px" }}>
-            <h3 style={{ fontSize: "13px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", letterSpacing: "0.5px", margin: "0 0 10px 0" }}>
-              2. The Solution &amp; Approach
-            </h3>
-            <p style={{ fontSize: "12px", color: "#4b5563", whiteSpace: "pre-line", margin: "0", lineHeight: "1.6" }}>
-              {approach}
-            </p>
-          </div>
+              <div>
+                <span style={{ fontSize: "9px", fontWeight: "bold", color: "#2563eb", textTransform: "uppercase", letterSpacing: "1.5px" }}>
+                  2. Solution &amp; Approach
+                </span>
+                <p style={{ fontSize: "11px", color: "#475569", whiteSpace: "pre-line", margin: "4px 0 0 0", lineHeight: "1.6" }}>
+                  {approach}
+                </p>
+              </div>
+            </div>
 
-          {/* 3. Metrics/Results */}
-          {metrics.length > 0 && (
-            <div style={{ borderTop: "1px solid #e5e7eb", paddingTop: "24px", marginBottom: "28px" }}>
-              <h3 style={{ fontSize: "13px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", letterSpacing: "0.5px", margin: "0 0 16px 0" }}>
-                3. Business Results &amp; Metrics
-              </h3>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "16px" }}>
-                {metrics.map(m => (
-                  <div key={m.id} style={{ backgroundColor: "#f8fafc", padding: "16px", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
-                    <span style={{ fontSize: "10px", color: "#64748b", textTransform: "uppercase", letterSpacing: "0.5px", display: "block" }}>
-                      {m.label || "Result"}
-                    </span>
-                    <strong style={{ fontSize: "16px", color: "#2563eb", display: "block", marginTop: "4px" }}>
-                      {m.value || "—"}
-                    </strong>
+            {/* Performance Metrics: 3-column stats with soft borders/tints */}
+            {metrics.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <span style={{ fontSize: "9px", fontWeight: "bold", color: "#2563eb", textTransform: "uppercase", letterSpacing: "1.5px" }}>
+                  3. Key Results &amp; Performance Metrics
+                </span>
+                <div style={{ display: "grid", gridTemplateColumns: `repeat(${metrics.length > 3 ? 3 : metrics.length}, 1fr)`, gap: "16px" }}>
+                  {metrics.map(m => (
+                    <div key={m.id} style={{ backgroundColor: "#f8fafc", padding: "12px", borderRadius: "8px", border: "1px solid #cbd5e1", textAlign: "center" }}>
+                      <span style={{ fontSize: "9px", color: "#64748b", textTransform: "uppercase", letterSpacing: "0.5px" }}>{m.label || "Performance"}</span>
+                      <strong style={{ fontSize: "14px", color: "#2563eb", display: "block", marginTop: "4px" }}>{m.value || "—"}</strong>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* visual deliverables image layout */}
+            {images.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <span style={{ fontSize: "9px", fontWeight: "bold", color: "#2563eb", textTransform: "uppercase", letterSpacing: "1.5px" }}>
+                  4. Deliverable Gallery
+                </span>
+
+                {images.length === 1 && (
+                  <div style={{ borderRadius: "8px", overflow: "hidden", border: "1px solid #e2e8f0", width: "100%", height: "200px" }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={images[0].base64} alt={images[0].name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   </div>
-                ))}
+                )}
+
+                {images.length === 2 && (
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                    {images.map(img => (
+                      <div key={img.id} style={{ borderRadius: "8px", overflow: "hidden", border: "1px solid #e2e8f0", height: "140px" }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={img.base64} alt={img.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {images.length === 3 && (
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "16px" }}>
+                    {images.map(img => (
+                      <div key={img.id} style={{ borderRadius: "8px", overflow: "hidden", border: "1px solid #e2e8f0", height: "110px" }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={img.base64} alt={img.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-            </div>
-          )}
+            )}
 
-          {/* 4. Portfolio Images */}
-          {images.length > 0 && (
-            <div style={{ borderTop: "1px solid #e5e7eb", paddingTop: "24px", marginBottom: "28px" }}>
-              <h3 style={{ fontSize: "13px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", letterSpacing: "0.5px", margin: "0 0 16px 0" }}>
-                4. Visual Assets &amp; Deliverables
-              </h3>
-
-              {images.length === 1 && (
-                <div style={{ borderRadius: "8px", overflow: "hidden", border: "1px solid #e2e8f0", width: "100%", height: "240px", backgroundColor: "#f8fafc" }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={images[0].base64} alt={images[0].name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                </div>
-              )}
-
-              {images.length === 2 && (
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "16px" }}>
-                  {images.map(img => (
-                    <div key={img.id} style={{ borderRadius: "8px", overflow: "hidden", border: "1px solid #e2e8f0", height: "180px", backgroundColor: "#f8fafc" }}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={img.base64} alt={img.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {images.length === 3 && (
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px" }}>
-                  {images.map(img => (
-                    <div key={img.id} style={{ borderRadius: "8px", overflow: "hidden", border: "1px solid #e2e8f0", height: "140px", backgroundColor: "#f8fafc" }}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={img.base64} alt={img.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* 5. Testimonial Quote */}
-          {testimonial.trim() && (
-            <div style={{ borderTop: "1px solid #e5e7eb", paddingTop: "24px", marginBottom: "28px" }}>
-              <div style={{ backgroundColor: "#f8fafc", borderLeft: "4px solid #2563eb", padding: "16px", borderRadius: "0 8px 8px 0" }}>
-                <p style={{ fontSize: "12px", fontStyle: "italic", color: "#334155", margin: "0", lineHeight: "1.6" }}>
+            {/* Testimonial Block with Quiet Elegance & Thick Left Border */}
+            {testimonial.trim() && (
+              <div style={{
+                borderLeft: "4px solid #2563eb",
+                backgroundColor: "#f8fafc",
+                padding: "16px",
+                borderRadius: "0 8px 8px 0"
+              }}>
+                <p style={{ fontSize: "11px", fontStyle: "italic", color: "#334155", margin: "0", lineHeight: "1.6", fontFamily: "Georgia, serif" }}>
                   &ldquo;{testimonial.trim()}&rdquo;
                 </p>
                 {testimonialAttribution.trim() && (
-                  <p style={{ fontSize: "10px", fontWeight: "bold", color: "#64748b", margin: "8px 0 0 0" }}>
+                  <p style={{ fontSize: "9px", fontWeight: "bold", color: "#64748b", textTransform: "uppercase", letterSpacing: "1px", margin: "8px 0 0 0" }}>
                     &mdash; {testimonialAttribution.trim()}
                   </p>
                 )}
               </div>
-            </div>
-          )}
+            )}
 
-          {/* Footer branding */}
-          <div style={{ borderTop: "1px solid #e5e7eb", paddingTop: "12px", marginTop: "auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: "9px", color: "#9ca3af" }}>
-              Generated via Freelance Ops Toolkit • Portfolio Case Study Builder
-            </span>
-            <span style={{ fontSize: "9px", color: "#9ca3af" }}>
-              Secure &amp; Private • Client-facing Visuals
-            </span>
           </div>
 
+          {/* Print Footer */}
+          <div style={{
+            position: "absolute",
+            bottom: "56px",
+            left: "56px",
+            right: "56px",
+            borderTop: "1px solid #e2e8f0",
+            paddingTop: "16px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            textTransform: "uppercase",
+            fontSize: "8px",
+            color: "#94a3b8",
+            letterSpacing: "0.5px"
+          }}>
+            <span>Generated via Freelance Ops Toolkit • Portfolio Case Study Builder</span>
+            <span>Outcome &amp; Metrics Driven</span>
+          </div>
         </div>
       </div>
 

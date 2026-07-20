@@ -13,10 +13,10 @@ import {
   CheckCircle2,
   Briefcase,
   Layers,
-  Scale,
-  ShieldAlert
+  Scale
 } from "lucide-react";
 import ToolSeoContent from "@/components/layout/ToolSeoContent";
+import { PdfDisclaimer, PdfHeader, PdfMetadataBlock, formatPdfDate } from "@/components/shared/PdfComponents";
 
 interface Deliverable {
   id: string;
@@ -188,12 +188,9 @@ export default function ContractGenerator() {
           </button>
         </div>
 
-        {/* Legal disclaimer */}
-        <div className="mb-8 p-4 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/30 rounded-xl flex items-start gap-3">
-          <ShieldAlert className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
-          <p className="text-xs text-amber-800 dark:text-amber-400 leading-relaxed font-medium">
-            DISCLAIMER: This document is a generic template and does not constitute legal advice. Consult a qualified lawyer before use.
-          </p>
+        {/* Premium elegant notice block disclaimer */}
+        <div className="mb-8">
+          <PdfDisclaimer />
         </div>
 
         {/* Split Layout */}
@@ -446,75 +443,81 @@ export default function ContractGenerator() {
               </span>
             </div>
 
-            {/* Simulated legal paper */}
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 sm:p-8 shadow-lg text-gray-850 dark:text-gray-205 text-xs transition-colors space-y-4 max-h-[600px] overflow-y-auto">
-              <p className="text-[10px] text-amber-600 dark:text-amber-400 font-bold border border-dashed border-amber-200 dark:border-amber-900/40 p-2.5 rounded bg-amber-50/40 dark:bg-amber-950/10 leading-normal">
-                DISCLAIMER: This is a generic template for informational purposes only and does not constitute legal advice. Consult a qualified lawyer before using this document.
-              </p>
+            {/* Simulated legal paper with premium executive styling */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-lg text-slate-800 dark:text-slate-200 text-xs transition-colors space-y-4 max-h-[600px] overflow-y-auto">
+              <PdfDisclaimer />
 
-              <div className="text-center pb-2 border-b border-gray-100 dark:border-gray-800">
-                <h3 className="font-bold text-sm text-gray-900 dark:text-white uppercase">
+              <div className="text-center pb-2 border-b border-slate-100 dark:border-slate-800">
+                <h3 className="font-extrabold text-sm text-slate-900 dark:text-white uppercase tracking-wider">
                   CONTRACT FOR SERVICES ({contractType === "fixed" ? "FIXED-PRICE" : "HOURLY"})
                 </h3>
-                <p className="text-[10px] text-gray-400 mt-1">Jurisdiction: {jurisdiction === "US" ? "United States (NY)" : "United Kingdom (E&W)"}</p>
+                <p className="text-[9px] text-slate-400 mt-1 uppercase tracking-widest font-bold">Jurisdiction: {jurisdiction === "US" ? "United States (NY)" : "United Kingdom (E&W)"}</p>
               </div>
 
               <div>
                 <p className="leading-relaxed">
                   This Contract is entered into as of the Effective Date of signing, by and between:
                 </p>
-                <div className="mt-2 pl-3 border-l-2 border-blue-500 space-y-1">
-                  <div><strong>Service Provider:</strong> {freelancerName || "[Freelancer Name]"}</div>
-                  <div><strong>Client:</strong> {clientName || "[Client Name]"}</div>
+                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50/60 dark:bg-slate-850/30 p-3.5 rounded-xl border border-slate-100 dark:border-slate-850">
+                  <div>
+                    <span className="block text-[8px] font-black text-slate-400 tracking-wider uppercase">SERVICE PROVIDER</span>
+                    <strong className="block text-slate-900 dark:text-white mt-1 text-xs">{freelancerName || "[Freelancer Name]"}</strong>
+                  </div>
+                  <div>
+                    <span className="block text-[8px] font-black text-slate-400 tracking-wider uppercase">CLIENT</span>
+                    <strong className="block text-slate-900 dark:text-white mt-1 text-xs">{clientName || "[Client Name]"}</strong>
+                  </div>
                 </div>
               </div>
 
-              <div>
-                <h4 className="font-bold text-gray-900 dark:text-white uppercase mb-1">1. Scope of Work &amp; Deliverables</h4>
-                <p className="mb-1.5 leading-relaxed">
-                  {contractType === "fixed"
-                    ? "The Service Provider agrees to perform and deliver the following services:"
-                    : "The Service Provider agrees to perform the following services on an hourly basis:"}
-                </p>
-                <ul className="list-disc pl-4 space-y-1">
-                  {deliverables.map(d => (
-                    <li key={d.id}>{d.description || <span className="italic text-gray-300 dark:text-gray-700">Empty deliverable</span>}</li>
-                  ))}
-                </ul>
-              </div>
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-bold text-slate-900 dark:text-white uppercase text-[10px] tracking-widest border-b border-slate-100 dark:border-slate-800 pb-1 mb-2">1. Scope of Work &amp; Deliverables</h4>
+                  <p className="mb-2 leading-relaxed">
+                    {contractType === "fixed"
+                      ? "The Service Provider agrees to perform and deliver the following services:"
+                      : "The Service Provider agrees to perform the following services on an hourly basis:"}
+                  </p>
+                  <ul className="list-disc pl-4 space-y-1.5 text-slate-600 dark:text-slate-400">
+                    {deliverables.map(d => (
+                      <li key={d.id}>{d.description || <span className="italic text-slate-350 dark:text-slate-700">Empty deliverable</span>}</li>
+                    ))}
+                  </ul>
+                </div>
 
-              <div>
-                <h4 className="font-bold text-gray-900 dark:text-white uppercase mb-1">
-                  {contractType === "fixed" ? "2. Payment Terms" : "2. Hourly Rates &amp; Payment Terms"}
-                </h4>
-                <p className="leading-relaxed">
-                  {contractType === "fixed"
-                    ? `The Client agrees to pay the Service Provider according to the following payment terms: ${paymentTerms || "[Payment Terms]"}`
-                    : `The Client agrees to pay the Service Provider according to the rate structure and terms of: ${paymentTerms || "[Payment Terms]"} (All rates denominated in ${currency.code})`}
-                </p>
-              </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 dark:text-white uppercase text-[10px] tracking-widest border-b border-slate-100 dark:border-slate-800 pb-1 mb-2">
+                    {contractType === "fixed" ? "2. Payment Terms" : "2. Hourly Rates &amp; Payment Terms"}
+                  </h4>
+                  <p className="leading-relaxed text-slate-600 dark:text-slate-400">
+                    {contractType === "fixed"
+                      ? `The Client agrees to pay the Service Provider according to the following payment terms: ${paymentTerms || "[Payment Terms]"}`
+                      : `The Client agrees to pay the Service Provider according to the rate structure and terms of: ${paymentTerms || "[Payment Terms]"} (All rates denominated in ${currency.code})`}
+                  </p>
+                </div>
 
-              <div>
-                <h4 className="font-bold text-gray-900 dark:text-white uppercase mb-1">3. Revisions</h4>
-                <p className="leading-relaxed">
-                  {contractType === "fixed"
-                    ? `The Client is entitled to a maximum of ${revisionLimit} rounds of revisions. Any revisions exceeding this limit will be billed at the Service Provider's standard hourly rate.`
-                    : `Revisions will be billed at the standard hourly rate. The Client is entitled to review progress up to ${revisionLimit} check-ins or milestones.`}
-                </p>
-              </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 dark:text-white uppercase text-[10px] tracking-widest border-b border-slate-100 dark:border-slate-800 pb-1 mb-2">3. Revisions</h4>
+                  <p className="leading-relaxed text-slate-600 dark:text-slate-400">
+                    {contractType === "fixed"
+                      ? `The Client is entitled to a maximum of ${revisionLimit} rounds of revisions. Any revisions exceeding this limit will be billed at the Service Provider's standard hourly rate.`
+                      : `Revisions will be billed at the standard hourly rate. The Client is entitled to review progress up to ${revisionLimit} check-ins or milestones.`}
+                  </p>
+                </div>
 
-              <div>
-                <h4 className="font-bold text-gray-900 dark:text-white uppercase mb-1">4. Termination</h4>
-                <p className="leading-relaxed whitespace-pre-line">{terminationClause || "[Termination Clause Details]"}</p>
-              </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 dark:text-white uppercase text-[10px] tracking-widest border-b border-slate-100 dark:border-slate-800 pb-1 mb-2">4. Termination</h4>
+                  <p className="leading-relaxed whitespace-pre-line text-slate-600 dark:text-slate-400">{terminationClause || "[Termination Clause Details]"}</p>
+                </div>
 
-              <div>
-                <h4 className="font-bold text-gray-900 dark:text-white uppercase mb-1">5. Governing Law</h4>
-                <p className="leading-relaxed">
-                  {jurisdiction === "US"
-                    ? "This Contract shall be governed by and construed in accordance with the laws of the State of New York, United States, without regard to conflict of law principles."
-                    : "This Contract shall be governed by and construed in accordance with the laws of England and Wales, and the parties submit to the exclusive jurisdiction of the English courts."}
-                </p>
+                <div>
+                  <h4 className="font-bold text-slate-900 dark:text-white uppercase text-[10px] tracking-widest border-b border-slate-100 dark:border-slate-800 pb-1 mb-2">5. Governing Law</h4>
+                  <p className="leading-relaxed text-slate-600 dark:text-slate-400">
+                    {jurisdiction === "US"
+                      ? "This Contract shall be governed by and construed in accordance with the laws of the State of New York, United States, without regard to conflict of law principles."
+                      : "This Contract shall be governed by and construed in accordance with the laws of England and Wales, and the parties submit to the exclusive jurisdiction of the English courts."}
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -585,136 +588,133 @@ export default function ContractGenerator() {
             width: "794px",
             minHeight: "1123px",
             backgroundColor: "#ffffff",
-            color: "#1f2937",
-            padding: "54px",
+            color: "#0f172a",
+            padding: "56px",
             fontFamily: "system-ui, -apple-system, sans-serif",
-            boxSizing: "border-box"
+            boxSizing: "border-box",
+            position: "relative"
           }}
-          className="text-gray-800"
         >
-          {/* Top Legal Disclaimer */}
-          <div style={{
-            border: "1px dashed #d1d5db",
-            padding: "12px",
-            borderRadius: "6px",
-            backgroundColor: "#fef3c7",
-            color: "#92400e",
-            fontSize: "10px",
-            lineHeight: "1.5",
-            marginBottom: "30px",
-            fontWeight: "500"
-          }}>
-            DISCLAIMER: This is a generic template for informational purposes only and does not constitute legal advice. Consult a qualified lawyer before using this document.
-          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            {/* Disclaimer */}
+            <PdfDisclaimer />
 
-          <div style={{ textAlign: "center", marginBottom: "32px" }}>
-            <h1 style={{ fontSize: "20px", fontWeight: "bold", textTransform: "uppercase", color: "#111827", margin: "0" }}>
-              CONTRACT FOR SERVICES ({contractType === "fixed" ? "FIXED-PRICE" : "HOURLY"})
-            </h1>
-            <div style={{ width: "60px", height: "3px", backgroundColor: "#2563eb", margin: "12px auto" }} />
-          </div>
+            {/* Custom Header */}
+            <PdfHeader
+              title="CONTRACT"
+              subtitle="SERVICE AGREEMENT"
+              businessName={freelancerName}
+              businessAddress="Independent Creative Consulting"
+            />
 
-          {/* Parties Block */}
-          <div style={{ fontSize: "12px", lineHeight: "1.6", color: "#374151", marginBottom: "24px" }}>
-            This Contract for Services (the &quot;Agreement&quot;) is entered into as of the date of signing, by and between the following parties:
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginTop: "12px", backgroundColor: "#f9fafb", padding: "16px", borderRadius: "8px" }}>
-              <div>
-                <strong style={{ color: "#111827" }}>SERVICE PROVIDER:</strong>
-                <div style={{ marginTop: "4px" }}>{freelancerName || "[Freelancer Name]"}</div>
+            {/* 3-Column Metadata Block */}
+            <PdfMetadataBlock
+              items={[
+                { label: "CLIENT", value: clientName },
+                { label: "EFFECTIVE DATE", value: formatPdfDate(new Date().toISOString().split('T')[0]) },
+                { label: "JURISDICTION", value: jurisdiction === "US" ? "State of New York" : "England & Wales" }
+              ]}
+            />
+
+            {/* Contract terms */}
+            <div style={{ fontSize: "12px", lineHeight: "1.6", color: "#334155" }}>
+              <div style={{ marginBottom: "16px" }}>
+                <h4 style={{ fontSize: "11px", fontWeight: "bold", color: "#0f172a", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 4px 0" }}>
+                  1. Scope of Work &amp; Deliverables
+                </h4>
+                <p style={{ margin: "0 0 6px 0" }}>
+                  The Service Provider agrees to perform and deliver the following services:
+                </p>
+                <ul style={{ margin: "0", paddingLeft: "16px" }}>
+                  {deliverables.map(d => (
+                    <li key={d.id} style={{ marginBottom: "4px" }}>{d.description}</li>
+                  ))}
+                </ul>
               </div>
-              <div>
-                <strong style={{ color: "#111827" }}>CLIENT:</strong>
-                <div style={{ marginTop: "4px" }}>{clientName || "[Client Name]"}</div>
+
+              <div style={{ marginBottom: "16px" }}>
+                <h4 style={{ fontSize: "11px", fontWeight: "bold", color: "#0f172a", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 4px 0" }}>
+                  2. Compensation &amp; Financial Terms
+                </h4>
+                <p style={{ margin: "0" }}>
+                  {contractType === "fixed"
+                    ? `The Client shall compensate the Service Provider according to the following agreed schedule: ${paymentTerms}`
+                    : `The Client shall compensate the Service Provider on an hourly basis, under the following rate guidelines: ${paymentTerms}. All rates denominated in ${currency.code}.`}
+                </p>
               </div>
-            </div>
-          </div>
 
-          {/* Clauses */}
-          <div style={{ fontSize: "12px", lineHeight: "1.6", color: "#374151" }}>
-
-            <div style={{ marginBottom: "20px" }}>
-              <h3 style={{ fontSize: "13px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", margin: "0 0 6px 0" }}>
-                1. Scope of Work &amp; Deliverables
-              </h3>
-              <p style={{ margin: "0 0 8px 0" }}>
-                The Service Provider agrees to perform and render the following deliverables for the Client:
-              </p>
-              <ul style={{ margin: "0", paddingLeft: "20px" }}>
-                {deliverables.map(d => (
-                  <li key={d.id} style={{ marginBottom: "4px" }}>{d.description}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div style={{ marginBottom: "20px" }}>
-              <h3 style={{ fontSize: "13px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", margin: "0 0 6px 0" }}>
-                2. Compensation &amp; Payments
-              </h3>
-              <p style={{ margin: "0" }}>
-                {contractType === "fixed"
-                  ? `The Client shall compensate the Service Provider according to the following agreed schedule: ${paymentTerms}`
-                  : `The Client shall compensate the Service Provider on an hourly basis, under the following rate guidelines: ${paymentTerms}. All fees are represented in ${currency.code}.`}
-              </p>
-            </div>
-
-            <div style={{ marginBottom: "20px" }}>
-              <h3 style={{ fontSize: "13px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", margin: "0 0 6px 0" }}>
-                3. Revisions &amp; Scope Creep
-              </h3>
-              <p style={{ margin: "0" }}>
-                {contractType === "fixed"
-                  ? `The client is entitled to up to ${revisionLimit} rounds of feedback/revisions. Additional requests or major structural changes will be treated as out of scope and billed at standard hourly rates.`
-                  : `All reviews, feedback iterations, and deliverables will be tracked on an hourly schedule up to ${revisionLimit} milestones.`}
-              </p>
-            </div>
-
-            <div style={{ marginBottom: "20px" }}>
-              <h3 style={{ fontSize: "13px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", margin: "0 0 6px 0" }}>
-                4. Term &amp; Termination
-              </h3>
-              <p style={{ margin: "0", whiteSpace: "pre-line" }}>
-                {terminationClause}
-              </p>
-            </div>
-
-            <div style={{ marginBottom: "32px" }}>
-              <h3 style={{ fontSize: "13px", fontWeight: "bold", color: "#111827", textTransform: "uppercase", margin: "0 0 6px 0" }}>
-                5. Governing Law &amp; Dispute Resolution
-              </h3>
-              <p style={{ margin: "0" }}>
-                {jurisdiction === "US"
-                  ? "This Contract and all rights and obligations hereunder shall be governed by, interpreted, and enforced in accordance with the laws of the State of New York, United States, without regard to conflicts of law principles."
-                  : "This Contract and all rights and obligations hereunder shall be governed by and construed in accordance with the laws of England and Wales. Both parties consent to the exclusive jurisdiction of the courts of England and Wales."}
-              </p>
-            </div>
-
-          </div>
-
-          {/* Signatures */}
-          <div style={{ borderTop: "1px solid #e5e7eb", paddingTop: "30px", marginTop: "40px", fontSize: "12px" }}>
-            <p style={{ margin: "0 0 30px 0", fontStyle: "italic", color: "#4b5563" }}>
-              IN WITNESS WHEREOF, the parties hereto have executed this Agreement as of the date written below.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px" }}>
-              <div>
-                <div style={{ borderBottom: "1px solid #9ca3af", height: "40px" }} />
-                <div style={{ marginTop: "6px", fontWeight: "bold", color: "#111827" }}>Service Provider Representative</div>
-                <div style={{ fontSize: "11px", color: "#4b5563" }}>Date: ________________________</div>
+              <div style={{ marginBottom: "16px" }}>
+                <h4 style={{ fontSize: "11px", fontWeight: "bold", color: "#0f172a", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 4px 0" }}>
+                  3. Revisions &amp; Iterative Feedback
+                </h4>
+                <p style={{ margin: "0" }}>
+                  {contractType === "fixed"
+                    ? `The client is entitled to up to ${revisionLimit} rounds of feedback/revisions. Additional requests or major structural changes will be treated as out of scope and billed at standard hourly rates.`
+                    : `All reviews, feedback iterations, and deliverables will be tracked on an hourly schedule up to ${revisionLimit} milestones.`}
+                </p>
               </div>
-              <div>
-                <div style={{ borderBottom: "1px solid #9ca3af", height: "40px" }} />
-                <div style={{ marginTop: "6px", fontWeight: "bold", color: "#111827" }}>Client Representative</div>
-                <div style={{ fontSize: "11px", color: "#4b5563" }}>Date: ________________________</div>
+
+              <div style={{ marginBottom: "16px" }}>
+                <h4 style={{ fontSize: "11px", fontWeight: "bold", color: "#0f172a", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 4px 0" }}>
+                  4. Term &amp; Termination
+                </h4>
+                <p style={{ margin: "0", whiteSpace: "pre-line" }}>
+                  {terminationClause}
+                </p>
+              </div>
+
+              <div style={{ marginBottom: "24px" }}>
+                <h4 style={{ fontSize: "11px", fontWeight: "bold", color: "#0f172a", textTransform: "uppercase", letterSpacing: "1px", margin: "0 0 4px 0" }}>
+                  5. Governing Law &amp; Dispute Resolution
+                </h4>
+                <p style={{ margin: "0" }}>
+                  {jurisdiction === "US"
+                    ? "This Contract and all rights and obligations hereunder shall be governed by, interpreted, and enforced in accordance with the laws of the State of New York, United States, without regard to conflicts of law principles."
+                    : "This Contract and all rights and obligations hereunder shall be governed by and construed in accordance with the laws of England and Wales. Both parties consent to the exclusive jurisdiction of the courts of England and Wales."}
+                </p>
               </div>
             </div>
+
+            {/* Signatures */}
+            <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: "24px", fontSize: "11px" }}>
+              <p style={{ margin: "0 0 24px 0", fontStyle: "italic", color: "#64748b" }}>
+                IN WITNESS WHEREOF, the parties hereto have executed this Agreement as of the date written below.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px" }}>
+                <div>
+                  <div style={{ borderBottom: "1px solid #cbd5e1", height: "32px" }} />
+                  <div style={{ marginTop: "6px", fontWeight: "bold", color: "#0f172a" }}>Service Provider Representative</div>
+                  <div style={{ fontSize: "10px", color: "#64748b" }}>Date: ________________________</div>
+                </div>
+                <div>
+                  <div style={{ borderBottom: "1px solid #cbd5e1", height: "32px" }} />
+                  <div style={{ marginTop: "6px", fontWeight: "bold", color: "#0f172a" }}>Client Representative</div>
+                  <div style={{ fontSize: "10px", color: "#64748b" }}>Date: ________________________</div>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           {/* Print Footer */}
-          <div style={{ borderTop: "1px solid #f3f4f6", paddingTop: "12px", marginTop: "auto", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "10px", color: "#9ca3af" }}>
-            <span>Generated via Freelance Ops Toolkit • Contract Template Builder</span>
-            <span>Client-Side Security • Zero Database</span>
+          <div style={{
+            position: "absolute",
+            bottom: "56px",
+            left: "56px",
+            right: "56px",
+            borderTop: "1px solid #e2e8f0",
+            paddingTop: "16px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            textTransform: "uppercase",
+            fontSize: "8px",
+            color: "#94a3b8",
+            letterSpacing: "0.5px"
+          }}>
+            <span>Generated via Freelance Ops Toolkit • Contract Builder</span>
+            <span>Independent Client Security</span>
           </div>
-
         </div>
       </div>
 

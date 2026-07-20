@@ -456,7 +456,7 @@ export default function ClientIntakeFormBuilder() {
                     </span>
                   </div>
 
-                  {/* Category Questions (only visible if category is selected) */}
+                  {/* Category Questions */}
                   {cat.selected && (
                     <div className="p-4 space-y-3 bg-gray-50/30 dark:bg-gray-900/40">
                       {cat.questions.map((q) => (
@@ -582,51 +582,68 @@ export default function ClientIntakeFormBuilder() {
               </span>
             </div>
 
-            {/* Interactive Preview Container */}
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 sm:p-8 shadow-lg text-gray-800 dark:text-gray-100 transition-colors">
-              <div className="mb-6 pb-4 border-b border-gray-100 dark:border-gray-800 text-center">
-                {businessName.trim() ? (
-                  <h3 className="text-lg font-extrabold text-gray-900 dark:text-white leading-tight">
-                    {businessName.trim()}
-                  </h3>
-                ) : null}
-                <h4 className="text-xl font-black text-blue-600 dark:text-blue-400 mt-1 uppercase tracking-tight">
-                  Client Intake Form
-                </h4>
-                <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1.5 uppercase tracking-widest">
-                  Onboarding Questionnaire
-                </p>
-              </div>
-
-              {/* Questionnaire Structure */}
-              <div className="space-y-6">
-                {orderedQuestions.length > 0 ? (
-                  orderedQuestions.map((item, index) => {
-                    if (item.categoryName) {
-                      return (
-                        <h5
-                          key={`cat-${index}`}
-                          className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest pt-2 first:pt-0"
-                        >
-                          {item.categoryName}
-                        </h5>
-                      );
-                    } else {
-                      return (
-                        <div key={`q-${index}`} className="group pb-3 border-b border-gray-50 dark:border-gray-850/40 last:border-0 last:pb-0">
-                          <p className="text-sm font-semibold text-gray-800 dark:text-gray-200 leading-relaxed">
-                            {item.text}
-                          </p>
-                          <div className="mt-2.5 h-10 w-full border border-dashed border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50/50 dark:bg-gray-950/30" />
-                        </div>
-                      );
-                    }
-                  })
-                ) : (
-                  <div className="text-center py-10 text-gray-400 dark:text-gray-600 italic">
-                    No questions selected or added yet. Tick category checkboxes or add custom questions to populate the preview.
+            {/* Interactive Preview Container with traditional consulting top-to-bottom layout */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-lg text-slate-900 dark:text-slate-100 transition-colors">
+              <div className="space-y-6 text-left">
+                {/* Brand / Header */}
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-6 border-b border-slate-100 dark:border-slate-800 pb-6">
+                  <div className="space-y-2">
+                    <span className="text-xs font-black tracking-widest text-blue-600 dark:text-blue-400 uppercase">
+                      ONBOARDING BRIEF
+                    </span>
+                    <h3 className="text-sm font-extrabold tracking-tight text-slate-900 dark:text-white">
+                      {businessName.trim() || "Your Business Name"}
+                    </h3>
                   </div>
-                )}
+
+                  <div className="sm:text-right">
+                    <h3 className="text-xl font-black tracking-[0.12em] uppercase text-slate-900 dark:text-white leading-none">
+                      QUESTIONNAIRE
+                    </h3>
+                    <div className="h-1 bg-blue-600 dark:bg-blue-500 w-12 sm:ml-auto mt-3" />
+                  </div>
+                </div>
+
+                {/* Date Metadata info box */}
+                <div className="py-3.5 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 px-4 rounded-xl flex justify-between items-center text-xs">
+                  <span className="font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest text-[9px]">
+                    GENERATION DATE
+                  </span>
+                  <span className="font-semibold text-slate-900 dark:text-white">
+                    {new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </span>
+                </div>
+
+                {/* Questionnaire list with clean section indicators */}
+                <div className="space-y-6">
+                  {orderedQuestions.length > 0 ? (
+                    orderedQuestions.map((item, index) => {
+                      if (item.categoryName) {
+                        return (
+                          <div
+                            key={`cat-${index}`}
+                            className="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest pt-3 border-b border-slate-50 dark:border-slate-850 pb-1"
+                          >
+                            {item.categoryName}
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <div key={`q-${index}`} className="space-y-2.5">
+                            <p className="text-xs font-bold text-slate-850 dark:text-slate-200 leading-relaxed">
+                              {item.text}
+                            </p>
+                            <div className="h-10 w-full border border-dashed border-slate-200 dark:border-slate-800 rounded-lg bg-slate-50/40 dark:bg-slate-950/20" />
+                          </div>
+                        );
+                      }
+                    })
+                  ) : (
+                    <div className="text-center py-10 text-slate-400 dark:text-slate-600 italic">
+                      No questions selected or added yet. Tick category checkboxes or add custom questions to populate the preview.
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -698,86 +715,122 @@ export default function ClientIntakeFormBuilder() {
             width: "794px",
             minHeight: "1123px",
             backgroundColor: "#ffffff",
-            color: "#1f2937",
+            color: "#0f172a",
             padding: "56px",
             fontFamily: "system-ui, -apple-system, sans-serif",
-            boxSizing: "border-box"
+            boxSizing: "border-box",
+            position: "relative"
           }}
-          className="text-gray-800 animate-none"
         >
-          {/* Header section */}
-          <div style={{ borderBottom: "2px solid #2563eb", paddingBottom: "20px", marginBottom: "32px", textAlign: "center" }}>
-            {businessName.trim() ? (
-              <div style={{ fontSize: "16px", fontWeight: "bold", color: "#4b5563", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "4px" }}>
-                {businessName.trim()}
+          <div style={{ display: "flex", flexDirection: "column", gap: "32px", height: "100%" }}>
+
+            {/* Header: Company branding and title */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", borderBottom: "1px solid #e2e8f0", paddingBottom: "24px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <h4 style={{ fontSize: "14px", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "0.5px", margin: "0", color: "#0f172a" }}>
+                  {businessName.trim() || "Your Business Name"}
+                </h4>
+                <p style={{ fontSize: "11px", color: "#475569", margin: "0" }}>
+                  Client Onboarding Briefing Services
+                </p>
               </div>
-            ) : null}
-            <h1 style={{ fontSize: "28px", fontWeight: "900", color: "#111827", margin: "0 0 6px 0", textTransform: "uppercase" }}>
-              Client Onboarding Questionnaire
-            </h1>
-            <p style={{ fontSize: "11px", color: "#9ca3af", margin: "0" }}>
-              Generated on: <strong>{new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</strong>
-            </p>
-          </div>
 
-          {/* Questionnaire list */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-            {orderedQuestions.length > 0 ? (
-              orderedQuestions.map((item, index) => {
-                if (item.categoryName) {
-                  return (
-                    <div
-                      key={`print-cat-${index}`}
-                      style={{
-                        fontSize: "12px",
-                        fontWeight: "800",
-                        color: "#2563eb",
-                        textTransform: "uppercase",
-                        letterSpacing: "1px",
-                        borderBottom: "1px solid #e5e7eb",
-                        paddingBottom: "4px",
-                        marginTop: index > 0 ? "16px" : "0"
-                      }}
-                    >
-                      {item.categoryName}
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div key={`print-q-${index}`} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                      <p style={{ fontSize: "13px", fontWeight: "600", color: "#1f2937", margin: "0", lineHeight: "1.4" }}>
-                        {item.text}
-                      </p>
+              <div style={{ textAlign: "right" }}>
+                <h1 style={{ fontSize: "28px", fontWeight: "900", letterSpacing: "0.1em", textTransform: "uppercase", margin: "0", color: "#0f172a", lineHeight: "1" }}>
+                  INTAKE BRIEF
+                </h1>
+                <div style={{ height: "4px", backgroundColor: "#2563eb", width: "48px", marginTop: "12px", marginLeft: "auto" }} />
+              </div>
+            </div>
+
+            {/* Metadata Generation Block */}
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "1fr",
+              padding: "16px",
+              backgroundColor: "#f8fafc",
+              borderBottom: "1px solid #e2e8f0",
+              borderRadius: "8px"
+            }}>
+              <div>
+                <span style={{ fontSize: "9px", fontWeight: "bold", color: "#64748b", textTransform: "uppercase", letterSpacing: "1.5px" }}>
+                  GENERATION DATE
+                </span>
+                <span style={{ fontSize: "12px", fontWeight: "bold", color: "#0f172a", display: "block", marginTop: "4px" }}>
+                  {new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+                </span>
+              </div>
+            </div>
+
+            {/* Questionnaire Questions List */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              {orderedQuestions.length > 0 ? (
+                orderedQuestions.map((item, index) => {
+                  if (item.categoryName) {
+                    return (
                       <div
+                        key={`print-cat-${index}`}
                         style={{
-                          height: "48px",
-                          width: "100%",
-                          border: "1px dashed #cbd5e1",
-                          borderRadius: "6px",
-                          backgroundColor: "#f8fafc"
+                          fontSize: "10px",
+                          fontWeight: "800",
+                          color: "#2563eb",
+                          textTransform: "uppercase",
+                          letterSpacing: "1.5px",
+                          borderBottom: "1px solid #cbd5e1",
+                          paddingBottom: "4px",
+                          marginTop: index > 0 ? "16px" : "0"
                         }}
-                      />
-                    </div>
-                  );
-                }
-              })
-            ) : (
-              <p style={{ fontStyle: "italic", color: "#9ca3af", textAlign: "center" }}>
-                No questions selected.
-              </p>
-            )}
+                      >
+                        {item.categoryName}
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div key={`print-q-${index}`} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                        <p style={{ fontSize: "11px", fontWeight: "bold", color: "#0f172a", margin: "0", lineHeight: "1.5" }}>
+                          {item.text}
+                        </p>
+                        <div
+                          style={{
+                            height: "44px",
+                            width: "100%",
+                            border: "1px dashed #cbd5e1",
+                            borderRadius: "6px",
+                            backgroundColor: "#f8fafc"
+                          }}
+                        />
+                      </div>
+                    );
+                  }
+                })
+              ) : (
+                <p style={{ fontStyle: "italic", color: "#94a3b8", textAlign: "center" }}>
+                  No questions selected.
+                </p>
+              )}
+            </div>
+
           </div>
 
-          {/* Footer branding */}
-          <div style={{ borderTop: "1px solid #e5e7eb", paddingTop: "12px", marginTop: "48px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: "9px", color: "#9ca3af" }}>
-              Generated via Freelance Ops Toolkit • Client Intake Form Builder
-            </span>
-            <span style={{ fontSize: "9px", color: "#9ca3af" }}>
-              Secure &amp; Private • Onboarding Essential
-            </span>
+          {/* Print Footer */}
+          <div style={{
+            position: "absolute",
+            bottom: "56px",
+            left: "56px",
+            right: "56px",
+            borderTop: "1px solid #e2e8f0",
+            paddingTop: "16px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            textTransform: "uppercase",
+            fontSize: "8px",
+            color: "#94a3b8",
+            letterSpacing: "0.5px"
+          }}>
+            <span>Generated via Freelance Ops Toolkit • Client Intake Form Builder</span>
+            <span>Secure &amp; Private Onboarding</span>
           </div>
-
         </div>
       </div>
 
