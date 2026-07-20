@@ -118,7 +118,7 @@ export default function Navbar() {
 
   const categorizedTools: ToolCategory[] = [
     {
-      categoryName: "Billing & Financial",
+      categoryName: "Get Paid Faster",
       items: [
         {
           name: "Invoice Generator",
@@ -147,7 +147,7 @@ export default function Navbar() {
       ],
     },
     {
-      categoryName: "Agreements & Legal",
+      categoryName: "Agreements & Contracts",
       items: [
         {
           name: "Proposal Generator",
@@ -176,7 +176,7 @@ export default function Navbar() {
       ],
     },
     {
-      categoryName: "Client & Portfolio",
+      categoryName: "Win & Onboard Clients",
       items: [
         {
           name: "Client Intake Form Builder",
@@ -193,7 +193,7 @@ export default function Navbar() {
       ],
     },
     {
-      categoryName: "AI Communication",
+      categoryName: "Draft Smarter with AI Assistant",
       items: [
         {
           name: "Payment Reminder Generator",
@@ -245,7 +245,7 @@ export default function Navbar() {
       ],
     },
     {
-      categoryName: "Planning & Tracking",
+      categoryName: "Track Time & Scope Projects",
       items: [
         {
           name: "Time Tracker",
@@ -262,7 +262,7 @@ export default function Navbar() {
       ],
     },
     {
-      categoryName: "Reference",
+      categoryName: "Price Your Work",
       items: [
         {
           name: "Rate Benchmark Tool",

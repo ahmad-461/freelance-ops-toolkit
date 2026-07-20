@@ -32,7 +32,7 @@ export const toolsRegistry: ToolItem[] = [
     href: "/tools/invoice-generator",
     icon: FileText,
     badge: "v1.0 - Live",
-    category: "Billing & Financial",
+    category: "Get Paid Faster",
   },
   {
     slug: "rate-calculator",
@@ -41,7 +41,7 @@ export const toolsRegistry: ToolItem[] = [
     href: "/tools/rate-calculator",
     icon: Calculator,
     badge: "v2.0 - Live",
-    category: "Billing & Financial",
+    category: "Get Paid Faster",
   },
   {
     slug: "currency-converter",
@@ -50,7 +50,7 @@ export const toolsRegistry: ToolItem[] = [
     href: "/tools/currency-converter",
     icon: RefreshCw,
     badge: "v2.0 - Live",
-    category: "Billing & Financial",
+    category: "Get Paid Faster",
   },
   {
     slug: "late-payment-fee-calculator",
@@ -59,7 +59,7 @@ export const toolsRegistry: ToolItem[] = [
     href: "/tools/late-payment-fee-calculator",
     icon: CalendarClock,
     badge: "v2.0 - Live",
-    category: "Billing & Financial",
+    category: "Get Paid Faster",
   },
   {
     slug: "proposal-generator",
@@ -68,7 +68,7 @@ export const toolsRegistry: ToolItem[] = [
     href: "/tools/proposal-generator",
     icon: Sparkles,
     badge: "v3.0 - Live",
-    category: "Agreements & Legal",
+    category: "Agreements & Contracts",
   },
   {
     slug: "contract-generator",
@@ -77,7 +77,7 @@ export const toolsRegistry: ToolItem[] = [
     href: "/tools/contract-generator",
     icon: FileSignature,
     badge: "v3.0 - Live",
-    category: "Agreements & Legal",
+    category: "Agreements & Contracts",
   },
   {
     slug: "nda-generator",
@@ -86,7 +86,7 @@ export const toolsRegistry: ToolItem[] = [
     href: "/tools/nda-generator",
     icon: Shield,
     badge: "v3.0 - Live",
-    category: "Agreements & Legal",
+    category: "Agreements & Contracts",
   },
   {
     slug: "retainer-generator",
@@ -95,7 +95,7 @@ export const toolsRegistry: ToolItem[] = [
     href: "/tools/retainer-generator",
     icon: CalendarClock,
     badge: "v3.0 - Live",
-    category: "Agreements & Legal",
+    category: "Agreements & Contracts",
   },
   {
     slug: "client-intake-form",
@@ -104,7 +104,7 @@ export const toolsRegistry: ToolItem[] = [
     href: "/tools/client-intake-form",
     icon: ClipboardList,
     badge: "v4.0 - Live",
-    category: "Client Assets & Onboarding",
+    category: "Win & Onboard Clients",
   },
   {
     slug: "case-study-builder",
@@ -113,7 +113,7 @@ export const toolsRegistry: ToolItem[] = [
     href: "/tools/case-study-builder",
     icon: Briefcase,
     badge: "v4.0 - Live",
-    category: "Client Assets & Onboarding",
+    category: "Win & Onboard Clients",
   },
   {
     slug: "payment-reminder-generator",
@@ -136,7 +136,7 @@ export const toolsRegistry: ToolItem[] = [
       React.createElement("path", { key: "path", d: "m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" })
     ]),
     badge: "v5.0 - Live",
-    category: "AI Communication",
+    category: "Draft Smarter with AI Assistant",
   },
   {
     slug: "meeting-recap-generator",
@@ -162,7 +162,7 @@ export const toolsRegistry: ToolItem[] = [
       React.createElement("rect", { key: "rect", width: "12", height: "18", x: "10", y: "3", rx: "2" })
     ]),
     badge: "v5.0 - Live",
-    category: "AI Communication",
+    category: "Draft Smarter with AI Assistant",
   },
   {
     slug: "time-tracker",
@@ -171,7 +171,7 @@ export const toolsRegistry: ToolItem[] = [
     href: "/tools/time-tracker",
     icon: Clock,
     badge: "v6.0 - Live",
-    category: "Planning & Tracking",
+    category: "Track Time & Scope Projects",
   },
   {
     slug: "scope-estimator",
@@ -180,7 +180,7 @@ export const toolsRegistry: ToolItem[] = [
     href: "/tools/scope-estimator",
     icon: Layers,
     badge: "v6.0 - Live",
-    category: "Planning & Tracking",
+    category: "Track Time & Scope Projects",
   },
   {
     slug: "rate-benchmark",
@@ -189,6 +189,6 @@ export const toolsRegistry: ToolItem[] = [
     href: "/tools/rate-benchmark",
     icon: TrendingUp,
     badge: "v1.0 - Live",
-    category: "Reference & Market Data",
+    category: "Price Your Work",
   },
 ];
