@@ -22,6 +22,8 @@ import {
   Layers,
   TrendingUp,
   Search,
+  ChevronRight,
+  Home,
 } from "lucide-react";
 
 interface ToolItem {
@@ -315,25 +317,10 @@ export default function Navbar() {
     ? "p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
     : "p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-850 transition-colors";
 
+  // Refined mobile menu styles for the visual redesign
   const mobileMenuContainerClasses = isScrolled
-    ? "md:hidden border-t border-slate-800 bg-[#090a0f] px-4 py-3 space-y-4 max-h-[85vh] overflow-y-auto text-white"
-    : "md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-3 space-y-4 max-h-[85vh] overflow-y-auto";
-
-  const mobileHomeLinkClasses = isScrolled
-    ? "block text-base font-semibold text-slate-300 hover:text-white py-1 border-b border-slate-800 pb-2"
-    : "block text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-blue-600 py-1 border-b border-gray-100 dark:border-gray-900 pb-2";
-
-  const mobileCatClasses = isScrolled
-    ? "text-[10px] font-bold text-slate-400 uppercase tracking-wider px-1"
-    : "text-[10px] font-bold text-gray-400 uppercase tracking-wider px-1";
-
-  const mobileItemClasses = isScrolled
-    ? "flex items-center gap-3 rounded-lg p-2 hover:bg-slate-900 text-slate-300 hover:text-white transition-colors"
-    : "flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors";
-
-  const mobileItemIconClasses = isScrolled
-    ? "w-4 h-4 text-slate-400 flex-shrink-0"
-    : "w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0";
+    ? "md:hidden border-t border-slate-800 bg-[#090a0f] px-4 py-6 space-y-6 max-h-[85vh] overflow-y-auto text-white shadow-xl"
+    : "md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-6 space-y-6 max-h-[85vh] overflow-y-auto shadow-xl";
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 w-full ${navbarClasses} ${transitionClasses}`}>
@@ -458,20 +445,37 @@ export default function Navbar() {
       {/* Mobile Menu dropdown */}
       {isMobileMenuOpen && (
         <div className={mobileMenuContainerClasses}>
+          {/* Standalone Home Card */}
           <LinkComponent
             href="/"
             onClick={() => setIsMobileMenuOpen(false)}
-            className={mobileHomeLinkClasses}
+            className="flex items-center justify-between p-3 rounded-xl border border-gray-200/60 dark:border-slate-800/80 bg-gray-50/50 dark:bg-[#0c0d12] hover:bg-gray-100/50 dark:hover:bg-slate-900/60 transition-all shadow-sm active:scale-[0.99]"
           >
-            Home
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-blue-50/50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex-shrink-0">
+                <Home className="w-4 h-4" />
+              </div>
+              <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                Home
+              </span>
+            </div>
+            <ChevronRight className="w-4 h-4 text-gray-400 dark:text-slate-500" />
           </LinkComponent>
-          <div className="space-y-4">
+
+          {/* Categorized Tools List */}
+          <div className="space-y-6">
             {categorizedTools.map((cat) => (
-              <div key={cat.categoryName} className="space-y-2">
-                <div className={mobileCatClasses}>
-                  {cat.categoryName}
+              <div key={cat.categoryName} className="space-y-3">
+                {/* Category Header */}
+                <div className="flex items-center gap-2 px-1">
+                  <span className="w-1 h-3 rounded-full bg-blue-600 dark:bg-blue-500 flex-shrink-0 animate-pulse" />
+                  <span className="text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">
+                    {cat.categoryName}
+                  </span>
                 </div>
-                <div className="space-y-1">
+
+                {/* Stacked Group Card */}
+                <div className="bg-white dark:bg-[#0c0d12] border border-gray-100 dark:border-slate-800/80 rounded-xl overflow-hidden divide-y divide-gray-100 dark:divide-slate-800/50 shadow-sm">
                   {cat.items.map((tool) => {
                     const Icon = tool.icon;
                     return (
@@ -479,14 +483,18 @@ export default function Navbar() {
                         key={tool.name}
                         href={tool.href}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className={mobileItemClasses}
+                        className="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-slate-900/40 transition-colors active:scale-[0.99]"
                       >
-                        <Icon className={mobileItemIconClasses} />
-                        <div className="min-w-0">
-                          <div className="text-sm font-medium truncate">
-                            {tool.name}
+                        <div className="flex items-center gap-3 min-w-0">
+                          {/* Icon Chip */}
+                          <div className="p-2 rounded-lg bg-blue-50/50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex-shrink-0">
+                            <Icon className="w-4 h-4" />
                           </div>
+                          <span className="text-sm font-medium text-gray-700 dark:text-slate-200 truncate">
+                            {tool.name}
+                          </span>
                         </div>
+                        <ChevronRight className="w-4 h-4 text-gray-400 dark:text-slate-500 flex-shrink-0" />
                       </LinkComponent>
                     );
                   })}
