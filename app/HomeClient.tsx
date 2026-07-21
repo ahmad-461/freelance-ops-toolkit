@@ -1100,7 +1100,7 @@ export default function Home() {
                   <span className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:bg-emerald-400/10 dark:text-emerald-400 border border-emerald-200/20 dark:border-emerald-500/30">
                     100% Client-Side
                   </span>
-                  <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500 font-semibold">12 of 15 Tools</span>
+                  <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500 font-semibold">11 of 15 Tools</span>
                 </div>
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">Fully Local Tools</h3>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -1115,18 +1115,18 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Class 2: Account-Optional */}
+            {/* Class 2: Session Storage / Stateless Tracking */}
             <div className="p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c0d12] flex flex-col justify-between shadow-sm">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-indigo-500/10 text-indigo-600 dark:bg-indigo-400/10 dark:text-indigo-400 border border-indigo-200/20 dark:border-indigo-500/30">
-                    Account Optional
+                    Stateless Sessions
                   </span>
                   <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500 font-semibold">2 of 15 Tools</span>
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Local-First, Sync Optional</h3>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Local-First Sessions</h3>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Time tracker logs and project scopes operate on your browser storage with zero login required. You can opt to register a free, secure account if you want your active timesheets to sync across devices—otherwise, it remains 100% local.
+                  Our trackers and estimators operate strictly inside temporary browser memory (such as <code>sessionStorage</code> and <code>localStorage</code>). No database tracking, no accounts, and zero signups are required—ensuring complete, friction-free privacy.
                 </p>
               </div>
               <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/60">
@@ -1495,7 +1495,7 @@ export default function Home() {
 
           <div className="pt-6">
             <p className="text-xs text-slate-500 dark:text-slate-500">
-              Need cloud persistence or automated time sheet syncing? An optional free account is only required for the cloud-enabled Time Tracker and Project Scope Estimator tools.
+              Looking for cloud storage? To maximize client-privacy, we have fully decommissioned our databases. All tools are 100% stateless and run strictly on your local browser.
             </p>
           </div>
         </div>
@@ -1570,7 +1570,7 @@ export default function Home() {
               </button>
               {openHomepageFaq === 2 && (
                 <div className="px-5 pb-4 pt-1 text-xs sm:text-sm text-slate-650 dark:text-slate-450 leading-relaxed border-t border-slate-100 dark:border-slate-850/40 animate-fadeIn">
-                  No. You can generate unlimited invoices, NDAs, proposals, and track late fees with no account or signup. An optional free account is only required if you use cloud persistence features in the Time Tracker or Project Scope Estimator.
+                  No. We have completely removed all accounts, login routes, and persistent databases. Every single tool on the site is 100% free, stateless, and fully usable with no login or credentials required.
                 </div>
               )}
             </div>

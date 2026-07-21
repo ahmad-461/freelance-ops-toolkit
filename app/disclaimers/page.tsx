@@ -1,16 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { AlertTriangle, ArrowLeft } from "lucide-react";
 
 export default function DisclaimersPage() {
-  const [currentYear, setCurrentYear] = useState<number | string>("");
-
-  useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
-
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
       <div className="max-w-3xl mx-auto bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-6 sm:p-10 shadow-sm">
@@ -34,7 +28,7 @@ export default function DisclaimersPage() {
               Disclaimers & Legal Notice
             </h1>
             <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-              Consolidated Disclaimers • {currentYear || "..."}
+              Last Reviewed: July 2026
             </p>
           </div>
         </div>

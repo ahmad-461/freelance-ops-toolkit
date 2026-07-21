@@ -1,3 +1,4 @@
+import { getWebApplicationJsonLd } from "@/lib/schema-utils";
 import React from "react";
 import { Metadata } from "next";
 import RateCalculatorClient from "./RateCalculatorClient";
@@ -8,22 +9,11 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Rate Calculator",
-    "url": "https://freelance-ops-toolkit-6w1z.vercel.app/tools/rate-calculator",
-    "description": "Calculate your ideal suggested freelance hourly rate and project-based pricing target. Factor in your desired income, weeks off, and business expenses.",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "All",
-    "browserRequirements": "Requires HTML5 compatible browser",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "isAccessibleForFree": true
-  };
+  const jsonLd = getWebApplicationJsonLd(
+    "Rate Calculator",
+    "https://freelance-ops-toolkit-6w1z.vercel.app/tools/rate-calculator",
+    "Calculate your ideal suggested freelance hourly rate and project-based pricing target. Factor in your desired income, weeks off, and business expenses."
+  );
 
   return (
     <>

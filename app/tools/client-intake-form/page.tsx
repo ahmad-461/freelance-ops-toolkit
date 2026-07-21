@@ -1,3 +1,4 @@
+import { getWebApplicationJsonLd } from "@/lib/schema-utils";
 import React from "react";
 import { Metadata } from "next";
 import ClientIntakeFormClient from "./ClientIntakeFormClient";
@@ -8,22 +9,11 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Client Intake Form Builder",
-    "url": "https://freelance-ops-toolkit-6w1z.vercel.app/tools/client-intake-form",
-    "description": "Draft tailored client intake questionnaires with editable questions. Free freelance client questionnaire generator with clean PDF & text exports.",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "All",
-    "browserRequirements": "Requires HTML5 compatible browser",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "isAccessibleForFree": true
-  };
+  const jsonLd = getWebApplicationJsonLd(
+    "Client Intake Form Builder",
+    "https://freelance-ops-toolkit-6w1z.vercel.app/tools/client-intake-form",
+    "Draft tailored client intake questionnaires with editable questions. Free freelance client questionnaire generator with clean PDF & text exports."
+  );
 
   return (
     <>

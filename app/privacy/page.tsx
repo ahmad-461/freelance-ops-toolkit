@@ -1,16 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { Shield, ArrowLeft } from "lucide-react";
 
 export default function PrivacyPage() {
-  const [currentYear, setCurrentYear] = useState<number | string>("");
-
-  useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
-
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
       <div className="max-w-3xl mx-auto bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-6 sm:p-10 shadow-sm">
@@ -34,7 +28,7 @@ export default function PrivacyPage() {
               Privacy Policy
             </h1>
             <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-              Last Updated: January {currentYear || "..."}
+              Last Reviewed: July 2026
             </p>
           </div>
         </div>
@@ -46,76 +40,58 @@ export default function PrivacyPage() {
           </p>
 
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
-            1. Stateless & Client-Side Tools
+            1. 100% Stateless & Client-Side Design
           </h2>
           <p>
-            The vast majority of the tools in the Freelance Ops Toolkit (such as the Invoice Generator, Proposal Generator, Contract Builder, NDA Generator, and calculators) are completely stateless. All input data, calculations, and PDF generation occur 100% inside your web browser (client-side). We do not transmit, process, or store your client details, financial amounts, or generated agreements on our servers. When you close or refresh your browser tab, this data is permanently cleared.
+            Every single one of the 15 tools in the Freelance Ops Toolkit (such as the Invoice Generator, Proposal Generator, Contract Builder, NDA Generator, and calculators) is completely stateless and runs entirely inside your browser. All input data, logo uploads, financial amounts, and PDF formatting occur 100% locally inside your web browser (client-side) using React state, <code>sessionStorage</code>, and <code>localStorage</code>.
+          </p>
+          <p>
+            We do not transmit, process, or store your client details, financial amounts, or generated agreements on our servers. When you close or refresh your browser tab, this data is permanently cleared from your device&apos;s memory.
           </p>
 
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
-            2. Account-Based Tools (Supabase Persistence)
+            2. Fully Local Storage & No Database Persistence
           </h2>
           <p>
-            A few of our advanced tools require persistent storage to be useful over time:
+            We have completely decoupled this platform from all external cloud databases, magic links, user accounts, and sign-ups.
           </p>
           <ul className="list-disc pl-5 space-y-2">
             <li>
-              <strong>Time Tracker</strong>: Stores your logged hours, active tracking sessions, and project details.
+              <strong>Time Tracker:</strong> Runs entirely in stateless local session mode. Your entries are stored strictly inside your browser&apos;s <code>sessionStorage</code> and are cleared once your browser session ends.
             </li>
             <li>
-              <strong>Project Scope Estimator</strong>: Allows you to save your scope estimates for later retrieval.
+              <strong>Project Scope Estimator:</strong> Functions purely as a stateless client-side calculator without any server connection or saved data constraints.
             </li>
-          </ul>
-          <p>
-            To use these persistent features, you must sign up for a free account. These accounts and their associated data are powered and secured by <strong>Supabase</strong>. We store:
-          </p>
-          <ul className="list-disc pl-5 space-y-2">
-            <li>Your account email address (used solely for authentication and secure login).</li>
-            <li>Your saved time entries and project scope configuration data.</li>
-          </ul>
-          <p>
-            This data is kept private and is only accessible to you when you are signed in.
-          </p>
-
-          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
-            3. No Third-Party Tracking or Selling
-          </h2>
-          <ul className="list-disc pl-5 space-y-2">
-            <li>We do not sell, rent, or trade your personal information or account data to third parties.</li>
-            <li>We do not use advertising trackers, marketing cookies, or third-party behavioral analytics on this website.</li>
-          </ul>
-
-          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
-            4. Data Deletion & Account Closure
-          </h2>
-          <p>
-            If you have created an account and wish to delete it and remove all associated data, you have two options:
-          </p>
-          <ul className="list-disc pl-5 space-y-2">
-            <li>You can trigger account deletion directly through your account dashboard, or</li>
             <li>
-              You can request manual account and data deletion by sending an email to our contact address at{" "}
-              <span className="font-semibold text-gray-900 dark:text-white select-all">ahmadkhanzada618@gmail.com</span>. Upon verification, we will permanently purge your account and all associated saved data from our database.
+              <strong>Image/Logo Uploads:</strong> Client logo uploads (such as in the Invoice Generator or Case Study Builder) are instantly converted into Base64 data URLs in client-side memory to avoid remote hosting or cross-origin issues during HTML-to-PDF compilation.
             </li>
           </ul>
 
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
-            5. Browser Storage & Cookies
+            3. No Third-Party Tracking, Cookies, or Ads
           </h2>
-          <p>
-            To enhance your experience, we use minimal local browser storage and secure cookies. Specifically:
-          </p>
           <ul className="list-disc pl-5 space-y-2">
+            <li>We do not sell, rent, or trade your personal information, client records, or document content to any third parties.</li>
+            <li>We do not use advertising networks, behavioral marketing cookies, or tracking pixels on this platform.</li>
             <li>
-              <strong>Local Storage:</strong> We use <code>localStorage</code> solely to remember your theme preference (dark or light mode) so the site displays correctly on your next visit.
-            </li>
-            <li>
-              <strong>Auth Cookies:</strong> For signed-in users, standard Supabase session and authentication cookies are stored to keep you securely logged in to your account.
-            </li>
-            <li>
-              <strong>No Tracking:</strong> We do not use any marketing cookies, third-party analytics trackers, or advertising trackers of any kind on this website.
+              <strong>Local Storage Usage:</strong> We utilize <code>localStorage</code> solely to remember your chosen visual theme (dark or light mode) for your next visit, as well as to keep a private, local log of your 5 most recently visited tool paths to support the homepage&apos;s dynamic &ldquo;Continue Where You Left Off&rdquo; section (which can be cleared at any time directly from the homepage UI).
             </li>
           </ul>
+
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
+            4. Secured Serverless AI Processing
+          </h2>
+          <p>
+            For tools that utilize AI template drafting (the Meeting Recap Generator and Payment Reminder Generator), your prompt inputs are transmitted securely via SSL encryption to Google&apos;s Gemini API (specifically the <code>gemini-2.5-flash</code> model) called through a server-side Next.js route. No API keys are exposed to the browser, and neither our servers nor Google&apos;s APIs retain, train on, or store your transmitted prompt details.
+          </p>
+
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
+            5. Inquiries & Support
+          </h2>
+          <p>
+            Since we store absolutely zero database records, we cannot access, retrieve, or audit any of your generated agreements or tracked sessions. For general support inquiries or feedback, you can contact Muhammad Ahmad Khan directly at{" "}
+            <span className="font-semibold text-gray-900 dark:text-white select-all">ahmadkhanzada618@gmail.com</span>.
+          </p>
         </div>
 
       </div>

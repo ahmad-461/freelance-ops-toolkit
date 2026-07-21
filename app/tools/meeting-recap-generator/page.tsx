@@ -1,3 +1,4 @@
+import { getWebApplicationJsonLd } from "@/lib/schema-utils";
 import React from "react";
 import { Metadata } from "next";
 import MeetingRecapGeneratorClient from "./MeetingRecapGeneratorClient";
@@ -8,22 +9,11 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Meeting Recap Generator",
-    "url": "https://freelance-ops-toolkit-6w1z.vercel.app/tools/meeting-recap-generator",
-    "description": "Convert messy client meeting notes and rough scribbles into beautiful, structured recap emails with action items instantly using smart AI.",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "All",
-    "browserRequirements": "Requires HTML5 compatible browser",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "isAccessibleForFree": true
-  };
+  const jsonLd = getWebApplicationJsonLd(
+    "Meeting Recap Generator",
+    "https://freelance-ops-toolkit-6w1z.vercel.app/tools/meeting-recap-generator",
+    "Convert messy client meeting notes and rough scribbles into beautiful, structured recap emails with action items instantly using smart AI."
+  );
 
   return (
     <>
