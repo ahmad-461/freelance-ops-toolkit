@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     const genAI = new GoogleGenerativeAI(apiKey);
 
     // Get the model
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
@@ -37,8 +37,11 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ text });
-  } catch (error) {
-    console.error("Error in generate-text route:", error);
+  } catch (error: unknown) {
+    const err = error as { message?: string; status?: string | number };
+    const errorMessage = err?.message || "Unknown error";
+    const errorStatus = err?.status || "No status code";
+    console.error("Gemini API error:", errorMessage, errorStatus);
     return NextResponse.json(
       { error: "We couldn't generate this right now, please try again." },
       { status: 500 }
