@@ -13,7 +13,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    let apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       console.error("GEMINI_API_KEY is not defined in the environment variables.");
       return NextResponse.json(
@@ -22,15 +22,29 @@ export async function POST(request: Request) {
       );
     }
 
-    // Initialize GoogleGenerativeAI with your API key
+    // Sanitize API key (trim whitespace and remove potential wrapping quotes)
+    apiKey = apiKey.trim().replace(/^["']|["']$/g, "");
+
+    // Initialize GoogleGenerativeAI with the sanitized API key
     const genAI = new GoogleGenerativeAI(apiKey);
 
-    // Get the model
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    let text = "";
+    try {
+      // Attempt using the pinned gemini-2.5-flash model first
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      text = response.text();
+    } catch (primaryError: unknown) {
+      const pErr = primaryError as { message?: string; status?: string | number };
+      console.warn("Primary model (gemini-2.5-flash) failed. Attempting fallback model (gemini-1.5-flash)...", pErr?.message || pErr);
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+      // Fallback to gemini-1.5-flash
+      const fallbackModel = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const result = await fallbackModel.generateContent(prompt);
+      const response = await result.response;
+      text = response.text();
+    }
 
     if (!text) {
       throw new Error("Empty response from Google Gemini API");
