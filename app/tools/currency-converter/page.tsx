@@ -1,3 +1,4 @@
+import { getWebApplicationJsonLd } from "@/lib/schema-utils";
 import React from "react";
 import { Metadata } from "next";
 import CurrencyConverterClient from "./CurrencyConverterClient";
@@ -8,22 +9,11 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Currency Converter",
-    "url": "https://freelance-ops-toolkit-6w1z.vercel.app/tools/currency-converter",
-    "description": "Convert client payment currencies instantly with our freelance currency converter. Calculate global project fees using live, cached exchange rates.",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "All",
-    "browserRequirements": "Requires HTML5 compatible browser",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "isAccessibleForFree": true
-  };
+  const jsonLd = getWebApplicationJsonLd(
+    "Currency Converter",
+    "https://freelance-ops-toolkit-6w1z.vercel.app/tools/currency-converter",
+    "Convert client payment currencies instantly with our freelance currency converter. Calculate global project fees using live, cached exchange rates."
+  );
 
   return (
     <>

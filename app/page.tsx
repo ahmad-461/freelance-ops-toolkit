@@ -7,29 +7,20 @@ export const metadata: Metadata = {
   description: "Optimize your freelance client operations with 15 free, privacy-first tools. Access professional invoice, proposal, and contract generators with no signup.",
 };
 
+import { getWebApplicationJsonLd } from "@/lib/schema-utils";
+
 export default function Page() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Freelance Ops Toolkit",
-    "url": "https://freelance-ops-toolkit-6w1z.vercel.app",
-    "description": "Optimize your freelance client operations with 15 free, privacy-first tools. Access professional invoice, proposal, and contract generators with no signup.",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "All",
-    "browserRequirements": "Requires HTML5 compatible browser",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "isAccessibleForFree": true
-  };
+  const jsonLdList = getWebApplicationJsonLd(
+    "Freelance Ops Toolkit",
+    "https://freelance-ops-toolkit-6w1z.vercel.app",
+    "Optimize your freelance client operations with 15 free, privacy-first tools. Access professional invoice, proposal, and contract generators with no signup."
+  );
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdList) }}
       />
       <HomeClient />
     </>

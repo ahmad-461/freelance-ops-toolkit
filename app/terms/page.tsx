@@ -1,16 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { FileText, ArrowLeft } from "lucide-react";
 
 export default function TermsPage() {
-  const [currentYear, setCurrentYear] = useState<number | string>("");
-
-  useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
-
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
       <div className="max-w-3xl mx-auto bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-6 sm:p-10 shadow-sm">
@@ -34,7 +28,7 @@ export default function TermsPage() {
               Terms of Service
             </h1>
             <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-              Last Updated: January {currentYear || "..."}
+              Last Reviewed: July 2026
             </p>
           </div>
         </div>
@@ -74,7 +68,7 @@ export default function TermsPage() {
             3. Limitation of Liability
           </h2>
           <p>
-            To the fullest extent permitted by law, Freelance Ops Toolkit, its creator (Ahmad Khan), and contributors shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or inability to use the website, tools, or generated templates, even if advised of the possibility of such damages.
+            To the fullest extent permitted by law, Freelance Ops Toolkit, its creator (Muhammad Ahmad Khan), and contributors shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or inability to use the website, tools, or generated templates, even if advised of the possibility of such damages.
           </p>
 
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-8">
