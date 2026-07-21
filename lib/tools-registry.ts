@@ -167,7 +167,7 @@ export const toolsRegistry: ToolItem[] = [
   {
     slug: "time-tracker",
     title: "Time Tracker",
-    description: "Log hours, track live sessions, and instantly prefill your invoices. Cloud sync allows you to manage entries anywhere. (Free account required to save)",
+    description: "Log hours, track live sessions, and instantly prefill your invoices. Runs entirely in your browser — no account or signup required.",
     href: "/tools/time-tracker",
     icon: Clock,
     badge: "v6.0 - Live",
@@ -176,7 +176,7 @@ export const toolsRegistry: ToolItem[] = [
   {
     slug: "scope-estimator",
     title: "Project Scope Estimator",
-    description: "Estimate hour ranges and project timelines by deliverability complexity. Perform one-off calculations or save results. (Free account required to save)",
+    description: "Estimate precise hour ranges and project timelines based on deliverable complexity. Runs entirely in your browser — no account or signup required.",
     href: "/tools/scope-estimator",
     icon: Layers,
     badge: "v6.0 - Live",

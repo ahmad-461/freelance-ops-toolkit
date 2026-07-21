@@ -32,9 +32,9 @@ Freelance Ops Toolkit is a cohesive, single toolkit for freelance/client workflo
 - **Payment Reminder Generator** — Draft polished, tone-adjustable payment reminder emails using AI.
 - **Meeting Recap Generator** — Turn rough meeting notes into a polished recap email with clear action items.
 
-#### Planning & Tracking (account required to save)
-- **Time Tracker** — Log hours, track sessions, and convert logged time directly into an invoice.
-- **Project Scope Estimator** — Estimate hour ranges and timelines by deliverable complexity; usable with or without an account.
+#### Planning & Tracking
+- **Time Tracker** — Log hours, track sessions, and convert logged time directly into an invoice. Runs entirely locally inside your browser.
+- **Project Scope Estimator** — Estimate hour ranges and timelines based on deliverable complexity. Runs entirely locally inside your browser.
 
 #### Reference
 - **Rate Benchmark Tool** — Compare freelance hourly rates across skill categories, experience levels, and regions.
@@ -53,12 +53,12 @@ Freelance Ops Toolkit is a cohesive, single toolkit for freelance/client workflo
 - **Styling:** Tailwind CSS v3
 - **PDF Export:** jsPDF + html2canvas (shared utility, reused across all document-producing tools, with a fixed A4 print-optimized layout for consistent output)
 - **AI Features:** Google Gemini API (`gemini-1.5-flash`) via the official `@google/generative-ai` SDK, called through a shared Next.js serverless API route
-- **Authentication & Persistence:** Supabase (email/password + magic link auth, Postgres database with Row Level Security), used only for Time Tracker and Project Scope Estimator
+- **Authentication & Persistence:** None. Fully stateless, local-first workflow running completely in client-side memory (such as sessionStorage and localStorage) for total user privacy.
 - **Hosting:** Vercel
 
 ## Design Principles
 
-- No login required for most tools — only the two tools that genuinely need saved data (Time Tracker, Project Scope Estimator) require a free account.
+- No login required. All 15 tools operate on a fully stateless, local-first model with no accounts or signups whatsoever.
 - No payment processing anywhere in the app.
 - Every document-producing tool shares one PDF export pipeline; every AI-assisted feature shares one Gemini API pipeline — built once, reused everywhere.
 - Legal document tools (Contract, NDA, Retainer) are generic templates limited to specific supported jurisdictions, with a clear "not legal advice" disclaimer — not a substitute for professional legal review.
