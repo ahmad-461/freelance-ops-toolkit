@@ -95,7 +95,7 @@ export default function PrivacyPage() {
             <li>You can trigger account deletion directly through your account dashboard, or</li>
             <li>
               You can request manual account and data deletion by sending an email to our contact address at{" "}
-              <span className="font-semibold text-gray-900 dark:text-white select-all">YOUR_EMAIL@example.com</span>. Upon verification, we will permanently purge your account and all associated saved data from our database.
+              <span className="font-semibold text-gray-900 dark:text-white select-all">ahmadkhanzada618@gmail.com</span>. Upon verification, we will permanently purge your account and all associated saved data from our database.
             </li>
           </ul>
 

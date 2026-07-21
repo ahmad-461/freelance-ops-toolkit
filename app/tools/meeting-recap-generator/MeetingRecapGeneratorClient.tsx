@@ -283,7 +283,7 @@ Instructions for the response format:
             },
             {
               title: "Turning Raw Client Meeting Notes into Actionable Emails",
-              prose: "You don't need highly polished, organized notes to get a premium summary. Simply input your rough bullet points, raw conversation highlights, or messy scribbles directly into our generator. The local AI assistant automatically extracts key decisions and assigns logical responsibilities, creating a copy-paste ready email draft in seconds."
+              prose: "You don't need highly polished, organized notes to get a premium summary. Simply input your rough bullet points, raw conversation highlights, or messy scribbles directly into our generator. Our AI automatically extracts key decisions and assigns logical responsibilities, creating a copy-paste ready email draft in seconds."
             },
             {
               title: "Best Practices for Client Follow-Ups and Approvals",

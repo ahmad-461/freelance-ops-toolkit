@@ -193,7 +193,7 @@ export default function Navbar() {
       ],
     },
     {
-      categoryName: "Draft Smarter with AI Assistant",
+      categoryName: "AI-Assisted Communication",
       items: [
         {
           name: "Payment Reminder Generator",
