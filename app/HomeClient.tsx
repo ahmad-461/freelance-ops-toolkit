@@ -1144,17 +1144,17 @@ export default function Home() {
                   <span className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:bg-amber-400/10 dark:text-amber-400 border border-amber-200/20 dark:border-amber-500/30">
                     SSL Encryption
                   </span>
-                  <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500 font-semibold">3 of 15 Tools</span>
+                  <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500 font-semibold">2 of 15 Tools</span>
                 </div>
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">AI-Drafted, Never Retained</h3>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Email reminder drafts, meeting bullet summaries, and our global chat assistant. Your text inputs are securely encrypted and processed by Google&apos;s Gemini API to generate response templates, but <strong>no prompts or results are saved or retained afterward.</strong>
+                  Email reminder drafts and meeting bullet summaries. Your text inputs are securely encrypted and processed by Google&apos;s Gemini API to generate response templates, but <strong>no prompts or results are saved or retained afterward.</strong>
                 </p>
               </div>
               <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/60">
                 <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Applies to:</span>
                 <p className="text-[11px] text-slate-500 dark:text-slate-500 leading-relaxed">
-                  Payment Reminder Generator, Meeting Recap Generator, Site-wide AI Assistant.
+                  Payment Reminder Generator, Meeting Recap Generator.
                 </p>
               </div>
             </div>
@@ -1446,11 +1446,11 @@ export default function Home() {
               An Institutional Suite Designed For Absolute Autonomy
             </h2>
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400">
-              Unlike modern software companies that lock basic utilities behind paywalls and cookie traps, we operate on four hard, developer-guided principles.
+              Unlike modern software companies that lock basic utilities behind paywalls and cookie traps, we operate on three hard, developer-guided principles.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
             {/* Pillar 1: Total Privacy */}
             <div className="p-6 sm:p-8 rounded-xl border border-slate-200 dark:border-slate-800 bg-[#f8fafc] dark:bg-[#0d0e14] text-left space-y-4">
@@ -1488,19 +1488,6 @@ export default function Home() {
               </h3>
               <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 Generate highly polished, print-optimized A4-compliant PDF agreements and calculations. All documents feature pristine typography and clean structural elements.
-              </p>
-            </div>
-
-            {/* Pillar 4: AI Privacy & Retention */}
-            <div className="p-6 sm:p-8 rounded-xl border border-slate-200 dark:border-slate-800 bg-[#f8fafc] dark:bg-[#0d0e14] text-left space-y-4">
-              <div className="p-3 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 w-12 h-12 flex items-center justify-center">
-                <Sparkles className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                AI Drafting, No Data Retention
-              </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                Your conversations with the AI Assistant are transient and held in-memory for the current session only. We never save or store chat history on our servers or databases; message content is securely processed through the Google Gemini API to generate responses without being retained.
               </p>
             </div>
 
