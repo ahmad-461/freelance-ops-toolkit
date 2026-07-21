@@ -52,7 +52,7 @@ export default function ContactPage() {
                 </p>
               </div>
               <a
-                href="mailto:YOUR_EMAIL@example.com?subject=Freelance%20Ops%20Toolkit%20Feedback"
+                href="mailto:ahmadkhanzada618@gmail.com?subject=Freelance%20Ops%20Toolkit%20Feedback"
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-4 py-2.5 transition-all text-center"
               >
                 <Mail className="w-4 h-4" />
